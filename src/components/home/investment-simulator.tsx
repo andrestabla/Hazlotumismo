@@ -6,27 +6,73 @@ import { useState } from "react";
 const technicalLevels = [
   {
     id: "muy-basicos",
-    label: "Muy basicos",
-    description: "Necesitas acompanamiento muy guiado para conectar herramientas y tomar decisiones.",
+    label: "Muy básicos",
+    description: "Necesitas acompañamiento muy guiado para conectar herramientas y tomar decisiones.",
   },
   {
     id: "basicos",
-    label: "Basicos",
-    description: "Ya puedes moverte en herramientas visuales, pero todavia necesitas estructura.",
+    label: "Básicos",
+    description: "Ya puedes moverte en herramientas visuales, pero todavía necesitas estructura.",
   },
   {
     id: "intermedios",
     label: "Intermedios",
-    description: "Puedes ejecutar parte del trabajo y usar la sesion para destrabar y acelerar.",
+    description: "Puedes ejecutar parte del trabajo y usar la sesión para destrabar y acelerar.",
   },
 ] as const;
 
 const projectComplexities = [
-  { id: "muy-facil", label: "Muy facil" },
-  { id: "facil", label: "Facil" },
-  { id: "moderado", label: "Moderado" },
-  { id: "complejo", label: "Complejo" },
-  { id: "muy-complejo", label: "Muy complejo" },
+  {
+    id: "muy-facil",
+    label: "Muy fácil",
+    description: "Una automatización puntual o una primera entrega acotada.",
+  },
+  {
+    id: "facil",
+    label: "Fácil",
+    description: "Un flujo simple con pocos pasos y pocas integraciones.",
+  },
+  {
+    id: "moderado",
+    label: "Moderado",
+    description: "Cruza varias piezas del negocio y requiere criterio operativo.",
+  },
+  {
+    id: "complejo",
+    label: "Complejo",
+    description: "Incluye varias herramientas, dependencias y decisiones de estructura.",
+  },
+  {
+    id: "muy-complejo",
+    label: "Muy complejo",
+    description: "Necesita varias iteraciones, control y acompañamiento sostenido.",
+  },
+] as const;
+
+const modelLicenseOptions = [
+  {
+    value: true,
+    title: "Sí tengo Claude, GPT o Gemini",
+    description: "Puedo trabajar con una licencia vigente desde el inicio.",
+  },
+  {
+    value: false,
+    title: "No tengo licencia activa",
+    description: "Antes de arrancar debería resolver ese requisito.",
+  },
+] as const;
+
+const extraToolsOptions = [
+  {
+    value: true,
+    title: "Acepto herramientas extra",
+    description: "Hay margen para software complementario entre USD 10 y USD 30 al mes.",
+  },
+  {
+    value: false,
+    title: "No acepto ese costo mensual",
+    description: "Prefiero activar la ruta sin software recurrente adicional.",
+  },
 ] as const;
 
 const sessionMatrix = {
@@ -69,7 +115,7 @@ function getSessionRate(sessions: number) {
 }
 
 function getSuggestedPack(sessions: number) {
-  if (sessions <= 4) {
+  if (sessions <= 5) {
     return "Pack Arranque";
   }
 
@@ -80,278 +126,454 @@ function getSuggestedPack(sessions: number) {
   return "Pack Escala";
 }
 
-export function InvestmentSimulator() {
-  const [technicalLevel, setTechnicalLevel] = useState<TechnicalLevelId>("basicos");
-  const [complexity, setComplexity] = useState<ProjectComplexityId>("moderado");
-  const [hasModelLicense, setHasModelLicense] = useState(true);
-  const [acceptsExtraTools, setAcceptsExtraTools] = useState(true);
+function getActivationState(hasModelLicense: boolean, acceptsExtraTools: boolean) {
+  const items = [
+    {
+      label: "Licencia activa de Claude, GPT o Gemini",
+      ready: hasModelLicense,
+      help: hasModelLicense
+        ? "Ya puedes trabajar con el modelo dentro de la metodología."
+        : "Necesitas activar una licencia para usar esta ruta sin fricción.",
+    },
+    {
+      label: "Herramientas extra entre USD 10 y USD 30 al mes",
+      ready: acceptsExtraTools,
+      help: acceptsExtraTools
+        ? "Hay margen para sumar software liviano cuando haga sentido."
+        : "Conviene abrir ese margen para que la ruta se sostenga mejor en la práctica.",
+    },
+  ] as const;
 
-  const sessions = sessionMatrix[technicalLevel][complexity];
-  const rate = getSessionRate(sessions);
-  const investment = sessions * rate;
-  const selfServeRecommended = hasModelLicense && acceptsExtraTools;
-  const suggestedPack = getSuggestedPack(sessions);
-  const selectedLevel = technicalLevels.find((item) => item.id === technicalLevel);
+  return items;
+}
+
+export function InvestmentSimulator() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [technicalLevel, setTechnicalLevel] = useState<TechnicalLevelId | null>(null);
+  const [complexity, setComplexity] = useState<ProjectComplexityId | null>(null);
+  const [hasModelLicense, setHasModelLicense] = useState<boolean | null>(null);
+  const [acceptsExtraTools, setAcceptsExtraTools] = useState<boolean | null>(null);
+
+  const selectedLevel = technicalLevels.find((item) => item.id === technicalLevel) ?? null;
+  const selectedComplexity = projectComplexities.find((item) => item.id === complexity) ?? null;
+  const sessions =
+    technicalLevel && complexity ? sessionMatrix[technicalLevel][complexity] : null;
+  const rate = sessions ? getSessionRate(sessions) : null;
+  const investment = sessions && rate ? sessions * rate : null;
+  const suggestedPack = sessions ? getSuggestedPack(sessions) : null;
+  const activationItems = getActivationState(hasModelLicense === true, acceptsExtraTools === true);
+  const pendingItems = activationItems.filter((item) => !item.ready);
+  const readyToStart =
+    hasModelLicense === true && acceptsExtraTools === true && pendingItems.length === 0;
+  const stepCompletion = [
+    technicalLevel !== null,
+    complexity !== null,
+    hasModelLicense !== null,
+    acceptsExtraTools !== null,
+  ] as const;
+  const steps = [
+    {
+      number: "01",
+      title: "Nivel técnico",
+      description: "Ubica tu punto de partida para estimar cuánto apoyo necesitas durante la ejecución.",
+      value: selectedLevel?.label ?? "Pendiente",
+    },
+    {
+      number: "02",
+      title: "Complejidad",
+      description: "Define cuántas piezas hay que coordinar para que el producto funcione de verdad.",
+      value: selectedComplexity?.label ?? "Pendiente",
+    },
+    {
+      number: "03",
+      title: "Licencia",
+      description: "Valida si ya tienes acceso al modelo con el que vas a construir.",
+      value:
+        hasModelLicense === null
+          ? "Pendiente"
+          : hasModelLicense
+            ? "Licencia activa"
+            : "Pendiente de activar",
+    },
+    {
+      number: "04",
+      title: "Herramientas extra",
+      description: "Confirma si puedes sumar software ligero para sostener mejor el flujo.",
+      value:
+        acceptsExtraTools === null
+          ? "Pendiente"
+          : acceptsExtraTools
+            ? "Aceptadas"
+            : "Sin margen adicional",
+    },
+  ] as const;
+  const totalQuestions = steps.length;
+  const flowSteps = [
+    { number: "01", title: "Nivel", value: steps[0].value },
+    { number: "02", title: "Complejidad", value: steps[1].value },
+    { number: "03", title: "Licencia", value: steps[2].value },
+    { number: "04", title: "Herramientas", value: steps[3].value },
+    { number: "05", title: "Ruta", value: "Propuesta final" },
+  ] as const;
+  const isResultStep = currentStep === totalQuestions;
+  const activeStep = steps[Math.min(currentStep, totalQuestions - 1)];
+  const progress = (currentStep / totalQuestions) * 100;
+  const canContinue = currentStep < totalQuestions ? stepCompletion[currentStep] : false;
 
   return (
-    <div className="surface-card grid gap-8 p-8 lg:grid-cols-[0.98fr_1.02fr] lg:p-10">
-      <div>
-        <p className="section-label">Simulador de inversion</p>
-        <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-          Como decide la ruta Hazlo tu mismo.
+    <div className="surface-card p-5 sm:p-6 lg:p-10">
+      <div className="max-w-3xl">
+        <p className="section-label">Simulador de inversión</p>
+        <h2 className="mt-4 font-display text-3xl leading-tight tracking-[-0.03em] sm:text-4xl">
+          Calcula tu punto de partida en Hazlo tú mismo.
         </h2>
-        <p className="mt-4 max-w-xl text-base leading-7 text-[color:var(--muted)]">
-          Evaluamos nivel tecnico, complejidad del proyecto, si ya tienes Claude, GPT o Gemini con
-          licencia, y si aceptas herramientas extra entre USD 10 y USD 30 al mes.
+        <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+          Sigue el flujo, responde cada paso y al final te mostramos la ruta sugerida con sesiones,
+          inversión y requisitos de activación.
         </p>
-
-        <div className="mt-8 space-y-7">
-          <div>
-            <p className="section-label">Nivel tecnico</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-3">
-              {technicalLevels.map((item) => (
-                <button
-                  key={item.id}
-                  className={`rounded-xl border px-4 py-4 text-left transition ${
-                    item.id === technicalLevel
-                      ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                      : "border-[color:var(--line)] bg-white"
-                  }`}
-                  onClick={() => setTechnicalLevel(item.id)}
-                  type="button"
-                >
-                  <p className="text-sm font-semibold">{item.label}</p>
-                  <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                    {item.description}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <p className="section-label">Complejidad del proyecto</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {projectComplexities.map((item) => (
-                <button
-                  key={item.id}
-                  className={`rounded-xl border px-4 py-3 text-left transition ${
-                    item.id === complexity
-                      ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                      : "border-[color:var(--line)] bg-white"
-                  }`}
-                  onClick={() => setComplexity(item.id)}
-                  type="button"
-                >
-                  <p className="text-sm font-semibold">{item.label}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <p className="section-label">Licencia activa</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {[
-                {
-                  value: true,
-                  title: "Si tengo Claude, GPT o Gemini",
-                  description: "Puedo trabajar con una licencia vigente.",
-                },
-                {
-                  value: false,
-                  title: "No tengo licencia",
-                  description: "Necesito evitar ese requisito para ejecutar.",
-                },
-              ].map((item) => (
-                <button
-                  key={item.title}
-                  className={`rounded-xl border px-4 py-4 text-left transition ${
-                    item.value === hasModelLicense
-                      ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                      : "border-[color:var(--line)] bg-white"
-                  }`}
-                  onClick={() => setHasModelLicense(item.value)}
-                  type="button"
-                >
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                    {item.description}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <p className="section-label">Herramientas extra</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {[
-                {
-                  value: true,
-                  title: "Acepto USD 10 a 30 al mes",
-                  description: "Hay margen para herramientas complementarias si hacen el flujo viable.",
-                },
-                {
-                  value: false,
-                  title: "No acepto ese costo mensual",
-                  description: "Prefiero evitar software adicional recurrente.",
-                },
-              ].map((item) => (
-                <button
-                  key={item.title}
-                  className={`rounded-xl border px-4 py-4 text-left transition ${
-                    item.value === acceptsExtraTools
-                      ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                      : "border-[color:var(--line)] bg-white"
-                  }`}
-                  onClick={() => setAcceptsExtraTools(item.value)}
-                  type="button"
-                >
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                    {item.description}
-                  </p>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="surface-card-muted p-6 lg:p-8">
-        <div className="flex items-start justify-between gap-4">
+      <div className="mt-8 rounded-xl border border-[color:var(--line)] bg-white p-5 sm:p-6 lg:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="section-label">Ruta recomendada</p>
-            <h3 className="mt-4 text-3xl font-semibold tracking-[-0.03em]">
-              {selfServeRecommended ? "Hazlo tu mismo" : "AlgoritmoT lo hace por mi"}
+            <p className="section-label">
+              {isResultStep ? "Resultado final" : `Paso ${currentStep + 1} de ${totalQuestions}`}
+            </p>
+            <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[color:var(--ink-soft)]">
+              {isResultStep ? "Tu ruta sugerida" : activeStep.title}
             </h3>
-          </div>
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${
-              selfServeRecommended
-                ? "bg-[color:var(--accent)] text-white"
-                : "bg-[color:rgba(225,102,102,0.12)] text-[color:var(--danger)]"
-            }`}
-          >
-            {selfServeRecommended ? "Recomendada" : "No recomendada"}
-          </span>
-        </div>
-
-        <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-          {selfServeRecommended
-            ? "Esta ruta si tiene sentido: ya cuentas con licencia y aceptas una capa ligera de herramientas para ejecutar con autonomia asistida."
-            : "Sin licencia activa o sin margen para herramientas complementarias, la ruta Hazlo tu mismo pierde traccion. En este caso conviene mover el proyecto con ejecucion asistida."}
-        </p>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
-            <p className="section-label">Sesiones estimadas</p>
-            <p className="mt-3 text-2xl font-semibold">{sessions}</p>
-            <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-              Cruce actual: {selectedLevel?.label} +{" "}
-              {projectComplexities.find((item) => item.id === complexity)?.label}
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+              {isResultStep
+                ? "Con tus respuestas ya podemos aterrizar una recomendación clara para activar Hazlo tú mismo."
+                : activeStep.description}
             </p>
           </div>
-          <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
-            <p className="section-label">Tarifa por sesion</p>
-            <p className="mt-3 text-2xl font-semibold">USD {rate}</p>
-            <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-              USD 45 solo aplica si el caso cae en 3 sesiones.
-            </p>
+          <div className="rounded-full bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
+            {isResultStep ? "Final" : activeStep.number}
           </div>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
-            <p className="section-label">Inversion estimada</p>
-            <p className="mt-3 text-2xl font-semibold">USD {investment}</p>
-            <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-              La ruta Hazlo tu mismo queda entre USD 135 y USD 400.
-            </p>
-          </div>
-          <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
-            <p className="section-label">Pack sugerido</p>
-            <p className="mt-3 text-2xl font-semibold">{suggestedPack}</p>
-            <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-              Referencia comercial para empaquetar la ejecucion.
-            </p>
-          </div>
+        <div className="mt-6 h-2 overflow-hidden rounded-full bg-[color:rgba(17,19,21,0.06)]">
+          <div
+            className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
         </div>
 
-        <div
-          className={`mt-6 rounded-xl border px-4 py-4 ${
-            selfServeRecommended
-              ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-              : "border-[color:rgba(225,102,102,0.18)] bg-[color:rgba(225,102,102,0.06)]"
-          }`}
-        >
-          <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
-            {selfServeRecommended ? "Lectura de la recomendacion" : "Por que cambiamos de ruta"}
-          </p>
-          <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-            {selfServeRecommended
-              ? "Tu perfil permite usar la metodologia Hazlo tu mismo con sesiones guiadas, una licencia activa y herramientas de apoyo ligeras."
-              : "La misma logica marca Hazlo tu mismo como no recomendado y empuja a AlgoritmoT lo hace por mi para reducir friccion, bloqueos y dependencias."}
-          </p>
-        </div>
+        <div className="relative mt-8">
+          <div className="absolute left-[10%] right-[10%] top-5 h-px bg-[color:rgba(17,19,21,0.08)]">
+            <div
+              className="h-full bg-[color:var(--accent)] transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
 
-        <div className="mt-6 overflow-x-auto rounded-xl border border-[color:var(--line)] bg-white">
-          <table className="min-w-full border-collapse text-left text-sm">
-            <thead>
-              <tr className="border-b border-[color:var(--line)] bg-[color:rgba(17,19,21,0.03)]">
-                <th className="px-4 py-3 font-semibold text-[color:var(--ink-soft)]">Nivel</th>
-                {projectComplexities.map((item) => (
-                  <th
-                    key={item.id}
-                    className="px-4 py-3 font-semibold text-[color:var(--ink-soft)]"
+          <div className="relative grid grid-cols-5 gap-2">
+            {flowSteps.map((step, index) => {
+              const isCompleted = index < currentStep || isResultStep;
+              const isActive = index === currentStep && !isResultStep;
+              const isResult = index === flowSteps.length - 1;
+              const label = isResult ? "Ruta" : step.number;
+
+              return (
+                <div key={step.number} className="flex flex-col items-center text-center">
+                  <button
+                    className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold transition sm:h-12 sm:w-12 ${
+                      isActive
+                        ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                        : isCompleted
+                          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
+                          : "border-[color:var(--line)] bg-white text-[color:var(--muted)]"
+                    }`}
+                    onClick={() => {
+                      if (index <= currentStep || isResultStep) {
+                        setCurrentStep(Math.min(index, totalQuestions));
+                      }
+                    }}
+                    type="button"
                   >
-                    {item.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {technicalLevels.map((level) => (
-                <tr key={level.id} className="border-b border-[color:var(--line)] last:border-b-0">
-                  <td className="px-4 py-3 font-medium text-[color:var(--ink-soft)]">
-                    {level.label}
-                  </td>
-                  {projectComplexities.map((item) => {
-                    const active = level.id === technicalLevel && item.id === complexity;
-
-                    return (
-                      <td
-                        key={item.id}
-                        className={`px-4 py-3 ${
-                          active
-                            ? "bg-[color:var(--accent-soft)] font-semibold text-[color:var(--accent)]"
-                            : "text-[color:var(--muted)]"
-                        }`}
-                      >
-                        {sessionMatrix[level.id][item.id]}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    {label}
+                  </button>
+                  <p className="mt-3 text-[11px] font-semibold text-[color:var(--ink-soft)] sm:text-sm">
+                    {step.title}
+                  </p>
+                  <p className="mt-1 hidden text-xs leading-5 text-[color:var(--muted)] sm:block">
+                    {index < currentStep || isResultStep ? step.value : "Pendiente"}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        <p className="mt-4 text-xs leading-5 text-[color:var(--muted)]">
-          La tarifa de USD 50 no se usa con esta matriz. El unico caso real en USD 45 es
-          intermedio + muy facil = 3 sesiones.
-        </p>
+        {!isResultStep ? (
+          <div className="mt-8 rounded-xl border border-[color:var(--line)] bg-[color:rgba(17,19,21,0.02)] p-5 lg:p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
+                {activeStep.number}
+              </div>
+              <div className="flex-1">
+                <p className="text-lg font-semibold text-[color:var(--ink-soft)]">{activeStep.title}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                  {activeStep.description}
+                </p>
+              </div>
+            </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Link href="/login" className="premium-button premium-button-accent px-5 py-3">
-            {selfServeRecommended ? "Agendar primera sesion" : "Quiero que lo hagan por mi"}
-          </Link>
-          <Link href="#planes" className="premium-button premium-button-secondary px-5 py-3">
-            Ver planes
-          </Link>
-        </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {currentStep === 0
+                ? technicalLevels.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`rounded-xl border px-4 py-4 text-left transition ${
+                        item.id === technicalLevel
+                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
+                          : "border-[color:var(--line)] bg-white"
+                      }`}
+                      onClick={() => setTechnicalLevel(item.id)}
+                      type="button"
+                    >
+                      <p className="text-sm font-semibold">{item.label}</p>
+                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                        {item.description}
+                      </p>
+                    </button>
+                  ))
+                : null}
+
+              {currentStep === 1
+                ? projectComplexities.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`rounded-xl border px-4 py-4 text-left transition ${
+                        item.id === complexity
+                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
+                          : "border-[color:var(--line)] bg-white"
+                      }`}
+                      onClick={() => setComplexity(item.id)}
+                      type="button"
+                    >
+                      <p className="text-sm font-semibold">{item.label}</p>
+                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                        {item.description}
+                      </p>
+                    </button>
+                  ))
+                : null}
+
+              {currentStep === 2
+                ? modelLicenseOptions.map((item) => (
+                    <button
+                      key={item.title}
+                      className={`rounded-xl border px-4 py-4 text-left transition ${
+                        item.value === hasModelLicense
+                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
+                          : "border-[color:var(--line)] bg-white"
+                      }`}
+                      onClick={() => setHasModelLicense(item.value)}
+                      type="button"
+                    >
+                      <p className="text-sm font-semibold">{item.title}</p>
+                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                        {item.description}
+                      </p>
+                    </button>
+                  ))
+                : null}
+
+              {currentStep === 3
+                ? extraToolsOptions.map((item) => (
+                    <button
+                      key={item.title}
+                      className={`rounded-xl border px-4 py-4 text-left transition ${
+                        item.value === acceptsExtraTools
+                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
+                          : "border-[color:var(--line)] bg-white"
+                      }`}
+                      onClick={() => setAcceptsExtraTools(item.value)}
+                      type="button"
+                    >
+                      <p className="text-sm font-semibold">{item.title}</p>
+                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                        {item.description}
+                      </p>
+                    </button>
+                  ))
+                : null}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 border-t border-[color:var(--line)] pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs leading-5 text-[color:var(--muted)]">
+                {currentStep === totalQuestions - 1
+                  ? "Selecciona una opción y luego haz clic en Ver propuesta."
+                  : "Selecciona una opción y luego continúa. La ruta sugerida aparece solo al final."}
+              </p>
+              <div className="flex flex-col-reverse gap-3 sm:flex-row">
+                <button
+                  className="premium-button premium-button-secondary w-full px-5 py-3 sm:w-auto"
+                  disabled={currentStep === 0}
+                  onClick={() => setCurrentStep((step) => Math.max(step - 1, 0))}
+                  type="button"
+                >
+                  Anterior
+                </button>
+                <button
+                  className="premium-button premium-button-accent w-full px-5 py-3 sm:w-auto"
+                  disabled={!canContinue}
+                  onClick={() =>
+                    setCurrentStep((step) => Math.min(step + 1, totalQuestions))
+                  }
+                  type="button"
+                >
+                  {currentStep === totalQuestions - 1 ? "Ver propuesta" : "Continuar"}
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-8 space-y-4">
+            <div className="rounded-xl border border-[color:var(--line)] bg-[color:rgba(17,19,21,0.02)] p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="section-label">Ruta prioritaria</p>
+                  <h4 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Hazlo tú mismo
+                  </h4>
+                </div>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                    readyToStart
+                      ? "bg-[color:var(--accent)] text-white"
+                      : "bg-[color:rgba(211,138,18,0.12)] text-[color:var(--warning)]"
+                  }`}
+                >
+                  {readyToStart ? "Lista para arrancar" : "Necesita activación"}
+                </span>
+              </div>
+
+              <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+                {readyToStart
+                  ? "Tu perfil ya está alineado con esta metodología. La recomendación es empezar por aquí y usar las sesiones para construir con acompañamiento."
+                  : "Seguimos priorizando Hazlo tú mismo, pero antes de arrancar te conviene activar los requisitos pendientes."}
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                <p className="section-label">Sesiones estimadas</p>
+                <p className="mt-3 text-3xl font-semibold">{sessions}</p>
+                <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                  {selectedLevel?.label} + {selectedComplexity?.label}
+                </p>
+              </div>
+              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                <p className="section-label">Inversión de referencia</p>
+                <p className="mt-3 text-3xl font-semibold">USD {investment}</p>
+                <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                  Referencia calculada según la estimación de trabajo.
+                </p>
+              </div>
+              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                <p className="section-label">Tarifa estimada</p>
+                <p className="mt-3 text-2xl font-semibold">USD {rate}</p>
+                <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                  {sessions === 3
+                    ? "Este es el único caso que cae en la tarifa especial de USD 45."
+                    : "Esta referencia se calcula con la estimación de sesiones del flujo."}
+                </p>
+              </div>
+              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                <p className="section-label">Pack sugerido</p>
+                <p className="mt-3 text-2xl font-semibold">{suggestedPack}</p>
+                <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                  Referencia comercial para comprar capacidad suficiente.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="rounded-xl border border-[color:var(--line)] bg-white p-5">
+                <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
+                  Requisitos de activación
+                </p>
+                <div className="mt-4 space-y-3">
+                  {activationItems.map((item) => (
+                    <div
+                      key={item.label}
+                      className={`rounded-xl border px-4 py-4 ${
+                        item.ready
+                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
+                          : "border-[color:rgba(211,138,18,0.18)] bg-[color:rgba(211,138,18,0.08)]"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
+                            {item.label}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                            {item.help}
+                          </p>
+                        </div>
+                        <span
+                          className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                            item.ready
+                              ? "bg-[color:var(--accent)] text-white"
+                              : "bg-[color:rgba(211,138,18,0.14)] text-[color:var(--warning)]"
+                          }`}
+                        >
+                          {item.ready ? "OK" : "Pendiente"}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-[color:var(--line)] bg-white p-5">
+                <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
+                  {readyToStart ? "Siguiente paso recomendado" : "Para habilitar esta ruta"}
+                </p>
+                <div className="mt-4 space-y-3">
+                  {(readyToStart
+                    ? [
+                        "Agenda la primera sesión y llega con una meta concreta.",
+                        `Empieza con ${suggestedPack} como referencia inicial de capacidad.`,
+                        "Usa la sesión para definir flujo, entregables y próximos pasos.",
+                      ]
+                    : pendingItems.map((item) => item.help)
+                  ).map((item) => (
+                    <div
+                      key={item}
+                      className="flex items-start gap-3 border-t border-[color:var(--line)] pt-3 first:border-t-0 first:pt-0"
+                    >
+                      <span className="mt-1 h-2 w-2 rounded-full bg-[color:var(--accent)]" />
+                      <p className="text-sm leading-6 text-[color:var(--muted)]">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 border-t border-[color:var(--line)] pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                className="premium-button premium-button-secondary w-full px-5 py-3 sm:w-auto"
+                onClick={() => setCurrentStep(totalQuestions - 1)}
+                type="button"
+              >
+                Ajustar respuestas
+              </button>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link href="/login" className="premium-button premium-button-accent w-full px-5 py-3 sm:w-auto">
+                  {readyToStart ? "Agendar primera sesión" : "Quiero activar esta ruta"}
+                </Link>
+                <Link href="#planes" className="premium-button premium-button-secondary w-full px-5 py-3 sm:w-auto">
+                  Ver planes
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -14,9 +14,9 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Hazlo tu mismo",
+  title: "Hazlo tú mismo",
   description:
-    "Workspace para proyectos no code e IA con tareas, sesiones y evidencia compartida entre cliente y asesor.",
+    "Espacio de trabajo para proyectos no-code e IA con tareas, sesiones y evidencia compartida entre cliente y asesor.",
 };
 
 export default function RootLayout({

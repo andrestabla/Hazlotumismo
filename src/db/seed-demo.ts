@@ -12,6 +12,27 @@ import {
   tasks,
 } from "./schema";
 
+const sessionPackageDefinitions = [
+  {
+    name: "Pack Arranque",
+    description: "5 sesiones de 60 minutos para ordenar el proyecto y completar el primer tramo de ejecución.",
+    sessionCount: 5,
+    priceCents: 25000,
+  },
+  {
+    name: "Pack Desarrollo",
+    description: "10 sesiones de 60 minutos para avanzar con continuidad y mejor tarifa por sesión.",
+    sessionCount: 10,
+    priceCents: 45000,
+  },
+  {
+    name: "Pack Escala",
+    description: "15 sesiones de 60 minutos para proyectos con más profundidad y mayor capacidad de trabajo.",
+    sessionCount: 15,
+    priceCents: 60000,
+  },
+] as const;
+
 export async function seedDemoWorkspace() {
   const db = getDb();
   const now = new Date();
@@ -95,22 +116,60 @@ export async function seedDemoWorkspace() {
     })
     .returning();
 
-  let demoPackage = await db.query.sessionPackages.findFirst({
-    where: (table, { eq: isEqual }) => isEqual(table.name, "Paquete base de 4 sesiones"),
-  });
+  await db
+    .update(sessionPackages)
+    .set({
+      isActive: false,
+      updatedAt: now,
+    })
+    .where(eq(sessionPackages.name, "Paquete base de 4 sesiones"));
 
-  if (!demoPackage) {
-    [demoPackage] = await db
+  const packageRegistry = new Map<string, { id: string }>();
+
+  for (const definition of sessionPackageDefinitions) {
+    const existingPackage = await db.query.sessionPackages.findFirst({
+      where: eq(sessionPackages.name, definition.name),
+    });
+
+    if (existingPackage) {
+      const [updatedPackage] = await db
+        .update(sessionPackages)
+        .set({
+          description: definition.description,
+          sessionCount: definition.sessionCount,
+          durationMinutes: 60,
+          priceCents: definition.priceCents,
+          currency: "USD",
+          isActive: true,
+          updatedAt: now,
+        })
+        .where(eq(sessionPackages.id, existingPackage.id))
+        .returning();
+
+      packageRegistry.set(definition.name, updatedPackage);
+      continue;
+    }
+
+    const [createdPackage] = await db
       .insert(sessionPackages)
       .values({
-        name: "Paquete base de 4 sesiones",
-        description: "Acompanamiento para discovery, implementacion y validacion.",
-        sessionCount: 4,
+        name: definition.name,
+        description: definition.description,
+        sessionCount: definition.sessionCount,
         durationMinutes: 60,
-        priceCents: 48000,
+        priceCents: definition.priceCents,
         currency: "USD",
+        isActive: true,
       })
       .returning();
+
+    packageRegistry.set(definition.name, createdPackage);
+  }
+
+  const demoPackage = packageRegistry.get("Pack Arranque");
+
+  if (!demoPackage) {
+    throw new Error("Pack Arranque was not created during seed");
   }
 
   let demoProject = await db.query.projects.findFirst({
@@ -234,9 +293,20 @@ export async function seedDemoWorkspace() {
         paymentProvider: "stripe",
         paymentReference: "demo-checkout-001",
         status: "paid",
-        sessionsTotal: 4,
-        sessionsRemaining: 2,
+        sessionsTotal: 5,
+        sessionsRemaining: 3,
       })
+      .returning();
+  } else {
+    [demoPurchase] = await db
+      .update(purchases)
+      .set({
+        sessionPackageId: demoPackage.id,
+        sessionsTotal: 5,
+        sessionsRemaining: 3,
+        updatedAt: now,
+      })
+      .where(eq(purchases.id, demoPurchase.id))
       .returning();
   }
 

@@ -5,17 +5,17 @@ const pains = [
   {
     title: "La barrera no son las herramientas",
     description:
-      "El problema suele ser saber que conectar primero, como priorizar y donde aterrizar cada decision sin perder semanas.",
+      "La dificultad suele estar en decidir qué conectar primero, cómo priorizar y dónde aterrizar cada decisión sin perder semanas.",
   },
   {
-    title: "WhatsApp no es una metodologia",
+    title: "WhatsApp no es una metodología",
     description:
-      "Cuando todo vive entre mensajes, videollamadas y notas sueltas, el proyecto se siente avanzado pero no se convierte en un producto.",
+      "Cuando todo vive entre mensajes, videollamadas y notas sueltas, el proyecto parece avanzar, pero no se convierte en un producto.",
   },
   {
-    title: "La dependencia tecnica frena la velocidad",
+    title: "La dependencia técnica frena la velocidad",
     description:
-      "Esperar a TI o tercerizar por completo reduce el control del negocio sobre su propia operacion digital.",
+      "Esperar a TI o tercerizar por completo reduce el control del negocio sobre su propia operación digital.",
   },
 ];
 
@@ -24,25 +24,25 @@ const workflow = [
     step: "01",
     title: "Define tu meta",
     description:
-      "Eliges que quieres construir: agente de IA, automatizacion, web comercial o sistema interno.",
+      "Eliges qué quieres construir: un agente de IA, una automatización, una web comercial o un sistema interno.",
   },
   {
     step: "02",
     title: "Adquiere tus horas",
     description:
-      "Compras un paquete de sesiones para trabajar con una capacidad clara y un alcance visible.",
+      "Compras un paquete de sesiones para trabajar con capacidad clara y alcance visible.",
   },
   {
     step: "03",
-    title: "Co-creacion en vivo",
+    title: "Co-creación en vivo",
     description:
-      "Trabajas con tu asesor por Meet o Zoom mientras el producto se mueve en tiempo real.",
+      "Trabajas con tu asesor por Meet o Zoom mientras el producto avanza en tiempo real.",
   },
   {
     step: "04",
     title: "Trazabilidad total",
     description:
-      "Apruebas entregables, sigues tareas y dejas evidencia dentro del mismo tablero del proyecto.",
+      "Apruebas entregables, sigues tareas y dejas evidencia dentro del mismo tablero.",
   },
 ];
 
@@ -50,7 +50,7 @@ const useCases = [
   {
     title: "Asistente virtual para ventas",
     description:
-      "Un chatbot entrenado para calificar leads, responder objeciones y activar la siguiente accion comercial.",
+      "Un chatbot entrenado para calificar leads, responder objeciones y activar la siguiente acción comercial.",
     tools: ["OpenAI", "Make", "WhatsApp"],
     state: "Listo para conversaciones reales",
     accent: "border-l-[color:var(--accent)]",
@@ -58,13 +58,13 @@ const useCases = [
   {
     title: "Sitio web con IA integrada",
     description:
-      "Una pagina de conversion conectada con formularios, contenido dinamico y automatizaciones de seguimiento.",
+      "Una página de conversión conectada con formularios, contenido dinámico y automatizaciones de seguimiento.",
     tools: ["Webflow", "Framer", "OpenAI"],
-    state: "Diseno y operacion en un mismo flujo",
+    state: "Diseño y operación en un mismo flujo",
     accent: "border-l-[color:var(--success)]",
   },
   {
-    title: "Automatizacion de lead generation",
+    title: "Automatización de captación de leads",
     description:
       "Captura, enriquece y distribuye prospectos sin depender de procesos manuales entre marketing y ventas.",
     tools: ["HubSpot", "Make", "Airtable"],
@@ -72,9 +72,9 @@ const useCases = [
     accent: "border-l-[color:var(--warning)]",
   },
   {
-    title: "Sistema de gestion interna",
+    title: "Sistema de gestión interna",
     description:
-      "Tableros, formularios, roles y automatizaciones para que el equipo opere con menos friccion y mas control.",
+      "Tableros, formularios, roles y automatizaciones para que el equipo opere con menos fricción y más control.",
     tools: ["Notion", "Glide", "Zapier"],
     state: "Orden operativo para el equipo",
     accent: "border-l-[color:var(--danger)]",
@@ -90,164 +90,194 @@ const operatingStories = [
   {
     quote:
       "Lo valioso fue poder revisar el proyecto con contexto, tareas y entregables sin perseguir a nadie por chat.",
-    context: "Caso tipo / Operacion interna",
+    context: "Caso tipo / Operación interna",
   },
   {
     quote:
-      "La plataforma nos dio una forma de construir con supervision ejecutiva sin depender por completo de un tercero.",
-    context: "Caso tipo / Fundadores no tecnicos",
+      "La plataforma nos dio una forma de construir con supervisión ejecutiva sin depender por completo de un tercero.",
+    context: "Caso tipo / Fundadores no técnicos",
   },
 ];
+
+const heroHighlights = [
+  {
+    title: "Meta definida",
+    detail: "Partimos de un objetivo concreto y priorizado.",
+  },
+  {
+    title: "Trabajo compartido",
+    detail: "La sesión mueve el producto contigo, no por fuera.",
+  },
+  {
+    title: "Avance visible",
+    detail: "Tareas, acuerdos y entregables quedan en el mismo lugar.",
+  },
+] as const;
+
+const deliveryFlow = [
+  {
+    stage: "Descubrimiento",
+    task: "Recorrido del lead definido",
+    note: "Se aterriza el objetivo y se ordena el criterio de implementación.",
+    dot: "bg-[color:var(--ink)]",
+    badgeClass: "bg-[color:rgba(17,19,21,0.06)] text-[color:var(--ink-soft)]",
+    badgeLabel: "Base",
+  },
+  {
+    stage: "En progreso",
+    task: "CRM y automatización conectados",
+    note: "La sesión mueve piezas reales y deja acuerdos listos para continuar.",
+    dot: "bg-[color:var(--warning)]",
+    badgeClass: "bg-[color:rgba(211,138,18,0.12)] text-[color:var(--warning)]",
+    badgeLabel: "Activo",
+  },
+  {
+    stage: "Entregado",
+    task: "Bot inicial publicado",
+    note: "El resultado queda visible dentro del mismo contexto operativo.",
+    dot: "bg-[color:var(--success)]",
+    badgeClass: "bg-[color:rgba(24,161,111,0.12)] text-[color:var(--success)]",
+    badgeLabel: "Listo",
+  },
+] as const;
+
+const sharedPlanFeatures = [
+  "Sesiones en vivo de 60 minutos",
+  "Acompañamiento guiado",
+  "Tablero y entregables visibles",
+  "Misma metodología y mismos servicios",
+] as const;
 
 const plans = [
   {
     name: "Pack Arranque",
-    sessions: "4 sesiones",
-    price: "USD 480",
-    description: "Para validar, construir una primera version y dejar una base funcional.",
-    features: [
-      "Kickoff y alcance",
-      "Co-creacion en vivo",
-      "Tablero y entregables visibles",
-      "Cierre con siguientes pasos",
-    ],
+    sessions: "5 sesiones",
+    price: "USD 250",
+    sessionRate: "USD 50 por sesión",
+    description: "Para ordenar el proyecto y completar el primer tramo de ejecución.",
   },
   {
     name: "Pack Desarrollo",
-    sessions: "8 sesiones",
-    price: "USD 920",
-    description: "Para proyectos que necesitan iteracion, pruebas y un flujo operativo completo.",
-    features: [
-      "Capacidad continua de trabajo",
-      "Revision de integraciones",
-      "Evidencia por sesion",
-      "Ajustes sobre resultados reales",
-    ],
+    sessions: "10 sesiones",
+    price: "USD 450",
+    sessionRate: "USD 45 por sesión",
+    description: "Más continuidad con mejor tarifa para avanzar sin cortar el ritmo.",
     featured: true,
   },
   {
     name: "Pack Escala",
-    sessions: "12 sesiones",
-    price: "USD 1320",
-    description: "Para sistemas internos, automatizaciones complejas o iniciativas con varios modulos.",
-    features: [
-      "Acompanamiento extendido",
-      "Prioridad operativa",
-      "Mas espacio para refinamiento",
-      "Mayor supervision de implementacion",
-    ],
+    sessions: "15 sesiones",
+    price: "USD 600",
+    sessionRate: "USD 40 por sesión",
+    description: "La opción más eficiente para proyectos con más profundidad y recorrido.",
   },
 ];
 
 const faqs = [
   {
-    question: "Necesito saber de no-code o IA antes de empezar?",
+    question: "¿Necesito saber de no-code o IA antes de empezar?",
     answer:
-      "No. La plataforma esta pensada para trabajar contigo, no para examinarte. El objetivo es construir bajo una metodologia guiada.",
+      "No. La plataforma está pensada para trabajar contigo, no para evaluarte. El objetivo es construir bajo una metodología guiada.",
   },
   {
-    question: "Que pasa entre una sesion y la siguiente?",
+    question: "¿Qué pasa entre una sesión y la siguiente?",
     answer:
-      "El trabajo no desaparece. El proyecto queda en el tablero con tareas, acuerdos, avances y evidencia para retomar exactamente donde quedo.",
+      "El trabajo no desaparece. El proyecto queda en el tablero con tareas, acuerdos, avances y evidencia para retomar exactamente donde quedó.",
   },
   {
-    question: "Solo sirve para chatbots?",
+    question: "¿Solo sirve para chatbots?",
     answer:
-      "No. Tambien aplica para webs, automatizaciones comerciales, flujos internos y productos digitales que requieren una capa operativa clara.",
+      "No. También aplica para sitios web, automatizaciones comerciales, flujos internos y productos digitales que requieren una capa operativa clara.",
   },
   {
-    question: "Como se define cuantas sesiones necesito?",
+    question: "¿Cómo se define cuántas sesiones necesito?",
     answer:
-      "Puedes usar el simulador de inversion como referencia inicial y luego afinar el alcance en la primera conversacion.",
+      "Puedes usar el simulador de inversión como referencia inicial y luego afinar el alcance en la primera conversación.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="site-shell min-h-screen overflow-x-hidden px-6 pb-24 pt-6 lg:px-10">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-24">
-        <header className="sticky top-4 z-40">
-          <div className="surface-card flex items-center justify-between gap-4 px-4 py-3 sm:px-5">
-            <div className="flex items-center gap-3">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen overflow-x-hidden px-5 sm:px-6 lg:px-10">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-20 sm:gap-24">
+        <header className="app-sticky-top sticky z-40">
+          <div className="surface-card flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3">
+            <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-white">
                 HT
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-                  Hazlo tu mismo
+                  Hazlo tú mismo
                 </p>
-                <p className="text-sm font-medium text-[color:var(--ink-soft)]">
-                  Co-creacion operativa para no-code e IA
+                <p className="hidden text-sm font-medium text-[color:var(--ink-soft)] md:block">
+                  Co-creación operativa para no-code e IA
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <nav className="hidden items-center gap-6 text-sm text-[color:var(--muted)] md:flex">
-                <a href="#metodologia">Metodologia</a>
+            <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end">
+              <nav className="hidden items-center gap-6 text-sm text-[color:var(--muted)] xl:flex">
+                <a href="#metodologia">Metodología</a>
                 <a href="#casos">Casos de uso</a>
                 <a href="#planes">Planes</a>
               </nav>
-              <Link href="/login" className="premium-button premium-button-accent px-5 py-3">
-                Agendar primera sesion
+              <Link
+                href="/login"
+                className="premium-button premium-button-accent w-full px-5 py-3 sm:w-auto"
+              >
+                <span className="sm:hidden">Agendar</span>
+                <span className="hidden sm:inline xl:hidden">Agendar sesión</span>
+                <span className="hidden xl:inline">Agendar primera sesión</span>
               </Link>
             </div>
           </div>
         </header>
 
-        <section className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-          <div className="max-w-3xl">
-            <div className="eyebrow">Metodologia, orden y ejecucion</div>
-            <h1 className="mt-7 font-display text-5xl leading-[0.95] tracking-[-0.04em] text-[color:var(--ink)] sm:text-6xl lg:text-7xl">
-              Construye tus soluciones digitales y de IA. Acompanado, paso a paso.
+        <section className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-12">
+          <div className="max-w-3xl lg:pr-4">
+            <div className="eyebrow">Metodología, orden y ejecución</div>
+            <h1 className="mt-6 max-w-4xl font-display text-[3.25rem] leading-[0.94] tracking-[-0.045em] text-[color:var(--ink)] sm:mt-7 sm:text-[4.6rem] lg:text-[5.5rem]">
+              Construye tus soluciones digitales y de IA. Acompañado, paso a paso.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
-              La plataforma donde emprendedores y expertos en no-code co-crean chatbots,
-              automatizaciones y webs en tiempo real. Cero teoria, 100% ejecucion.
+            <p className="mt-5 max-w-2xl text-base leading-7 text-[color:var(--muted)] sm:mt-6 sm:text-lg sm:leading-8">
+              Construye chatbots, automatizaciones y sitios web con una metodología guiada,
+              sesiones en vivo y trazabilidad real.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/workspace/demo" className="premium-button premium-button-accent px-6 py-3">
+              <Link
+                href="/workspace/demo"
+                className="premium-button premium-button-accent w-full px-6 py-3 sm:w-auto"
+              >
                 Explorar proyectos
               </Link>
-              <Link href="/login" className="premium-button premium-button-secondary px-6 py-3">
-                Agendar primera sesion
+              <Link
+                href="/login"
+                className="premium-button premium-button-secondary w-full px-6 py-3 sm:w-auto"
+              >
+                Agendar primera sesión
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              {[
-                {
-                  title: "Copiloto experto",
-                  detail: "No trabajas solo ni delegas a ciegas.",
-                },
-                {
-                  title: "Trabajo en vivo",
-                  detail: "Las sesiones se convierten en entregables visibles.",
-                },
-                {
-                  title: "Control del negocio",
-                  detail: "La supervision y el contexto quedan de tu lado.",
-                },
-              ].map((item) => (
-                <article key={item.title} className="surface-card-muted p-5">
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                    {item.detail}
-                  </p>
+            <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-3">
+              {heroHighlights.map((item) => (
+                <article key={item.title} className="border-t border-[color:var(--line)] pt-4">
+                  <p className="text-sm font-semibold text-[color:var(--ink-soft)]">{item.title}</p>
+                  <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{item.detail}</p>
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="surface-card overflow-hidden p-6 lg:p-7">
-            <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">
+          <div className="surface-card overflow-hidden p-4 sm:p-6 lg:p-7">
+            <div className="grid gap-4 xl:grid-cols-[0.88fr_1.12fr]">
               <div className="surface-card-muted p-5">
-                <div className="flex items-start justify-between border-b border-[color:var(--line)] pb-4">
+                <div className="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
                   <div>
                     <p className="section-label">Sala de trabajo</p>
                     <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-                      Sesion activa
+                      Sesión activa
                     </h2>
                   </div>
                   <div className="rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--accent)]">
@@ -266,13 +296,14 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
-                    Objetivo: conectar formulario, CRM y agente de ventas para mover leads reales.
+                    Objetivo actual: conectar formulario, CRM y agente de ventas para mover leads
+                    reales.
                   </p>
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
-                    <p className="section-label">Duracion</p>
+                    <p className="section-label">Duración</p>
                     <p className="mt-3 text-xl font-semibold">60 min</p>
                   </div>
                   <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
@@ -283,52 +314,52 @@ export default function Home() {
               </div>
 
               <div className="surface-card-muted p-5">
-                <div className="flex items-end justify-between border-b border-[color:var(--line)] pb-4">
+                <div className="flex items-end justify-between gap-4 border-b border-[color:var(--line)] pb-4">
                   <div>
-                    <p className="section-label">Tablero Kanban</p>
+                    <p className="section-label">Tablero del proyecto</p>
                     <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
                       Progreso visible
                     </h3>
                   </div>
-                  <p className="text-sm text-[color:var(--muted)]">Idea a Implementado</p>
+                  <p className="text-sm text-[color:var(--muted)]">De idea a entrega</p>
                 </div>
 
-                <div className="mt-5 grid gap-3 md:grid-cols-3">
-                  {[
-                    {
-                      title: "Idea",
-                      card: "Definir recorrido del lead",
-                      tone: "bg-white",
-                      dot: "bg-[color:var(--danger)]",
-                    },
-                    {
-                      title: "En progreso",
-                      card: "Conectar CRM y automatizacion",
-                      tone: "bg-[color:rgba(211,138,18,0.10)]",
-                      dot: "bg-[color:var(--warning)]",
-                    },
-                    {
-                      title: "Implementado",
-                      card: "Bot de respuestas iniciales",
-                      tone: "bg-[color:rgba(24,161,111,0.10)]",
-                      dot: "bg-[color:var(--success)]",
-                    },
-                  ].map((column) => (
-                    <div key={column.title} className={`rounded-xl border border-[color:var(--line)] p-4 ${column.tone}`}>
-                      <div className="flex items-center gap-2">
-                        <span className={`h-2.5 w-2.5 rounded-full ${column.dot}`} />
-                        <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                          {column.title}
-                        </p>
+                <div className="mt-5 space-y-3">
+                  {deliveryFlow.map((step) => (
+                    <article
+                      key={step.stage}
+                      className="rounded-xl border border-[color:var(--line)] bg-white p-4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className={`mt-1.5 h-2.5 w-2.5 rounded-full ${step.dot}`} />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                              {step.stage}
+                            </p>
+                            <span
+                              className={`inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-semibold ${step.badgeClass}`}
+                            >
+                              {step.badgeLabel}
+                            </span>
+                          </div>
+                          <p className="mt-3 text-sm font-semibold text-[color:var(--ink-soft)]">
+                            {step.task}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                            {step.note}
+                          </p>
+                        </div>
                       </div>
-                      <article className="mt-4 rounded-lg border border-[color:var(--line)] bg-white p-3">
-                        <p className="text-sm font-semibold">{column.card}</p>
-                        <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                          Estado actualizado dentro del mismo flujo de trabajo.
-                        </p>
-                      </article>
-                    </div>
+                    </article>
                   ))}
+                </div>
+
+                <div className="mt-4 rounded-xl border border-[color:var(--line)] bg-white p-4">
+                  <p className="section-label">Siguiente hito</p>
+                  <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[color:var(--ink-soft)]">
+                    Validar el formulario y lanzar la primera prueba del flujo.
+                  </p>
                 </div>
               </div>
             </div>
@@ -337,17 +368,17 @@ export default function Home() {
 
         <section className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
           <div>
-            <p className="section-label">Por que estar aqui</p>
+            <p className="section-label">Por qué estar aquí</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              La barrera no es la tecnologia. Es saber como estructurarla.
+              La barrera no es la tecnología. Es saber cómo estructurarla.
             </h2>
             <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-              Hazlo tu mismo existe para transformar incertidumbre tecnica en confianza operativa.
-              No es un curso. No es una agencia opaca. Es un entorno de construccion guiada.
+              Hazlo tú mismo transforma incertidumbre técnica en confianza operativa. No es un
+              curso ni una agencia opaca: es un entorno de construcción guiada.
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-3">
             {pains.map((pain) => (
               <article key={pain.title} className="surface-card p-8">
                 <h3 className="text-2xl font-semibold tracking-[-0.03em]">{pain.title}</h3>
@@ -361,9 +392,9 @@ export default function Home() {
 
         <section id="metodologia" className="grid gap-8">
           <div className="max-w-3xl">
-            <p className="section-label">Como funciona</p>
+            <p className="section-label">Cómo funciona</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              Una metodologia simple para convertir ideas en productos tangibles.
+              Una metodología simple para convertir ideas en productos tangibles.
             </h2>
           </div>
 
@@ -382,9 +413,9 @@ export default function Home() {
 
         <section id="casos" className="grid gap-8">
           <div className="max-w-3xl">
-            <p className="section-label">Catalogo de posibilidades</p>
+            <p className="section-label">Catálogo de posibilidades</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              Casos de uso que un negocio puede construir con supervision y trazabilidad.
+              Casos de uso que un negocio puede construir con supervisión y trazabilidad.
             </h2>
           </div>
 
@@ -406,9 +437,11 @@ export default function Home() {
                   </span>
                 </div>
 
-                <p className="mt-6 text-sm font-medium text-[color:var(--ink-soft)]">{useCase.state}</p>
+                <p className="mt-6 text-sm font-medium text-[color:var(--ink-soft)]">
+                  {useCase.state}
+                </p>
 
-                <div className="mt-4 flex flex-wrap gap-2 opacity-0 transition duration-200 group-hover:opacity-100">
+                <div className="mt-4 flex flex-wrap gap-2 opacity-100 transition duration-200 md:opacity-0 md:group-hover:opacity-100">
                   {useCase.tools.map((tool) => (
                     <span
                       key={tool}
@@ -427,9 +460,9 @@ export default function Home() {
 
         <section className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:items-start">
           <div className="surface-card p-8 lg:p-10">
-            <p className="section-label">Autoridad operativa</p>
+            <p className="section-label">Control visible</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              El valor no esta en prometer magia, sino en mostrar control del proceso.
+              El valor no está en prometer magia, sino en mostrar control del proceso.
             </h2>
             <div className="mt-8 grid gap-5 sm:grid-cols-3">
               {[
@@ -472,8 +505,23 @@ export default function Home() {
           <div className="max-w-3xl">
             <p className="section-label">Planes transparentes</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              Compra capacidad de ejecucion, no horas sueltas sin estructura.
+              Compra capacidad de ejecución, no horas sueltas sin estructura.
             </h2>
+            <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
+              Todos los packs incluyen el mismo servicio y sesiones de 60 minutos. Lo que cambia es
+              la capacidad contratada y el valor por sesión: a mayor cantidad, mejor tarifa.
+            </p>
+          </div>
+
+          <div className="surface-card-muted p-6 lg:p-8">
+            <p className="section-label">Todos incluyen</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {sharedPlanFeatures.map((feature) => (
+                <div key={feature} className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                  <p className="text-sm leading-6 text-[color:var(--muted)]">{feature}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="grid gap-4 lg:grid-cols-3">
@@ -495,19 +543,13 @@ export default function Home() {
                 </div>
                 <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">{plan.description}</p>
                 <p className="mt-6 text-4xl font-semibold tracking-[-0.03em]">{plan.price}</p>
-
-                <div className="mt-6 space-y-3">
-                  {plan.features.map((feature) => (
-                    <div key={feature} className="flex items-start gap-3 border-t border-[color:var(--line)] pt-3">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-[color:var(--accent)]" />
-                      <p className="text-sm leading-6 text-[color:var(--muted)]">{feature}</p>
-                    </div>
-                  ))}
-                </div>
+                <p className="mt-3 text-sm font-medium text-[color:var(--ink-soft)]">
+                  {plan.sessionRate}
+                </p>
 
                 <Link
                   href="/login"
-                  className={`mt-8 inline-flex ${plan.featured ? "premium-button premium-button-accent" : "premium-button premium-button-secondary"} px-5 py-3`}
+                  className={`mt-8 inline-flex w-full justify-center ${plan.featured ? "premium-button premium-button-accent" : "premium-button premium-button-secondary"} px-5 py-3`}
                 >
                   Solicitar este plan
                 </Link>
@@ -520,7 +562,7 @@ export default function Home() {
           <div>
             <p className="section-label">Preguntas frecuentes</p>
             <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
-              Respuestas claras para bajar friccion antes de empezar.
+              Respuestas claras para bajar fricción antes de empezar.
             </h2>
           </div>
 
@@ -546,16 +588,16 @@ export default function Home() {
                 Si la idea ya existe, el siguiente paso es ponerla a operar.
               </h2>
               <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-                Empieza con una primera sesion, define la meta y entra a un entorno donde el
-                proyecto se construye contigo, no alrededor tuyo.
+                Empieza con una primera sesión, define la meta y entra a un entorno donde el
+                proyecto se construye contigo.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/login" className="premium-button premium-button-accent px-6 py-3">
-                Agendar primera sesion
+              <Link href="/login" className="premium-button premium-button-accent w-full px-6 py-3 sm:w-auto">
+                Agendar primera sesión
               </Link>
-              <Link href="/workspace/demo" className="premium-button premium-button-secondary px-6 py-3">
+              <Link href="/workspace/demo" className="premium-button premium-button-secondary w-full px-6 py-3 sm:w-auto">
                 Explorar demo
               </Link>
             </div>
