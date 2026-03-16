@@ -7,11 +7,11 @@ const columns = [
     tasks: [
       {
         title: "Definir tono del bot",
-        detail: "Alinear respuestas con propuesta comercial",
+        detail: "Alinear respuestas con propuesta comercial.",
       },
       {
         title: "Subir FAQs del negocio",
-        detail: "Pendiente por parte del cliente",
+        detail: "Pendiente por parte del cliente.",
       },
     ],
   },
@@ -21,11 +21,11 @@ const columns = [
     tasks: [
       {
         title: "Configurar base de conocimiento",
-        detail: "Se integran documentos y sitio actual",
+        detail: "Se integran documentos y sitio actual.",
       },
       {
-        title: "Diseñar flujo de leads",
-        detail: "Formulario, email y CRM ligero",
+        title: "Disenar flujo de leads",
+        detail: "Formulario, email y CRM ligero.",
       },
     ],
   },
@@ -35,7 +35,7 @@ const columns = [
     tasks: [
       {
         title: "Pruebas con respuestas reales",
-        detail: "Sesion 03 definira ajustes finales",
+        detail: "Sesion 03 definira ajustes finales.",
       },
     ],
   },
@@ -45,11 +45,11 @@ const columns = [
     tasks: [
       {
         title: "Brief del proyecto",
-        detail: "Objetivo y alcance ya validados",
+        detail: "Objetivo y alcance ya validados.",
       },
       {
         title: "Mapa de preguntas frecuentes",
-        detail: "Documento inicial entregado",
+        detail: "Documento inicial entregado.",
       },
     ],
   },
@@ -62,7 +62,7 @@ const activities = [
     time: "Hoy · 7:45 PM",
   },
   {
-    title: "Nueva evidencia en tarea",
+    title: "Nueva evidencia cargada",
     detail: "Se adjunto mapa del recorrido de prospecto y checklist de mensajes.",
     time: "Hoy · 6:10 PM",
   },
@@ -80,105 +80,106 @@ const deliverables = [
   "Checklist operativo del cliente",
 ];
 
+const metrics = [
+  {
+    label: "Estado",
+    value: "En ejecucion",
+    detail: "El proyecto ya avanza entre sesiones, contenido y pruebas.",
+  },
+  {
+    label: "Progreso",
+    value: "68%",
+    detail: "Hay una lectura clara del momento actual del proyecto.",
+  },
+  {
+    label: "Proxima sesion",
+    value: "Miercoles 7:00 PM",
+    detail: "Revision de pruebas, guiones y cierre del flujo de captura.",
+  },
+];
+
 export default function DemoWorkspacePage() {
   return (
-    <main className="min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <header className="flex flex-col gap-4 rounded-[2rem] border border-[color:var(--line)] bg-white/75 px-5 py-5 backdrop-blur lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-              Workspace demo
-            </p>
-            <h1 className="mt-2 font-display text-4xl leading-none">
-              Asistente comercial con IA
-            </h1>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-[color:var(--muted)]">
-              Proyecto compartido entre cliente y asesor para estructurar un chatbot comercial,
-              organizar sesiones y dejar trazabilidad del avance.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/"
-              className="rounded-full border border-[color:var(--line)] bg-white px-5 py-3 text-sm font-medium text-[color:var(--ink)] transition hover:border-[color:var(--ink)]"
-            >
-              Volver a inicio
-            </Link>
-            <button
-              type="button"
-              className="rounded-full bg-[color:var(--ink)] px-5 py-3 text-sm font-medium text-[color:var(--paper-strong)]"
-            >
-              Reservar sesion
-            </button>
+        <header className="glass-panel relative overflow-hidden rounded-[2.6rem] p-6 lg:p-7">
+          <div className="absolute left-8 top-10 h-28 w-28 rounded-full bg-[color:var(--gold)]/18 blur-3xl" />
+          <div className="absolute bottom-0 right-8 h-36 w-36 rounded-full bg-[color:var(--teal)]/14 blur-3xl" />
+
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="eyebrow">Workspace demo</div>
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+                Asistente comercial con IA
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
+                Proyecto compartido entre cliente y asesor para estructurar un chatbot comercial,
+                organizar sesiones y dejar trazabilidad del avance con una interfaz mas elegante.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link href="/" className="premium-button premium-button-secondary px-5 py-3">
+                Volver a inicio
+              </Link>
+              <button type="button" className="premium-button px-5 py-3">
+                Reservar sesion
+              </button>
+            </div>
           </div>
         </header>
 
-        <section className="grid gap-4 lg:grid-cols-4">
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Estado</p>
-            <p className="mt-3 text-2xl font-semibold">En ejecucion</p>
-            <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-              El proyecto ya avanza entre sesiones, contenido y pruebas reales.
-            </p>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Progreso</p>
-            <p className="mt-3 text-2xl font-semibold">68%</p>
-            <div className="mt-4 h-2 rounded-full bg-[color:var(--paper)]">
-              <div className="h-2 w-[68%] rounded-full bg-[color:var(--coral)]" />
-            </div>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-              Proxima sesion
-            </p>
-            <p className="mt-3 text-2xl font-semibold">Miercoles 7:00 PM</p>
-            <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-              Revisión de pruebas, guiones y cierre del flujo de captura.
-            </p>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-[color:var(--ink)] p-5 text-[color:var(--paper-strong)]">
-            <p className="text-xs uppercase tracking-[0.28em] text-white/65">Saldo</p>
-            <p className="mt-3 text-2xl font-semibold">3 sesiones</p>
-            <p className="mt-2 text-sm leading-6 text-white/70">
-              El cliente aun puede seguir agendando trabajo desde la misma plataforma.
+        <section className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_0.9fr]">
+          {metrics.map((metric) => (
+            <article key={metric.label} className="stat-card rounded-[1.9rem] p-5">
+              <p className="section-label">{metric.label}</p>
+              <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{metric.value}</p>
+              <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{metric.detail}</p>
+            </article>
+          ))}
+
+          <article className="dark-panel rounded-[1.9rem] p-5">
+            <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">Saldo</p>
+            <p className="mt-4 text-3xl font-semibold">3 sesiones</p>
+            <p className="mt-3 text-sm leading-6 text-white/72">
+              El cliente puede seguir agendando trabajo desde la misma plataforma.
             </p>
           </article>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[1.35fr_0.65fr]">
+        <section className="grid gap-6 xl:grid-cols-[1.36fr_0.64fr]">
           <div className="grid gap-6">
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-5">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                    Tablero Kanban
-                  </p>
-                  <h2 className="mt-2 text-3xl font-semibold">Tareas del proyecto</h2>
+                  <p className="section-label">Tablero Kanban</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Tareas del proyecto
+                  </h2>
                 </div>
                 <p className="text-sm text-[color:var(--muted)]">
                   7 activas · 2 completadas en la ultima semana
                 </p>
               </div>
-              <div className="mt-5 grid gap-4 xl:grid-cols-4">
+
+              <div className="mt-6 grid gap-4 xl:grid-cols-4">
                 {columns.map((column) => (
                   <div
                     key={column.title}
-                    className={`rounded-[1.75rem] border border-[color:var(--line)] p-4 ${column.tone}`}
+                    className={`rounded-[1.8rem] border border-[color:var(--line)] p-4 ${column.tone}`}
                   >
                     <div className="flex items-center justify-between">
-                      <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
                         {column.title}
                       </p>
-                      <span className="rounded-full bg-white/80 px-2.5 py-1 text-xs font-medium">
-                        {column.tasks.length}
-                      </span>
+                      <span className="chip chip-soft">{column.tasks.length}</span>
                     </div>
+
                     <div className="mt-4 space-y-3">
                       {column.tasks.map((task) => (
                         <article
                           key={task.title}
-                          className="rounded-[1.35rem] border border-[color:var(--line)] bg-white p-3"
+                          className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/90 p-4"
                         >
                           <h3 className="text-sm font-semibold">{task.title}</h3>
                           <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
@@ -192,32 +193,35 @@ export default function DemoWorkspacePage() {
               </div>
             </article>
 
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-5">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                    Evidencia y actividad
-                  </p>
-                  <h2 className="mt-2 text-3xl font-semibold">Historial del proyecto</h2>
+                  <p className="section-label">Actividad y evidencia</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Historial del proyecto
+                  </h2>
                 </div>
                 <p className="text-sm text-[color:var(--muted)]">
                   Todo queda conectado con tareas y sesiones
                 </p>
               </div>
-              <div className="mt-5 space-y-4">
+
+              <div className="mt-6 space-y-4">
                 {activities.map((activity) => (
                   <article
                     key={`${activity.title}-${activity.time}`}
-                    className="rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-4"
+                    className="surface-card-muted rounded-[1.7rem] p-5"
                   >
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold">{activity.title}</h3>
-                        <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                        <h3 className="text-lg font-semibold tracking-[-0.02em]">
+                          {activity.title}
+                        </h3>
+                        <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
                           {activity.detail}
                         </p>
                       </div>
-                      <span className="text-sm text-[color:var(--muted)]">{activity.time}</span>
+                      <span className="chip chip-soft">{activity.time}</span>
                     </div>
                   </article>
                 ))}
@@ -226,16 +230,16 @@ export default function DemoWorkspacePage() {
           </div>
 
           <aside className="grid gap-6">
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-5">
-              <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Alcance actual
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold">Entregables pactados</h2>
-              <div className="mt-4 space-y-3">
+            <article className="surface-card rounded-[2.3rem] p-6">
+              <p className="section-label">Alcance actual</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                Entregables pactados
+              </h2>
+              <div className="mt-5 space-y-3">
                 {deliverables.map((deliverable) => (
                   <div
                     key={deliverable}
-                    className="rounded-[1.3rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] px-4 py-3"
+                    className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 px-4 py-4"
                   >
                     <p className="text-sm font-medium">{deliverable}</p>
                   </div>
@@ -243,31 +247,38 @@ export default function DemoWorkspacePage() {
               </div>
             </article>
 
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--teal-soft)] p-5">
-              <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Sesion siguiente
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold">Agenda de trabajo</h2>
-              <div className="mt-4 rounded-[1.4rem] bg-white/80 p-4">
-                <p className="text-sm font-semibold">Objetivo</p>
-                <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  Validar tono del bot, revisar escenarios de venta y dejar tareas para el cliente.
-                </p>
-              </div>
-              <div className="mt-4 rounded-[1.4rem] bg-white/80 p-4">
-                <p className="text-sm font-semibold">Canal</p>
-                <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                  Google Meet integrado con enlace listo para entrar.
-                </p>
+            <article className="surface-card-muted rounded-[2.3rem] p-6">
+              <p className="section-label">Sesion siguiente</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                Agenda de trabajo
+              </h2>
+              <div className="mt-5 space-y-4">
+                <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 p-4">
+                  <p className="text-sm font-semibold">Objetivo</p>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                    Validar tono del bot, revisar escenarios de venta y dejar tareas para el
+                    cliente.
+                  </p>
+                </div>
+                <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 p-4">
+                  <p className="text-sm font-semibold">Canal</p>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                    Google Meet integrado con enlace listo para entrar.
+                  </p>
+                </div>
               </div>
             </article>
 
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--ink)] p-5 text-[color:var(--paper-strong)]">
-              <p className="text-xs uppercase tracking-[0.28em] text-white/65">Siguiente paso</p>
-              <h2 className="mt-3 text-2xl font-semibold">Pasar esta demo a datos reales</h2>
+            <article className="dark-panel rounded-[2.3rem] p-6">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
+                Siguiente paso
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                Pasar esta demo a datos reales
+              </h2>
               <p className="mt-4 text-sm leading-6 text-white/70">
-                Lo inmediato es conectar autenticacion, proyectos y tablero a Supabase para que
-                cada asesor y cliente vea su informacion real.
+                Lo inmediato es conectar autenticacion, proyectos y tablero a datos reales para que
+                cada asesor y cliente vea su operacion dentro de la misma experiencia.
               </p>
             </article>
           </aside>

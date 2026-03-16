@@ -6,80 +6,92 @@ import { requireUser } from "@/lib/auth/session";
 export default async function ProjectsPage() {
   const user = await requireUser();
   const data = await getProjectsPageData(user);
-  const advisors = data.profiles.filter((profile) => profile.role === "advisor" || profile.role === "admin");
+  const advisors = data.profiles.filter(
+    (profile) => profile.role === "advisor" || profile.role === "admin",
+  );
   const clients = data.profiles.filter((profile) => profile.role === "client");
 
   return (
-    <main className="min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="rounded-[2rem] border border-[color:var(--line)] bg-white/80 p-6 backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-            Mis proyectos
-          </p>
-          <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="font-display text-5xl leading-none">Tus workspaces activos</h1>
-              <p className="mt-4 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
-                Desde aqui puedes entrar a cada proyecto, revisar el Kanban, programar sesiones y
-                dejar evidencia del avance.
+        <header className="glass-panel rounded-[2.6rem] p-6 lg:p-7">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-4xl">
+              <div className="eyebrow">Mis proyectos</div>
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+                Tus workspaces activos
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
+                Entra a cada proyecto, revisa el Kanban, programa sesiones y deja evidencia del
+                avance dentro de una experiencia mas pulida y clara.
               </p>
             </div>
-            <div className="rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-3 text-sm">
-              <p className="font-medium">{data.projects.length} proyectos visibles</p>
-              <p className="text-[color:var(--muted)]">Rol actual: {user.role}</p>
+
+            <div className="surface-card min-w-[18rem] rounded-[1.8rem] px-5 py-4">
+              <p className="section-label">Resumen</p>
+              <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                {data.projects.length} proyectos visibles
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                Rol actual: {user.role}
+              </p>
             </div>
           </div>
         </header>
 
         <section className="grid gap-6 xl:grid-cols-[0.82fr_1.18fr]">
           {data.canCreateProject ? (
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-6">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
-                <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                  Crear proyecto
-                </p>
-                <h2 className="mt-2 text-3xl font-semibold">Nuevo workspace</h2>
+                <p className="section-label">Crear proyecto</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  Nuevo workspace
+                </h2>
               </div>
 
-              <form action={createProjectAction} className="mt-5 grid gap-4">
+              <form action={createProjectAction} className="mt-6 grid gap-4">
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium">Nombre del proyecto</span>
+                  <span className="text-sm font-medium text-[color:var(--muted-strong)]">
+                    Nombre del proyecto
+                  </span>
                   <input
                     name="name"
                     required
                     placeholder="Ej. Agente de soporte para ecommerce"
-                    className="rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[color:var(--coral)]"
+                    className="premium-input"
                   />
                 </label>
 
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium">Resumen</span>
+                  <span className="text-sm font-medium text-[color:var(--muted-strong)]">
+                    Resumen
+                  </span>
                   <textarea
                     name="summary"
                     rows={3}
                     placeholder="Que se va a construir y para que."
-                    className="rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[color:var(--coral)]"
+                    className="premium-textarea"
                   />
                 </label>
 
                 <label className="grid gap-2">
-                  <span className="text-sm font-medium">Objetivo</span>
+                  <span className="text-sm font-medium text-[color:var(--muted-strong)]">
+                    Objetivo
+                  </span>
                   <textarea
                     name="goal"
                     rows={3}
                     placeholder="Que resultado debe producir el proyecto."
-                    className="rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[color:var(--coral)]"
+                    className="premium-textarea"
                   />
                 </label>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-sm font-medium">Cliente</span>
-                    <select
-                      name="clientProfileId"
-                      defaultValue=""
-                      className="rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[color:var(--coral)]"
-                    >
+                    <span className="text-sm font-medium text-[color:var(--muted-strong)]">
+                      Cliente
+                    </span>
+                    <select name="clientProfileId" defaultValue="" className="premium-select">
                       <option value="">Sin asignar</option>
                       {clients.map((profile) => (
                         <option key={profile.id} value={profile.id}>
@@ -90,11 +102,13 @@ export default async function ProjectsPage() {
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-sm font-medium">Asesor lider</span>
+                    <span className="text-sm font-medium text-[color:var(--muted-strong)]">
+                      Asesor lider
+                    </span>
                     <select
                       name="leadAdvisorProfileId"
                       defaultValue=""
-                      className="rounded-2xl border border-[color:var(--line)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[color:var(--coral)]"
+                      className="premium-select"
                     >
                       <option value="">Sin asignar</option>
                       {advisors.map((profile) => (
@@ -106,41 +120,38 @@ export default async function ProjectsPage() {
                   </label>
                 </div>
 
-                <button
-                  type="submit"
-                  className="rounded-full bg-[color:var(--coral)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[color:var(--ink)]"
-                >
+                <button type="submit" className="premium-button w-full sm:w-fit">
                   Crear proyecto
                 </button>
               </form>
             </article>
           ) : (
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-6">
-              <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                Tu acceso
-              </p>
-              <h2 className="mt-2 text-3xl font-semibold">Vista de cliente</h2>
+            <article className="surface-card rounded-[2.3rem] p-6">
+              <p className="section-label">Tu acceso</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                Vista de cliente
+              </h2>
               <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-                Desde aqui puedes entrar a tus proyectos, revisar tareas, consultar el avance y ver
-                el historial de las sesiones que ya compraste.
+                Desde aqui puedes entrar a tus proyectos, revisar tareas, consultar el avance y
+                ver el historial de las sesiones que ya compraste.
               </p>
             </article>
           )}
 
-          <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-6">
+          <article className="surface-card rounded-[2.3rem] p-6">
             <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                  Lista de proyectos
-                </p>
-                <h2 className="mt-2 text-3xl font-semibold">Tus workspaces</h2>
+                <p className="section-label">Lista de proyectos</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  Tus workspaces
+                </h2>
               </div>
-              <p className="text-sm text-[color:var(--muted)]">{data.projects.length} resultados</p>
+              <span className="chip chip-soft">{data.projects.length} resultados</span>
             </div>
 
-            <div className="mt-5 grid gap-4">
+            <div className="mt-6 grid gap-4">
               {data.projects.length === 0 ? (
-                <div className="rounded-[1.6rem] border border-dashed border-[color:var(--line)] bg-[color:var(--paper)] px-5 py-8 text-center">
+                <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 px-5 py-8 text-center">
                   <p className="text-lg font-medium">Aun no tienes proyectos visibles</p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Cuando se asigne o cree un proyecto, aparecera aqui.
@@ -151,37 +162,37 @@ export default async function ProjectsPage() {
                   <Link
                     key={project.id}
                     href={`/projects/${project.slug}`}
-                    className="rounded-[1.6rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-5 transition hover:-translate-y-[1px] hover:border-[color:var(--ink)]"
+                    className="surface-card-muted rounded-[1.9rem] p-5 transition hover:-translate-y-[1px]"
                   >
-                    <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
-                          {project.status}
-                        </p>
-                        <h3 className="mt-2 text-2xl font-semibold">{project.name}</h3>
+                        <span className="chip chip-soft">{project.status}</span>
+                        <h3 className="mt-4 text-3xl font-semibold tracking-[-0.03em]">
+                          {project.name}
+                        </h3>
                         <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
                           {project.summary || "Proyecto sin resumen aun."}
                         </p>
                       </div>
-                      <div className="rounded-2xl bg-white px-4 py-3 text-right">
-                        <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                      <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white/75 px-4 py-3 text-right">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
                           Progreso
                         </p>
-                        <p className="mt-1 text-2xl font-semibold">{project.progress}%</p>
+                        <p className="mt-2 text-3xl font-semibold">{project.progress}%</p>
                       </div>
                     </div>
 
-                    <div className="mt-4 grid gap-3 text-sm text-[color:var(--muted)] sm:grid-cols-3">
+                    <div className="mt-5 grid gap-3 text-sm text-[color:var(--muted)] sm:grid-cols-3">
                       <p>Tareas: {project.taskCount}</p>
                       <p>Completadas: {project.completedTaskCount}</p>
                       <p>Sesiones agendadas: {project.scheduledSessionCount}</p>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                      <span className="rounded-full bg-[color:var(--gold-soft)] px-3 py-1">
+                    <div className="mt-5 flex flex-wrap gap-3 text-sm">
+                      <span className="chip chip-gold">
                         Cliente: {project.client?.fullName ?? "Sin asignar"}
                       </span>
-                      <span className="rounded-full bg-[color:var(--teal-soft)] px-3 py-1">
+                      <span className="chip chip-cool">
                         Asesor: {project.leadAdvisor?.fullName ?? "Sin asignar"}
                       </span>
                     </div>

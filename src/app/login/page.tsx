@@ -8,51 +8,84 @@ export default async function LoginPage({
   const params = await searchParams;
 
   return (
-    <main className="min-h-screen px-6 py-8 lg:px-10">
-      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <section className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-            Acceso a la plataforma
-          </p>
-          <h1 className="mt-4 font-display text-5xl leading-none">
-            Entra al proyecto y sigue construyendo.
-          </h1>
-          <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-            Cliente y asesor trabajan sobre el mismo proyecto con tareas, sesiones y evidencia en
-            un solo lugar.
-          </p>
+    <main className="site-shell min-h-screen px-6 py-8 lg:px-10">
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+        <section className="glass-panel relative overflow-hidden rounded-[2.5rem] p-8 lg:p-10">
+          <div className="absolute left-8 top-8 h-28 w-28 rounded-full bg-[color:var(--gold)]/18 blur-3xl" />
+          <div className="absolute bottom-6 right-8 h-36 w-36 rounded-full bg-[color:var(--teal)]/14 blur-3xl" />
 
-          <div className="mt-8 grid gap-4 rounded-[1.7rem] bg-[color:var(--paper)] p-5">
-            <div>
-              <p className="text-sm font-semibold">Cuentas demo cargadas</p>
-              <p className="mt-2 text-sm text-[color:var(--muted)]">
-                Password comun para las tres: <span className="font-semibold">demo12345</span>
-              </p>
+          <div className="relative">
+            <div className="eyebrow">Acceso a la plataforma</div>
+            <h1 className="mt-6 max-w-2xl font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+              Entra a una experiencia mas clara, elegante y orientada a resultados.
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
+              Cliente y asesor comparten el mismo proyecto con tareas, sesiones, acuerdos y
+              evidencia conectados en un flujo unico.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                "Dashboard con foco operacional",
+                "Workspaces con trazabilidad real",
+                "Sesiones conectadas al trabajo",
+              ].map((item) => (
+                <article key={item} className="stat-card rounded-[1.7rem] p-5">
+                  <p className="text-sm font-semibold">{item}</p>
+                </article>
+              ))}
             </div>
-            <div className="grid gap-2 text-sm text-[color:var(--muted)]">
-              <p>
-                Admin: <span className="font-medium text-[color:var(--ink)]">admin@hazlotumismo.demo</span>
-              </p>
-              <p>
-                Asesor: <span className="font-medium text-[color:var(--ink)]">advisor@hazlotumismo.demo</span>
-              </p>
-              <p>
-                Cliente: <span className="font-medium text-[color:var(--ink)]">client@hazlotumismo.demo</span>
-              </p>
+
+            <div className="dark-panel mt-8 rounded-[2rem] p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
+                    Cuentas demo
+                  </p>
+                  <h2 className="mt-2 text-2xl font-semibold">Accesos listos para explorar</h2>
+                </div>
+                <span className="chip chip-gold">Password: demo12345</span>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                {[
+                  {
+                    label: "Admin",
+                    email: "admin@hazlotumismo.demo",
+                  },
+                  {
+                    label: "Asesor",
+                    email: "advisor@hazlotumismo.demo",
+                  },
+                  {
+                    label: "Cliente",
+                    email: "client@hazlotumismo.demo",
+                  },
+                ].map((account) => (
+                  <article
+                    key={account.email}
+                    className="rounded-[1.5rem] border border-white/10 bg-white/6 p-4"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">
+                      {account.label}
+                    </p>
+                    <p className="mt-3 text-sm font-medium text-white">{account.email}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-            Login
-          </p>
-          <h2 className="mt-4 text-3xl font-semibold">Accede a tu cuenta</h2>
-          <p className="mt-3 text-base leading-7 text-[color:var(--muted)]">
-            Usa tus credenciales para entrar a tus proyectos, sesiones o al panel administrativo.
+        <section className="surface-card rounded-[2.5rem] p-8 lg:p-10">
+          <p className="section-label">Login</p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.03em]">Accede a tu cuenta</h2>
+          <p className="mt-3 max-w-lg text-base leading-7 text-[color:var(--muted)]">
+            Usa tus credenciales para entrar a tus proyectos, sesiones o al panel administrativo
+            dentro de la nueva experiencia visual.
           </p>
 
-          <div className="mt-6">
+          <div className="mt-8 rounded-[1.9rem] border border-[color:var(--line)] bg-white/60 p-5">
             <LoginForm callbackUrl={params.callbackUrl} />
           </div>
         </section>

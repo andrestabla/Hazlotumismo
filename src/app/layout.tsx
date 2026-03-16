@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, Space_Grotesk } from "next/font/google";
+import { Manrope, Newsreader } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const manrope = Manrope({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
+const newsreader = Newsreader({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${spaceGrotesk.variable} ${fraunces.variable} antialiased`}>
+      <body className={`${manrope.variable} ${newsreader.variable} antialiased`}>
         {children}
       </body>
     </html>

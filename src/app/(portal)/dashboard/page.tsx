@@ -78,21 +78,49 @@ export default async function DashboardPage() {
     0,
   );
 
+  const dashboardStats = [
+    {
+      label: "Proyectos activos",
+      value: `${activeProjects}`,
+      detail: `${visibleProjects.length} visibles en total`,
+    },
+    {
+      label: "Tareas completadas",
+      value: `${completedTasks}`,
+      detail: `${allTasks.length - completedTasks} siguen abiertas`,
+    },
+    {
+      label: "Sesiones programadas",
+      value: `${upcomingSessions.length}`,
+      detail: `${sessionsData.sessions.length} sesiones visibles`,
+    },
+  ];
+
   return (
-    <main className="min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="rounded-[2rem] border border-[color:var(--line)] bg-white/80 p-6 backdrop-blur">
-          <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">Dashboard</p>
-          <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="font-display text-5xl leading-none">Operacion del proyecto en un vistazo</h1>
-              <p className="mt-4 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
-                Sigue el avance, detecta bloqueos y entra directo a tus proyectos, sesiones y tareas mas importantes.
+        <header className="glass-panel relative overflow-hidden rounded-[2.6rem] p-6 lg:p-7">
+          <div className="absolute -left-8 top-8 h-28 w-28 rounded-full bg-[color:var(--gold)]/16 blur-3xl" />
+          <div className="absolute right-6 top-10 h-36 w-36 rounded-full bg-[color:var(--teal)]/12 blur-3xl" />
+
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-4xl">
+              <div className="eyebrow">Dashboard</div>
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+                Operacion del proyecto en un vistazo
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
+                Sigue el avance, detecta bloqueos y entra directo a tus proyectos, sesiones y
+                tareas mas importantes dentro de una experiencia mucho mas limpia y profesional.
               </p>
             </div>
-            <div className="rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-3 text-sm">
-              <p className="font-medium">{user.name ?? "Usuario"}</p>
-              <p className="text-[color:var(--muted)]">
+
+            <div className="surface-card min-w-[18rem] rounded-[1.8rem] px-5 py-4">
+              <p className="section-label">Tu contexto</p>
+              <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                {user.name ?? "Usuario"}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                 Rol actual: {roleLabels[user.role]} · {visibleProjects.length} proyectos visibles
               </p>
             </div>
@@ -100,96 +128,89 @@ export default async function DashboardPage() {
         </header>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Proyectos activos</p>
-            <p className="mt-3 text-3xl font-semibold">{activeProjects}</p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">
-              {visibleProjects.length} visibles en total
+          {dashboardStats.map((stat) => (
+            <article key={stat.label} className="stat-card rounded-[1.9rem] p-5">
+              <p className="section-label">{stat.label}</p>
+              <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{stat.value}</p>
+              <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{stat.detail}</p>
+            </article>
+          ))}
+
+          <article className="dark-panel rounded-[1.9rem] p-5">
+            <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
+              Saldo disponible
             </p>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Tareas completadas</p>
-            <p className="mt-3 text-3xl font-semibold">{completedTasks}</p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">
-              {allTasks.length - completedTasks} siguen abiertas
-            </p>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-white p-5">
-            <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Sesiones programadas</p>
-            <p className="mt-3 text-3xl font-semibold">{upcomingSessions.length}</p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">
-              {sessionsData.sessions.length} sesiones visibles
-            </p>
-          </article>
-          <article className="card-shadow rounded-[1.8rem] border border-[color:var(--line)] bg-[color:var(--ink)] p-5 text-[color:var(--paper-strong)]">
-            <p className="text-xs uppercase tracking-[0.28em] text-white/65">Saldo disponible</p>
-            <p className="mt-3 text-3xl font-semibold">{remainingSessions}</p>
-            <p className="mt-2 text-sm text-white/75">
-              sesiones restantes en compras registradas
+            <p className="mt-4 text-3xl font-semibold">{remainingSessions}</p>
+            <p className="mt-3 text-sm leading-6 text-white/72">
+              Sesiones restantes en compras registradas.
             </p>
           </article>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <section className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
           <div className="grid gap-6">
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-6">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Proyectos recientes</p>
-                  <h2 className="mt-2 text-3xl font-semibold">Tus workspaces</h2>
+                  <p className="section-label">Proyectos recientes</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Tus workspaces
+                  </h2>
                 </div>
-                <Link
-                  href="/projects"
-                  className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
-                >
+                <Link href="/projects" className="premium-button premium-button-secondary px-4 py-2.5">
                   Ver todos
                 </Link>
               </div>
 
-              <div className="mt-5 grid gap-4">
+              <div className="mt-6 grid gap-4">
                 {visibleProjects.slice(0, 3).map((project) => (
                   <Link
                     key={project.id}
                     href={`/projects/${project.slug}`}
-                    className="rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-4 transition hover:-translate-y-[1px] hover:border-[color:var(--ink)]"
+                    className="surface-card-muted rounded-[1.8rem] p-5 transition hover:-translate-y-[1px]"
                   >
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div>
-                        <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                          {project.status}
-                        </p>
-                        <h3 className="mt-2 text-xl font-semibold">{project.name}</h3>
-                        <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
+                        <span className="chip chip-soft">{project.status}</span>
+                        <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em]">
+                          {project.name}
+                        </h3>
+                        <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
                           {project.summary || "Proyecto sin resumen todavia."}
                         </p>
                       </div>
-                      <span className="rounded-2xl bg-white px-3 py-2 text-sm font-medium">
-                        {project.progress}%
-                      </span>
+                      <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 px-4 py-3 text-right">
+                        <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                          Progreso
+                        </p>
+                        <p className="mt-2 text-3xl font-semibold">{project.progress}%</p>
+                      </div>
                     </div>
                   </Link>
                 ))}
 
                 {visibleProjects.length === 0 ? (
-                  <div className="rounded-[1.5rem] border border-dashed border-[color:var(--line)] bg-[color:var(--paper)] p-4 text-sm text-[color:var(--muted)]">
+                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
                     No tienes proyectos visibles todavia.
                   </div>
                 ) : null}
               </div>
             </article>
 
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-6">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Foco</p>
-                  <h2 className="mt-2 text-3xl font-semibold">Tareas a mover</h2>
+                  <p className="section-label">Foco</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Tareas a mover
+                  </h2>
                 </div>
-                <span className="text-sm text-[color:var(--muted)]">{pendingTasks.length} destacadas</span>
+                <span className="chip chip-soft">{pendingTasks.length} destacadas</span>
               </div>
 
-              <div className="mt-5 space-y-4">
+              <div className="mt-6 space-y-4">
                 {pendingTasks.length === 0 ? (
-                  <div className="rounded-[1.5rem] border border-dashed border-[color:var(--line)] bg-white p-4 text-sm text-[color:var(--muted)]">
+                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
                     No hay tareas pendientes destacadas.
                   </div>
                 ) : (
@@ -197,16 +218,18 @@ export default async function DashboardPage() {
                     <Link
                       key={task.id}
                       href={`/projects/${task.projectSlug}`}
-                      className="block rounded-[1.5rem] border border-[color:var(--line)] bg-white p-4 transition hover:border-[color:var(--ink)]"
+                      className="surface-card-muted block rounded-[1.8rem] p-5 transition hover:-translate-y-[1px]"
                     >
-                      <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                        <span>{task.projectName}</span>
-                        <span>{task.status}</span>
-                        <span>{task.priority}</span>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="chip chip-soft">{task.projectName}</span>
+                        <span className="chip chip-gold">{task.status}</span>
+                        <span className="chip chip-warm">{task.priority}</span>
                       </div>
-                      <h3 className="mt-3 text-lg font-semibold">{task.title}</h3>
-                      <p className="mt-2 text-sm text-[color:var(--muted)]">
-                        Fecha objetivo: {task.dueDate ?? "Sin fecha"}
+                      <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em]">
+                        {task.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                        Fecha objetivo: {formatDate(task.dueDate)}
                       </p>
                     </Link>
                   ))
@@ -216,37 +239,37 @@ export default async function DashboardPage() {
           </div>
 
           <aside className="grid gap-6">
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-6">
+            <article className="surface-card rounded-[2.3rem] p-6">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Agenda</p>
-                  <h2 className="mt-2 text-3xl font-semibold">Proximas sesiones</h2>
+                  <p className="section-label">Agenda</p>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                    Proximas sesiones
+                  </h2>
                 </div>
-                <Link
-                  href="/sessions"
-                  className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
-                >
+                <Link href="/sessions" className="premium-button premium-button-secondary px-4 py-2.5">
                   Ver sesiones
                 </Link>
               </div>
 
-              <div className="mt-5 space-y-4">
+              <div className="mt-6 space-y-4">
                 {upcomingSessions.length === 0 ? (
-                  <div className="rounded-[1.5rem] border border-dashed border-[color:var(--line)] bg-[color:var(--paper)] p-4 text-sm text-[color:var(--muted)]">
+                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
                     No hay sesiones programadas en este momento.
                   </div>
                 ) : (
                   upcomingSessions.map((session) => (
                     <article
                       key={session.id}
-                      className="rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-4"
+                      className="surface-card-muted rounded-[1.8rem] p-5"
                     >
-                      <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                        {session.project.name}
-                      </p>
-                      <h3 className="mt-2 text-lg font-semibold">{session.title}</h3>
-                      <p className="mt-2 text-sm text-[color:var(--muted)]">
-                        {formatDate(session.scheduledFor)} · {meetingProviderLabels[session.meetingProvider]}
+                      <span className="chip chip-soft">{session.project.name}</span>
+                      <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em]">
+                        {session.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                        {formatDate(session.scheduledFor)} ·{" "}
+                        {meetingProviderLabels[session.meetingProvider]}
                       </p>
                     </article>
                   ))
@@ -254,10 +277,14 @@ export default async function DashboardPage() {
               </div>
             </article>
 
-            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-6">
-              <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Siguiente accion</p>
-              <h2 className="mt-2 text-3xl font-semibold">Ruta recomendada</h2>
-              <div className="mt-5 space-y-3 text-sm leading-6 text-[color:var(--muted)]">
+            <article className="dark-panel rounded-[2.3rem] p-6">
+              <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
+                Siguiente accion
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                Ruta recomendada
+              </h2>
+              <div className="mt-5 space-y-3 text-sm leading-6 text-white/72">
                 <p>
                   {isClientRole(user.role)
                     ? "Revisa el avance de tus proyectos, compra nuevas sesiones si el saldo se acerca a cero y valida la evidencia registrada."
@@ -265,29 +292,21 @@ export default async function DashboardPage() {
                 </p>
                 {isAdminRole(user.role) ? (
                   <p>
-                    Como admin, tambien puedes revisar usuarios inactivos, paquetes deshabilitados y resembrar el demo desde el panel administrativo.
+                    Como admin, tambien puedes revisar usuarios inactivos, paquetes deshabilitados
+                    y resembrar el demo desde el panel administrativo.
                   </p>
                 ) : null}
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/projects"
-                  className="rounded-full bg-[color:var(--coral)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[color:var(--ink)]"
-                >
+                <Link href="/projects" className="premium-button px-4 py-2.5">
                   Ir a proyectos
                 </Link>
-                <Link
-                  href="/sessions"
-                  className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
-                >
+                <Link href="/sessions" className="premium-button premium-button-secondary px-4 py-2.5">
                   Ir a sesiones
                 </Link>
                 {isAdminRole(user.role) ? (
-                  <Link
-                    href="/admin"
-                    className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
-                  >
+                  <Link href="/admin" className="premium-button premium-button-secondary px-4 py-2.5">
                     Ir a admin
                   </Link>
                 ) : null}

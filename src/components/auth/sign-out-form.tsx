@@ -10,7 +10,7 @@ export function SignOutForm() {
     >
       <button
         type="submit"
-        className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)] hover:bg-white"
+        className="premium-button premium-button-secondary px-4 py-2.5"
       >
         Salir
       </button>

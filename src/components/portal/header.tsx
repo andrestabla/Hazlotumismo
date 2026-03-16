@@ -14,39 +14,46 @@ export async function PortalHeader() {
   const user = session?.user;
 
   return (
-    <header className="sticky top-0 z-30 border-b border-[color:var(--line)] bg-[color:var(--paper-strong)]/92 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-        <div>
-          <Link href="/" className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-            Hazlo tu mismo
-          </Link>
-          <p className="mt-1 font-display text-2xl">Acompanamiento no code e IA</p>
+    <header className="sticky top-0 z-40 px-6 py-4 lg:px-10">
+      <div className="glass-panel mx-auto flex w-full max-w-7xl flex-col gap-4 rounded-[2rem] px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-[color:var(--paper-strong)]">
+            HT
+          </div>
+          <div>
+            <Link href="/" className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
+              Hazlo tu mismo
+            </Link>
+            <p className="mt-1 text-sm font-medium text-[color:var(--ink-soft)]">
+              Portal de proyectos, sesiones y evidencia
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <nav className="flex flex-wrap gap-2 text-sm">
             <Link
               href="/dashboard"
-              className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
+              className="premium-button premium-button-secondary px-4 py-2.5"
             >
               Dashboard
             </Link>
             <Link
               href="/projects"
-              className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
+              className="premium-button premium-button-secondary px-4 py-2.5"
             >
               Mis proyectos
             </Link>
             <Link
               href="/sessions"
-              className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
+              className="premium-button premium-button-secondary px-4 py-2.5"
             >
               Mis sesiones
             </Link>
             {user && isAdminRole(user.role) ? (
               <Link
                 href="/admin"
-                className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
+                className="premium-button premium-button-secondary px-4 py-2.5"
               >
                 Admin
               </Link>
@@ -54,7 +61,7 @@ export async function PortalHeader() {
           </nav>
 
           {user ? (
-            <div className="flex flex-col gap-3 rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-3 sm:flex-row sm:items-center">
+            <div className="surface-card flex flex-col gap-3 rounded-[1.4rem] px-4 py-3 sm:flex-row sm:items-center">
               <div className="text-sm">
                 <p className="font-medium">{user.name ?? "Usuario"}</p>
                 <p className="text-[color:var(--muted)]">
@@ -64,10 +71,7 @@ export async function PortalHeader() {
               <SignOutForm />
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="rounded-full bg-[color:var(--ink)] px-4 py-2 text-sm font-medium text-[color:var(--paper-strong)]"
-            >
+            <Link href="/login" className="premium-button px-4 py-2.5">
               Iniciar sesion
             </Link>
           )}
