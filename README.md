@@ -130,3 +130,12 @@ npm run dev
 ```
 
 La app inicial queda servida en `http://localhost:3000`.
+
+## Base de datos con Neon
+
+1. Define `DATABASE_URL` en Vercel y en tu entorno local.
+2. Genera o actualiza migraciones con `npm run db:generate`.
+3. Aplica el esquema a Neon con `npm run db:push`.
+4. Verifica la conexion con `GET /api/health/db`.
+
+Puedes usar [`.env.example`](./.env.example) como referencia para las variables.
