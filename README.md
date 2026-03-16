@@ -144,8 +144,16 @@ npm run db:seed
 ## Base de datos con Neon
 
 1. Define `DATABASE_URL` en Vercel y en tu entorno local.
-2. Genera o actualiza migraciones con `npm run db:generate`.
-3. Aplica el esquema a Neon con `npm run db:push`.
-4. Verifica la conexion con `GET /api/health/db`.
+2. Define `AUTH_SECRET` para el modulo de login.
+3. Genera o actualiza migraciones con `npm run db:generate`.
+4. Aplica el esquema a Neon con `npm run db:push`.
+5. Verifica la conexion con `GET /api/health/db`.
 
 Puedes usar [`.env.example`](./.env.example) como referencia para las variables.
+
+## Accesos demo
+
+- Admin: `admin@hazlotumismo.demo`
+- Asesor: `advisor@hazlotumismo.demo`
+- Cliente: `client@hazlotumismo.demo`
+- Password comun: `demo12345`

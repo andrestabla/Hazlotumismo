@@ -1,3 +1,4 @@
+import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { getDb } from "./index";
 import {
@@ -14,6 +15,7 @@ import {
 export async function seedDemoWorkspace() {
   const db = getDb();
   const now = new Date();
+  const demoPasswordHash = await hash("demo12345", 10);
 
   const [advisor] = await db
     .insert(profiles)
@@ -21,6 +23,8 @@ export async function seedDemoWorkspace() {
       authUserId: "demo-advisor",
       fullName: "Andrea Mentor",
       email: "advisor@hazlotumismo.demo",
+      passwordHash: demoPasswordHash,
+      isActive: true,
       role: "advisor",
       updatedAt: now,
     })
@@ -29,6 +33,8 @@ export async function seedDemoWorkspace() {
       set: {
         fullName: "Andrea Mentor",
         email: "advisor@hazlotumismo.demo",
+        passwordHash: demoPasswordHash,
+        isActive: true,
         role: "advisor",
         updatedAt: now,
       },
@@ -41,6 +47,8 @@ export async function seedDemoWorkspace() {
       authUserId: "demo-client",
       fullName: "Emilia Rojas",
       email: "client@hazlotumismo.demo",
+      passwordHash: demoPasswordHash,
+      isActive: true,
       role: "client",
       updatedAt: now,
     })
@@ -49,6 +57,8 @@ export async function seedDemoWorkspace() {
       set: {
         fullName: "Emilia Rojas",
         email: "client@hazlotumismo.demo",
+        passwordHash: demoPasswordHash,
+        isActive: true,
         role: "client",
         updatedAt: now,
       },
@@ -61,6 +71,8 @@ export async function seedDemoWorkspace() {
       authUserId: "demo-admin",
       fullName: "Hazlo Admin",
       email: "admin@hazlotumismo.demo",
+      passwordHash: demoPasswordHash,
+      isActive: true,
       role: "admin",
       updatedAt: now,
     })
@@ -69,6 +81,8 @@ export async function seedDemoWorkspace() {
       set: {
         fullName: "Hazlo Admin",
         email: "admin@hazlotumismo.demo",
+        passwordHash: demoPasswordHash,
+        isActive: true,
         role: "admin",
         updatedAt: now,
       },

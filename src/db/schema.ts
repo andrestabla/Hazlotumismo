@@ -67,6 +67,8 @@ export const profiles = pgTable(
     authUserId: varchar("auth_user_id", { length: 191 }).notNull().unique(),
     fullName: varchar("full_name", { length: 191 }).notNull(),
     email: varchar("email", { length: 255 }).notNull(),
+    passwordHash: text("password_hash"),
+    isActive: boolean("is_active").notNull().default(true),
     role: profileRoleEnum("role").notNull().default("client"),
     ...timestamps,
   },

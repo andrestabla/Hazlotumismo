@@ -78,10 +78,10 @@ export default function Home() {
               <p className="font-display text-lg">Proyectos no code e IA con trazabilidad</p>
             </div>
             <Link
-              href="/workspace"
+              href="/dashboard"
               className="rounded-full bg-[color:var(--ink)] px-4 py-2 text-sm font-medium text-[color:var(--paper-strong)] transition hover:bg-[color:var(--coral)]"
             >
-              Entrar al workspace
+              Entrar a la plataforma
             </Link>
           </header>
 
@@ -99,10 +99,10 @@ export default function Home() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="/workspace"
+                  href="/dashboard"
                   className="rounded-full bg-[color:var(--coral)] px-6 py-3 text-sm font-semibold text-white transition hover:translate-y-[-1px] hover:bg-[color:var(--ink)]"
                 >
-                  Abrir workspace
+                  Ir a mis modulos
                 </Link>
                 <Link
                   href="/workspace/demo"

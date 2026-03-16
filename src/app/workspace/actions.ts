@@ -1,12 +1,26 @@
 "use server";
 
+import { hash } from "bcryptjs";
 import { count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { getDb } from "@/db";
 import { seedDemoWorkspace } from "@/db/seed-demo";
+import { isProjectMember } from "@/db/portal";
 import { findProjectSlugsStartingWith } from "@/db/workspace";
-import { projectMembers, projects, purchases, sessions, taskEvidence, tasks } from "@/db/schema";
+import {
+  profiles,
+  projectMembers,
+  projects,
+  purchases,
+  sessionPackages,
+  sessions,
+  taskEvidence,
+  tasks,
+} from "@/db/schema";
+import type { AppSessionUser } from "@/lib/auth/session";
+import { isAdminRole, isAdvisorRole, isAppRole } from "@/lib/auth/roles";
 import { slugify } from "@/lib/slugify";
 
 function readString(formData: FormData, key: string) {
@@ -17,6 +31,34 @@ function readString(formData: FormData, key: string) {
 function readOptionalString(formData: FormData, key: string) {
   const value = readString(formData, key);
   return value.length > 0 ? value : null;
+}
+
+async function requireActionUser() {
+  const session = await auth();
+
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  return session.user as AppSessionUser;
+}
+
+function assertCanCreateProject(user: AppSessionUser) {
+  if (!isAdvisorRole(user.role)) {
+    throw new Error("Only advisors or admins can create projects");
+  }
+}
+
+async function assertProjectAccess(user: AppSessionUser, projectId: string) {
+  if (isAdminRole(user.role)) {
+    return;
+  }
+
+  const canAccess = await isProjectMember(user.id, projectId);
+
+  if (!canAccess) {
+    throw new Error("Forbidden");
+  }
 }
 
 async function createUniqueProjectSlug(name: string) {
@@ -37,12 +79,17 @@ async function createUniqueProjectSlug(name: string) {
 }
 
 export async function createProjectAction(formData: FormData) {
+  const user = await requireActionUser();
+  assertCanCreateProject(user);
+
   const db = getDb();
   const name = readString(formData, "name");
   const summary = readOptionalString(formData, "summary");
   const goal = readOptionalString(formData, "goal");
   const clientProfileId = readOptionalString(formData, "clientProfileId");
-  const leadAdvisorProfileId = readOptionalString(formData, "leadAdvisorProfileId");
+  const selectedLeadAdvisorProfileId = readOptionalString(formData, "leadAdvisorProfileId");
+  const leadAdvisorProfileId =
+    selectedLeadAdvisorProfileId ?? (user.role === "advisor" ? user.id : null);
 
   if (!name) {
     throw new Error("Project name is required");
@@ -65,6 +112,11 @@ export async function createProjectAction(formData: FormData) {
     .returning();
 
   const memberships = [
+    {
+      projectId: project.id,
+      profileId: user.id,
+      role: isAdminRole(user.role) ? ("owner" as const) : ("advisor" as const),
+    },
     clientProfileId
       ? {
           projectId: project.id,
@@ -79,8 +131,11 @@ export async function createProjectAction(formData: FormData) {
           role: "advisor" as const,
         }
       : null,
-  ].filter((item): item is { projectId: string; profileId: string; role: "advisor" | "client" } =>
-    Boolean(item),
+  ].filter(
+    (
+      item,
+    ): item is { projectId: string; profileId: string; role: "owner" | "advisor" | "client" } =>
+      Boolean(item),
   );
 
   if (memberships.length > 0) {
@@ -92,6 +147,7 @@ export async function createProjectAction(formData: FormData) {
 }
 
 export async function createTaskAction(formData: FormData) {
+  const user = await requireActionUser();
   const db = getDb();
   const projectId = readString(formData, "projectId");
   const projectSlug = readString(formData, "projectSlug");
@@ -108,6 +164,8 @@ export async function createTaskAction(formData: FormData) {
     throw new Error("Missing task context");
   }
 
+  await assertProjectAccess(user, projectId);
+
   const [positionRow] = await db
     .select({ value: count() })
     .from(tasks)
@@ -121,6 +179,7 @@ export async function createTaskAction(formData: FormData) {
     dueDate,
     priority,
     status: "todo",
+    createdByProfileId: user.id,
     position: Number(positionRow?.value ?? 0) + 1,
     updatedAt: new Date(),
   });
@@ -129,9 +188,11 @@ export async function createTaskAction(formData: FormData) {
 }
 
 export async function updateTaskWorkflowAction(formData: FormData) {
+  const user = await requireActionUser();
   const db = getDb();
   const taskId = readString(formData, "taskId");
   const projectSlug = readString(formData, "projectSlug");
+  const projectId = readString(formData, "projectId");
   const status = readString(formData, "status") as
     | "backlog"
     | "todo"
@@ -140,9 +201,11 @@ export async function updateTaskWorkflowAction(formData: FormData) {
     | "done";
   const priority = readString(formData, "priority") as "low" | "medium" | "high";
 
-  if (!taskId || !projectSlug) {
+  if (!taskId || !projectSlug || !projectId) {
     throw new Error("Missing task action context");
   }
+
+  await assertProjectAccess(user, projectId);
 
   await db
     .update(tasks)
@@ -157,9 +220,11 @@ export async function updateTaskWorkflowAction(formData: FormData) {
 }
 
 export async function addEvidenceAction(formData: FormData) {
+  const user = await requireActionUser();
   const db = getDb();
   const taskId = readString(formData, "taskId");
   const projectSlug = readString(formData, "projectSlug");
+  const projectId = readString(formData, "projectId");
   const title = readString(formData, "title");
   const content = readOptionalString(formData, "content");
   const url = readOptionalString(formData, "url");
@@ -169,9 +234,11 @@ export async function addEvidenceAction(formData: FormData) {
     | "note"
     | "checklist";
 
-  if (!taskId || !projectSlug || !title) {
+  if (!taskId || !projectSlug || !projectId || !title) {
     throw new Error("Missing evidence context");
   }
+
+  await assertProjectAccess(user, projectId);
 
   await db.insert(taskEvidence).values({
     taskId,
@@ -179,12 +246,14 @@ export async function addEvidenceAction(formData: FormData) {
     content,
     url,
     type,
+    createdByProfileId: user.id,
   });
 
   revalidatePath(`/workspace/${projectSlug}`);
 }
 
 export async function createSessionAction(formData: FormData) {
+  const user = await requireActionUser();
   const db = getDb();
   const projectId = readString(formData, "projectId");
   const projectSlug = readString(formData, "projectSlug");
@@ -200,6 +269,8 @@ export async function createSessionAction(formData: FormData) {
   if (!projectId || !projectSlug || !title || !advisorProfileId || !clientProfileId) {
     throw new Error("Missing session context");
   }
+
+  await assertProjectAccess(user, projectId);
 
   const selectedPurchase = purchaseId
     ? await db.query.purchases.findFirst({
@@ -239,7 +310,215 @@ export async function createSessionAction(formData: FormData) {
 }
 
 export async function seedWorkspaceAction() {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role)) {
+    throw new Error("Only admins can seed demo data");
+  }
+
   const projectSlug = await seedDemoWorkspace();
   revalidatePath("/workspace");
   redirect(`/workspace/${projectSlug}`);
+}
+
+export async function purchaseSessionPackageAction(formData: FormData) {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role) && user.role !== "client") {
+    throw new Error("Only clients or admins can register purchases");
+  }
+
+  const db = getDb();
+  const projectId = readString(formData, "projectId");
+  const sessionPackageId = readString(formData, "sessionPackageId");
+  const selectedClientProfileId = readOptionalString(formData, "clientProfileId");
+
+  if (!projectId || !sessionPackageId) {
+    throw new Error("Missing purchase context");
+  }
+
+  if (!isAdminRole(user.role)) {
+    await assertProjectAccess(user, projectId);
+  }
+
+  const sessionPackage = await db.query.sessionPackages.findFirst({
+    where: eq(sessionPackages.id, sessionPackageId),
+  });
+
+  if (!sessionPackage) {
+    throw new Error("Package not found");
+  }
+
+  const clientProfileId = isAdminRole(user.role) ? selectedClientProfileId : user.id;
+
+  if (!clientProfileId) {
+    throw new Error("A client is required for the purchase");
+  }
+
+  await db.insert(purchases).values({
+    projectId,
+    clientProfileId,
+    sessionPackageId,
+    paymentProvider: "manual",
+    paymentReference: `manual-${Date.now()}`,
+    status: "paid",
+    sessionsTotal: sessionPackage.sessionCount,
+    sessionsRemaining: sessionPackage.sessionCount,
+  });
+
+  revalidatePath("/sessions");
+  revalidatePath("/admin");
+  revalidatePath("/projects");
+}
+
+export async function updateSessionStatusAction(formData: FormData) {
+  const user = await requireActionUser();
+  const db = getDb();
+  const sessionId = readString(formData, "sessionId");
+  const projectSlug = readOptionalString(formData, "projectSlug");
+  const status = readString(formData, "status") as
+    | "scheduled"
+    | "completed"
+    | "cancelled"
+    | "no_show";
+  const notes = readOptionalString(formData, "notes");
+
+  if (!sessionId) {
+    throw new Error("Missing session id");
+  }
+
+  const sessionRecord = await db.query.sessions.findFirst({
+    where: eq(sessions.id, sessionId),
+  });
+
+  if (!sessionRecord) {
+    throw new Error("Session not found");
+  }
+
+  if (
+    !isAdminRole(user.role) &&
+    sessionRecord.advisorProfileId !== user.id &&
+    sessionRecord.clientProfileId !== user.id
+  ) {
+    throw new Error("Forbidden");
+  }
+
+  if (sessionRecord.purchaseId) {
+    const purchase = await db.query.purchases.findFirst({
+      where: eq(purchases.id, sessionRecord.purchaseId),
+    });
+
+    if (purchase) {
+      if (sessionRecord.status !== "cancelled" && status === "cancelled") {
+        await db
+          .update(purchases)
+          .set({
+            sessionsRemaining: purchase.sessionsRemaining + 1,
+            updatedAt: new Date(),
+          })
+          .where(eq(purchases.id, purchase.id));
+      }
+
+      if (sessionRecord.status === "cancelled" && status === "scheduled") {
+        if (purchase.sessionsRemaining <= 0) {
+          throw new Error("The purchase has no remaining sessions");
+        }
+
+        await db
+          .update(purchases)
+          .set({
+            sessionsRemaining: purchase.sessionsRemaining - 1,
+            updatedAt: new Date(),
+          })
+          .where(eq(purchases.id, purchase.id));
+      }
+    }
+  }
+
+  await db
+    .update(sessions)
+    .set({
+      status,
+      notes,
+      updatedAt: new Date(),
+    })
+    .where(eq(sessions.id, sessionId));
+
+  revalidatePath("/sessions");
+
+  if (projectSlug) {
+    revalidatePath(`/projects/${projectSlug}`);
+    revalidatePath(`/workspace/${projectSlug}`);
+  }
+}
+
+export async function createUserAction(formData: FormData) {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role)) {
+    throw new Error("Only admins can create users");
+  }
+
+  const db = getDb();
+  const fullName = readString(formData, "fullName");
+  const email = readString(formData, "email").toLowerCase();
+  const password = readString(formData, "password");
+  const role = readString(formData, "role");
+
+  if (!fullName || !email || !password || !isAppRole(role)) {
+    throw new Error("Invalid user payload");
+  }
+
+  const existingProfile = await db.query.profiles.findFirst({
+    where: eq(profiles.email, email),
+  });
+
+  if (existingProfile) {
+    throw new Error("A user with that email already exists");
+  }
+
+  const passwordHash = await hash(password, 10);
+
+  await db.insert(profiles).values({
+    authUserId: email,
+    fullName,
+    email,
+    passwordHash,
+    role,
+    isActive: true,
+  });
+
+  revalidatePath("/admin");
+}
+
+export async function createSessionPackageAction(formData: FormData) {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role)) {
+    throw new Error("Only admins can create packages");
+  }
+
+  const db = getDb();
+  const name = readString(formData, "name");
+  const description = readOptionalString(formData, "description");
+  const sessionCount = Number(readString(formData, "sessionCount"));
+  const durationMinutes = Number(readString(formData, "durationMinutes"));
+  const priceDollars = Number(readString(formData, "priceDollars"));
+
+  if (!name || !sessionCount || !durationMinutes || !priceDollars) {
+    throw new Error("Invalid package payload");
+  }
+
+  await db.insert(sessionPackages).values({
+    name,
+    description,
+    sessionCount,
+    durationMinutes,
+    priceCents: Math.round(priceDollars * 100),
+    currency: "USD",
+    isActive: true,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/sessions");
 }
