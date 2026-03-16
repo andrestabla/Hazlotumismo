@@ -1,92 +1,175 @@
 import Link from "next/link";
+import { InvestmentSimulator } from "@/components/home/investment-simulator";
 
-const pillars = [
+const pains = [
   {
-    title: "Operacion compartida",
+    title: "La barrera no son las herramientas",
     description:
-      "Cliente y asesor trabajan dentro del mismo contexto, con decisiones, alcance y prioridades visibles en todo momento.",
+      "El problema suele ser saber que conectar primero, como priorizar y donde aterrizar cada decision sin perder semanas.",
   },
   {
-    title: "Sesiones con continuidad",
+    title: "WhatsApp no es una metodologia",
     description:
-      "Cada sesion aterriza en trabajo concreto: tareas activas, agenda clara y evidencia que mantiene el proyecto en movimiento.",
+      "Cuando todo vive entre mensajes, videollamadas y notas sueltas, el proyecto se siente avanzado pero no se convierte en un producto.",
   },
   {
-    title: "Memoria del proyecto",
+    title: "La dependencia tecnica frena la velocidad",
     description:
-      "Notas, entregables y acuerdos quedan conectados al flujo para que el avance no dependa de conversaciones dispersas.",
+      "Esperar a TI o tercerizar por completo reduce el control del negocio sobre su propia operacion digital.",
   },
 ];
 
-const phases = [
+const workflow = [
   {
     step: "01",
-    title: "Onboarding claro",
+    title: "Define tu meta",
     description:
-      "Se define objetivo, alcance y responsables desde el primer ingreso al workspace.",
+      "Eliges que quieres construir: agente de IA, automatizacion, web comercial o sistema interno.",
   },
   {
     step: "02",
-    title: "Compra y agenda",
+    title: "Adquiere tus horas",
     description:
-      "Las sesiones se venden como capacidad real de trabajo y se reservan sobre disponibilidad visible.",
+      "Compras un paquete de sesiones para trabajar con una capacidad clara y un alcance visible.",
   },
   {
     step: "03",
-    title: "Ejecucion guiada",
+    title: "Co-creacion en vivo",
     description:
-      "Cada videollamada ocurre dentro del flujo del producto y deja acuerdos accionables.",
+      "Trabajas con tu asesor por Meet o Zoom mientras el producto se mueve en tiempo real.",
   },
   {
     step: "04",
-    title: "Seguimiento continuo",
+    title: "Trazabilidad total",
     description:
-      "Tablero, evidencia y proximos pasos convierten el acompanamiento en progreso observable.",
+      "Apruebas entregables, sigues tareas y dejas evidencia dentro del mismo tablero del proyecto.",
   },
 ];
 
-const projectTypes = [
-  "Chatbots con IA",
-  "Agentes operativos",
-  "Embudos y automatizaciones",
-  "Sitios de conversion",
-  "Email marketing",
-  "Flujos internos",
-];
-
-const modules = [
-  "Autenticacion y permisos",
-  "Workspace por cliente",
-  "Kanban colaborativo",
-  "Compra de sesiones",
-  "Agenda y Meet",
-  "Notas y evidencia",
-];
-
-const stats = [
+const useCases = [
   {
-    value: "1 solo flujo",
-    label: "Compra, agenda, ejecucion y seguimiento sin cambiar de contexto.",
+    title: "Asistente virtual para ventas",
+    description:
+      "Un chatbot entrenado para calificar leads, responder objeciones y activar la siguiente accion comercial.",
+    tools: ["OpenAI", "Make", "WhatsApp"],
+    state: "Listo para conversaciones reales",
+    accent: "border-l-[color:var(--accent)]",
   },
   {
-    value: "68% visible",
-    label: "El progreso deja de ser una percepcion y se vuelve una senal concreta.",
+    title: "Sitio web con IA integrada",
+    description:
+      "Una pagina de conversion conectada con formularios, contenido dinamico y automatizaciones de seguimiento.",
+    tools: ["Webflow", "Framer", "OpenAI"],
+    state: "Diseno y operacion en un mismo flujo",
+    accent: "border-l-[color:var(--success)]",
   },
   {
-    value: "Cliente + asesor",
-    label: "El producto alinea a las dos partes sobre la misma fuente de verdad.",
+    title: "Automatizacion de lead generation",
+    description:
+      "Captura, enriquece y distribuye prospectos sin depender de procesos manuales entre marketing y ventas.",
+    tools: ["HubSpot", "Make", "Airtable"],
+    state: "Embudo visible y accionable",
+    accent: "border-l-[color:var(--warning)]",
+  },
+  {
+    title: "Sistema de gestion interna",
+    description:
+      "Tableros, formularios, roles y automatizaciones para que el equipo opere con menos friccion y mas control.",
+    tools: ["Notion", "Glide", "Zapier"],
+    state: "Orden operativo para el equipo",
+    accent: "border-l-[color:var(--danger)]",
+  },
+];
+
+const operatingStories = [
+  {
+    quote:
+      "En dos sesiones dejamos de discutir herramientas y salimos con el flujo comercial funcionando.",
+    context: "Caso tipo / Servicios B2B",
+  },
+  {
+    quote:
+      "Lo valioso fue poder revisar el proyecto con contexto, tareas y entregables sin perseguir a nadie por chat.",
+    context: "Caso tipo / Operacion interna",
+  },
+  {
+    quote:
+      "La plataforma nos dio una forma de construir con supervision ejecutiva sin depender por completo de un tercero.",
+    context: "Caso tipo / Fundadores no tecnicos",
+  },
+];
+
+const plans = [
+  {
+    name: "Pack Arranque",
+    sessions: "4 sesiones",
+    price: "USD 480",
+    description: "Para validar, construir una primera version y dejar una base funcional.",
+    features: [
+      "Kickoff y alcance",
+      "Co-creacion en vivo",
+      "Tablero y entregables visibles",
+      "Cierre con siguientes pasos",
+    ],
+  },
+  {
+    name: "Pack Desarrollo",
+    sessions: "8 sesiones",
+    price: "USD 920",
+    description: "Para proyectos que necesitan iteracion, pruebas y un flujo operativo completo.",
+    features: [
+      "Capacidad continua de trabajo",
+      "Revision de integraciones",
+      "Evidencia por sesion",
+      "Ajustes sobre resultados reales",
+    ],
+    featured: true,
+  },
+  {
+    name: "Pack Escala",
+    sessions: "12 sesiones",
+    price: "USD 1320",
+    description: "Para sistemas internos, automatizaciones complejas o iniciativas con varios modulos.",
+    features: [
+      "Acompanamiento extendido",
+      "Prioridad operativa",
+      "Mas espacio para refinamiento",
+      "Mayor supervision de implementacion",
+    ],
+  },
+];
+
+const faqs = [
+  {
+    question: "Necesito saber de no-code o IA antes de empezar?",
+    answer:
+      "No. La plataforma esta pensada para trabajar contigo, no para examinarte. El objetivo es construir bajo una metodologia guiada.",
+  },
+  {
+    question: "Que pasa entre una sesion y la siguiente?",
+    answer:
+      "El trabajo no desaparece. El proyecto queda en el tablero con tareas, acuerdos, avances y evidencia para retomar exactamente donde quedo.",
+  },
+  {
+    question: "Solo sirve para chatbots?",
+    answer:
+      "No. Tambien aplica para webs, automatizaciones comerciales, flujos internos y productos digitales que requieren una capa operativa clara.",
+  },
+  {
+    question: "Como se define cuantas sesiones necesito?",
+    answer:
+      "Puedes usar el simulador de inversion como referencia inicial y luego afinar el alcance en la primera conversacion.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="site-shell min-h-screen overflow-x-hidden">
-      <section className="relative px-6 pb-18 pt-6 lg:px-10">
-        <div className="section-grid absolute inset-0 opacity-35" />
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
-          <header className="glass-panel reveal-up flex flex-col gap-4 rounded-full px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+    <main className="site-shell min-h-screen overflow-x-hidden px-6 pb-24 pt-6 lg:px-10">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-24">
+        <header className="sticky top-4 z-40">
+          <div className="surface-card flex items-center justify-between gap-4 px-4 py-3 sm:px-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-[color:var(--paper-strong)]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-white">
                 HT
               </div>
               <div>
@@ -94,305 +177,391 @@ export default function Home() {
                   Hazlo tu mismo
                 </p>
                 <p className="text-sm font-medium text-[color:var(--ink-soft)]">
-                  Workspace premium para proyectos no code e IA
+                  Co-creacion operativa para no-code e IA
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href="#flujo"
-                className="premium-button premium-button-ghost px-5 py-3 text-center"
-              >
-                Ver flujo
-              </a>
-              <Link href="/login" className="premium-button premium-button-secondary px-5 py-3">
-                Iniciar sesion
-              </Link>
-              <Link href="/dashboard" className="premium-button px-5 py-3">
-                Entrar a la plataforma
+            <div className="flex items-center gap-3">
+              <nav className="hidden items-center gap-6 text-sm text-[color:var(--muted)] md:flex">
+                <a href="#metodologia">Metodologia</a>
+                <a href="#casos">Casos de uso</a>
+                <a href="#planes">Planes</a>
+              </nav>
+              <Link href="/login" className="premium-button premium-button-accent px-5 py-3">
+                Agendar primera sesion
               </Link>
             </div>
-          </header>
-
-          <div className="grid gap-10 lg:grid-cols-[1.03fr_0.97fr] lg:items-center">
-            <div className="max-w-3xl">
-              <div className="eyebrow reveal-up">Operacion premium con foco en progreso real</div>
-              <h1 className="reveal-up delay-1 mt-7 max-w-5xl font-display text-5xl leading-[0.92] tracking-[-0.03em] text-[color:var(--ink)] sm:text-6xl lg:text-7xl">
-                Una experiencia mas sobria, moderna y profesional para mover proyectos con IA.
-              </h1>
-              <p className="reveal-up delay-2 mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
-                Hazlo tu mismo conecta sesiones, tareas y evidencia en una interfaz pensada para
-                verse seria, clara y elegante mientras el proyecto avanza.
-              </p>
-
-              <div className="reveal-up delay-3 mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/workspace/demo" className="premium-button px-6 py-3">
-                  Ver experiencia demo
-                </Link>
-                <a href="#roadmap" className="premium-button premium-button-secondary px-6 py-3">
-                  Ver base tecnica
-                </a>
-              </div>
-
-              <div className="reveal-up delay-4 mt-10 grid gap-4 md:grid-cols-3">
-                {stats.map((stat) => (
-                  <article key={stat.value} className="stat-card rounded-[1.9rem] p-5">
-                    <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                      Insight
-                    </p>
-                    <p className="mt-4 text-2xl font-semibold tracking-[-0.03em]">{stat.value}</p>
-                    <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{stat.label}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div className="reveal-up delay-2 relative">
-              <div className="glass-panel relative overflow-hidden rounded-[2.5rem] p-5 sm:p-6">
-                <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white/70 to-transparent" />
-                <div className="relative flex items-center justify-between border-b border-[color:var(--line)] pb-5">
-                  <div>
-                    <p className="section-label">Control room</p>
-                    <h2 className="mt-2 text-3xl font-semibold tracking-[-0.03em]">
-                      Asistente comercial con IA
-                    </h2>
-                    <p className="mt-2 text-sm text-[color:var(--muted)]">
-                      Proyecto compartido con cliente, agenda y evidencia.
-                    </p>
-                  </div>
-                  <div className="rounded-[1.5rem] border border-white/35 bg-white/70 px-4 py-3 text-right backdrop-blur">
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
-                      Progreso
-                    </p>
-                    <p className="mt-1 text-3xl font-semibold">68%</p>
-                  </div>
-                </div>
-
-                <div className="mt-5 grid gap-4 xl:grid-cols-[1.02fr_0.98fr]">
-                  <div className="dark-panel rounded-[2rem] p-5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                          Agenda proxima
-                        </p>
-                        <p className="mt-2 text-xl font-semibold">Miercoles 7:00 PM</p>
-                      </div>
-                      <span className="chip chip-gold">Google Meet</span>
-                    </div>
-
-                    <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/6 p-4">
-                      <p className="text-sm font-semibold">Objetivo de la sesion</p>
-                      <p className="mt-2 text-sm leading-6 text-white/72">
-                        Cerrar el flujo de leads, revisar respuestas del bot y dejar tareas de
-                        contenido para el cliente.
-                      </p>
-                    </div>
-
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-[1.4rem] border border-white/10 bg-white/6 p-4">
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-white/55">
-                          Saldo
-                        </p>
-                        <p className="mt-2 text-2xl font-semibold">3 sesiones</p>
-                      </div>
-                      <div className="rounded-[1.4rem] border border-white/10 bg-white/6 p-4">
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-white/55">
-                          Evidencia
-                        </p>
-                        <p className="mt-2 text-2xl font-semibold">12 items</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="surface-card rounded-[2rem] p-5">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="section-label">Tablero vivo</p>
-                        <h3 className="mt-2 text-2xl font-semibold tracking-[-0.03em]">
-                          Trabajo del proyecto
-                        </h3>
-                      </div>
-                      <span className="chip chip-soft">7 activas</span>
-                    </div>
-
-                    <div className="mt-5 grid gap-3">
-                      {[
-                        {
-                          label: "Pendiente",
-                          title: "Definir prompts base",
-                          tone: "bg-white",
-                        },
-                        {
-                          label: "En progreso",
-                          title: "Entrenar base de conocimiento",
-                          tone: "bg-[color:var(--gold-soft)]",
-                        },
-                        {
-                          label: "Completado",
-                          title: "Mapa del flujo comercial",
-                          tone: "bg-[color:var(--teal-soft)]",
-                        },
-                      ].map((item) => (
-                        <article
-                          key={item.title}
-                          className={`rounded-[1.45rem] border border-[color:var(--line)] p-4 ${item.tone}`}
-                        >
-                          <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                            {item.label}
-                          </p>
-                          <p className="mt-2 text-sm font-semibold">{item.title}</p>
-                        </article>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
+        </header>
 
-      <section id="modulos" className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-10">
-        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
-          <div className="max-w-xl">
-            <p className="section-label">Pilares del producto</p>
-            <h2 className="mt-4 font-display text-5xl leading-none tracking-[-0.03em]">
-              Un sistema simple hacia afuera, sofisticado por dentro.
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-              La experiencia premium no viene de llenar la interfaz de cosas. Viene de mostrar
-              exactamente lo que importa con orden, ritmo y confianza.
-            </p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {pillars.map((pillar, index) => (
-              <article
-                key={pillar.title}
-                className={`surface-card reveal-up rounded-[2rem] p-7 ${index === 1 ? "md:-mt-8" : ""}`}
-              >
-                <span className="chip chip-soft">Pilar {index + 1}</span>
-                <h3 className="mt-5 text-3xl font-semibold tracking-[-0.03em]">{pillar.title}</h3>
-                <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-                  {pillar.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="flujo" className="mx-auto w-full max-w-7xl px-6 py-20 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="max-w-xl">
-            <p className="section-label">Flujo del producto</p>
-            <h2 className="mt-4 font-display text-5xl leading-none tracking-[-0.03em]">
-              Se tiene que sentir como operacion real, no como una agenda decorada.
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-              Cada fase produce una senal concreta: onboarding, agenda, ejecucion, evidencia y
-              continuidad. Nada se queda en el aire.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            {phases.map((phase) => (
-              <article key={phase.step} className="surface-card-muted rounded-[2rem] p-6">
-                <span className="chip chip-warm">{phase.step}</span>
-                <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{phase.title}</h3>
-                <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-                  {phase.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-7xl px-6 py-6 lg:px-10">
-        <div className="dark-panel grid gap-10 rounded-[2.8rem] px-6 py-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-8 lg:py-9">
-          <div>
-            <p className="section-label text-white/55">Casos de uso</p>
-            <h2 className="mt-4 font-display text-5xl leading-none tracking-[-0.03em] text-white">
-              Una plataforma elegante para acompanar proyectos que realmente cambian un negocio.
-            </h2>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/70">
-              El modelo funciona para distintas entregas porque el valor no esta en la plantilla,
-              sino en la claridad con que se conecta el trabajo con el resultado.
+        <section className="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+          <div className="max-w-3xl">
+            <div className="eyebrow">Metodologia, orden y ejecucion</div>
+            <h1 className="mt-7 font-display text-5xl leading-[0.95] tracking-[-0.04em] text-[color:var(--ink)] sm:text-6xl lg:text-7xl">
+              Construye tus soluciones digitales y de IA. Acompanado, paso a paso.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
+              La plataforma donde emprendedores y expertos en no-code co-crean chatbots,
+              automatizaciones y webs en tiempo real. Cero teoria, 100% ejecucion.
             </p>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              {projectTypes.map((projectType) => (
-                <div
-                  key={projectType}
-                  className="rounded-[1.5rem] border border-white/10 bg-white/6 px-5 py-4"
-                >
-                  <p className="text-lg font-medium text-white">{projectType}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-4 self-start md:grid-cols-2">
-            {modules.map((module, index) => (
-              <article
-                key={module}
-                className={`rounded-[1.7rem] border border-white/10 bg-white/6 p-5 ${index === 0 || index === 3 ? "md:translate-y-4" : ""}`}
-              >
-                <p className="text-[11px] uppercase tracking-[0.24em] text-white/50">MVP</p>
-                <p className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
-                  {module}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-white/68">
-                  Construido para mantener orden, trazabilidad y una sensacion de producto solido.
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="roadmap" className="mx-auto w-full max-w-7xl px-6 py-20 lg:px-10">
-        <div className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
-          <div className="surface-card rounded-[2.4rem] p-7">
-            <p className="section-label">Base tecnica</p>
-            <h2 className="mt-4 font-display text-5xl leading-none tracking-[-0.03em]">
-              Rapida para lanzar, robusta para crecer.
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-              Next.js, Neon y Drizzle permiten iterar con velocidad, mientras Stripe y Google Meet
-              dejan lista la operacion para vender y ejecutar trabajo real.
-            </p>
-          </div>
-
-          <div className="glass-panel rounded-[2.4rem] p-7">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="section-label">Siguiente paso</p>
-                <h2 className="mt-3 text-4xl font-semibold tracking-[-0.03em]">
-                  Llevar esta experiencia a produccion con datos reales.
-                </h2>
-              </div>
-              <Link href="/workspace/demo" className="premium-button px-5 py-3">
-                Probar demo
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/workspace/demo" className="premium-button premium-button-accent px-6 py-3">
+                Explorar proyectos
+              </Link>
+              <Link href="/login" className="premium-button premium-button-secondary px-6 py-3">
+                Agendar primera sesion
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
               {[
-                "Autenticacion conectada a clientes reales",
-                "Workspaces con compras y sesiones persistidas",
-                "Tablero y evidencia con datos operativos",
+                {
+                  title: "Copiloto experto",
+                  detail: "No trabajas solo ni delegas a ciegas.",
+                },
+                {
+                  title: "Trabajo en vivo",
+                  detail: "Las sesiones se convierten en entregables visibles.",
+                },
+                {
+                  title: "Control del negocio",
+                  detail: "La supervision y el contexto quedan de tu lado.",
+                },
               ].map((item) => (
-                <article key={item} className="surface-card rounded-[1.6rem] p-5">
-                  <p className="text-sm font-semibold">{item}</p>
+                <article key={item.title} className="surface-card-muted p-5">
+                  <p className="text-sm font-semibold">{item.title}</p>
+                  <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                    {item.detail}
+                  </p>
                 </article>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+
+          <div className="surface-card overflow-hidden p-6 lg:p-7">
+            <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">
+              <div className="surface-card-muted p-5">
+                <div className="flex items-start justify-between border-b border-[color:var(--line)] pb-4">
+                  <div>
+                    <p className="section-label">Sala de trabajo</p>
+                    <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                      Sesion activa
+                    </h2>
+                  </div>
+                  <div className="rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--accent)]">
+                    En vivo
+                  </div>
+                </div>
+
+                <div className="mt-5 rounded-xl border border-[color:var(--line)] bg-white p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
+                      AR
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Andrea R.</p>
+                      <p className="text-sm text-[color:var(--muted)]">Asesora no-code e IA</p>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
+                    Objetivo: conectar formulario, CRM y agente de ventas para mover leads reales.
+                  </p>
+                </div>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
+                    <p className="section-label">Duracion</p>
+                    <p className="mt-3 text-xl font-semibold">60 min</p>
+                  </div>
+                  <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
+                    <p className="section-label">Canal</p>
+                    <p className="mt-3 text-xl font-semibold">Meet integrado</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="surface-card-muted p-5">
+                <div className="flex items-end justify-between border-b border-[color:var(--line)] pb-4">
+                  <div>
+                    <p className="section-label">Tablero Kanban</p>
+                    <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                      Progreso visible
+                    </h3>
+                  </div>
+                  <p className="text-sm text-[color:var(--muted)]">Idea a Implementado</p>
+                </div>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  {[
+                    {
+                      title: "Idea",
+                      card: "Definir recorrido del lead",
+                      tone: "bg-white",
+                      dot: "bg-[color:var(--danger)]",
+                    },
+                    {
+                      title: "En progreso",
+                      card: "Conectar CRM y automatizacion",
+                      tone: "bg-[color:rgba(211,138,18,0.10)]",
+                      dot: "bg-[color:var(--warning)]",
+                    },
+                    {
+                      title: "Implementado",
+                      card: "Bot de respuestas iniciales",
+                      tone: "bg-[color:rgba(24,161,111,0.10)]",
+                      dot: "bg-[color:var(--success)]",
+                    },
+                  ].map((column) => (
+                    <div key={column.title} className={`rounded-xl border border-[color:var(--line)] p-4 ${column.tone}`}>
+                      <div className="flex items-center gap-2">
+                        <span className={`h-2.5 w-2.5 rounded-full ${column.dot}`} />
+                        <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                          {column.title}
+                        </p>
+                      </div>
+                      <article className="mt-4 rounded-lg border border-[color:var(--line)] bg-white p-3">
+                        <p className="text-sm font-semibold">{column.card}</p>
+                        <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
+                          Estado actualizado dentro del mismo flujo de trabajo.
+                        </p>
+                      </article>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <div>
+            <p className="section-label">Por que estar aqui</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              La barrera no es la tecnologia. Es saber como estructurarla.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
+              Hazlo tu mismo existe para transformar incertidumbre tecnica en confianza operativa.
+              No es un curso. No es una agencia opaca. Es un entorno de construccion guiada.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {pains.map((pain) => (
+              <article key={pain.title} className="surface-card p-8">
+                <h3 className="text-2xl font-semibold tracking-[-0.03em]">{pain.title}</h3>
+                <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+                  {pain.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="metodologia" className="grid gap-8">
+          <div className="max-w-3xl">
+            <p className="section-label">Como funciona</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              Una metodologia simple para convertir ideas en productos tangibles.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-4">
+            {workflow.map((item) => (
+              <article key={item.step} className="surface-card-muted p-8">
+                <p className="text-sm font-semibold text-[color:var(--accent)]">{item.step}</p>
+                <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{item.title}</h3>
+                <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+                  {item.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="casos" className="grid gap-8">
+          <div className="max-w-3xl">
+            <p className="section-label">Catalogo de posibilidades</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              Casos de uso que un negocio puede construir con supervision y trazabilidad.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            {useCases.map((useCase) => (
+              <article
+                key={useCase.title}
+                className={`group surface-card border-l-4 p-8 transition duration-200 hover:border-[color:var(--accent-line)] hover:shadow-[0_12px_32px_rgba(17,19,21,0.06)] ${useCase.accent}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-semibold tracking-[-0.03em]">{useCase.title}</h3>
+                    <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+                      {useCase.description}
+                    </p>
+                  </div>
+                  <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                    Caso
+                  </span>
+                </div>
+
+                <p className="mt-6 text-sm font-medium text-[color:var(--ink-soft)]">{useCase.state}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2 opacity-0 transition duration-200 group-hover:opacity-100">
+                  {useCase.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-full border border-[color:var(--accent-line)] bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-medium text-[color:var(--accent)]"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <InvestmentSimulator />
+
+        <section className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:items-start">
+          <div className="surface-card p-8 lg:p-10">
+            <p className="section-label">Autoridad operativa</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              El valor no esta en prometer magia, sino en mostrar control del proceso.
+            </h2>
+            <div className="mt-8 grid gap-5 sm:grid-cols-3">
+              {[
+                {
+                  value: "Proyecto compartido",
+                  label: "Cliente y asesor construyen sobre el mismo contexto.",
+                },
+                {
+                  value: "Sesiones accionables",
+                  label: "Cada llamada deja trabajo concreto y siguiente paso.",
+                },
+                {
+                  value: "Trazabilidad total",
+                  label: "El avance siempre queda visible y supervisable.",
+                },
+              ].map((item) => (
+                <article key={item.value} className="border-t border-[color:var(--line)] pt-4">
+                  <p className="text-xl font-semibold tracking-[-0.03em]">{item.value}</p>
+                  <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{item.label}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            {operatingStories.map((story) => (
+              <article key={story.quote} className="surface-card-muted p-8">
+                <p className="text-lg leading-8 text-[color:var(--ink-soft)]">
+                  &ldquo;{story.quote}&rdquo;
+                </p>
+                <p className="mt-4 text-sm uppercase tracking-[0.2em] text-[color:var(--muted)]">
+                  {story.context}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="planes" className="grid gap-8">
+          <div className="max-w-3xl">
+            <p className="section-label">Planes transparentes</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              Compra capacidad de ejecucion, no horas sueltas sin estructura.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            {plans.map((plan) => (
+              <article
+                key={plan.name}
+                className={`surface-card p-8 ${plan.featured ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]" : ""}`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="section-label">{plan.sessions}</p>
+                    <h3 className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{plan.name}</h3>
+                  </div>
+                  {plan.featured ? (
+                    <span className="rounded-full bg-[color:var(--accent)] px-3 py-1 text-xs font-semibold text-white">
+                      Recomendado
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">{plan.description}</p>
+                <p className="mt-6 text-4xl font-semibold tracking-[-0.03em]">{plan.price}</p>
+
+                <div className="mt-6 space-y-3">
+                  {plan.features.map((feature) => (
+                    <div key={feature} className="flex items-start gap-3 border-t border-[color:var(--line)] pt-3">
+                      <span className="mt-1 h-2 w-2 rounded-full bg-[color:var(--accent)]" />
+                      <p className="text-sm leading-6 text-[color:var(--muted)]">{feature}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <Link
+                  href="/login"
+                  className={`mt-8 inline-flex ${plan.featured ? "premium-button premium-button-accent" : "premium-button premium-button-secondary"} px-5 py-3`}
+                >
+                  Solicitar este plan
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="section-label">Preguntas frecuentes</p>
+            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              Respuestas claras para bajar friccion antes de empezar.
+            </h2>
+          </div>
+
+          <div className="surface-card divide-y divide-[color:var(--line)] p-2">
+            {faqs.map((item) => (
+              <details key={item.question} className="group px-6 py-5">
+                <summary className="cursor-pointer list-none pr-8 text-lg font-semibold tracking-[-0.02em]">
+                  {item.question}
+                </summary>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-[color:var(--muted)]">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section className="surface-card p-8 lg:p-10">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="max-w-3xl">
+              <p className="section-label">Cierre</p>
+              <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+                Si la idea ya existe, el siguiente paso es ponerla a operar.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
+                Empieza con una primera sesion, define la meta y entra a un entorno donde el
+                proyecto se construye contigo, no alrededor tuyo.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link href="/login" className="premium-button premium-button-accent px-6 py-3">
+                Agendar primera sesion
+              </Link>
+              <Link href="/workspace/demo" className="premium-button premium-button-secondary px-6 py-3">
+                Explorar demo
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

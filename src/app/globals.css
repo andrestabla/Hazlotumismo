@@ -16,6 +16,12 @@
   --coral-soft: rgba(17, 19, 21, 0.05);
   --gold: #111315;
   --gold-soft: rgba(17, 19, 21, 0.04);
+  --accent: #2f5bff;
+  --accent-soft: rgba(47, 91, 255, 0.08);
+  --accent-line: rgba(47, 91, 255, 0.2);
+  --success: #18a16f;
+  --warning: #d38a12;
+  --danger: #e16666;
   --shadow-card: 0 4px 20px rgba(17, 19, 21, 0.04);
   --shadow-panel: 0 10px 32px rgba(17, 19, 21, 0.06);
 }
@@ -197,6 +203,16 @@ p {
   transform: translateY(-1px);
   background: var(--ink-soft);
   box-shadow: 0 10px 24px rgba(17, 19, 21, 0.1);
+}
+
+.premium-button-accent {
+  background: var(--accent);
+  box-shadow: 0 10px 22px rgba(47, 91, 255, 0.18);
+}
+
+.premium-button-accent:hover {
+  background: #2449d8;
+  box-shadow: 0 12px 24px rgba(47, 91, 255, 0.2);
 }
 
 .premium-button-secondary {
