@@ -8,6 +8,7 @@ import {
   updateTaskWorkflowAction,
 } from "@/app/workspace/actions";
 import { getProjectBySlugForUser } from "@/db/portal";
+import { formatDateOnly, formatDateTime } from "@/lib/date-format";
 import { meetingProviderLabels } from "@/lib/meetings";
 import { requireUser } from "@/lib/auth/session";
 
@@ -17,19 +18,6 @@ const kanbanColumns = [
   { key: "in_review", label: "En revision", tone: "bg-[color:var(--coral-soft)]" },
   { key: "done", label: "Completado", tone: "bg-[color:var(--teal-soft)]" },
 ] as const;
-
-const dateFormatter = new Intl.DateTimeFormat("es-CO", {
-  dateStyle: "medium",
-  timeStyle: "short",
-});
-
-function formatDate(value?: Date | string | null) {
-  if (!value) {
-    return "Sin fecha";
-  }
-
-  return dateFormatter.format(new Date(value));
-}
 
 export default async function ProjectDetailPage({
   params,
@@ -248,7 +236,7 @@ export default async function ProjectDetailPage({
 
                               <div className="mt-4 space-y-1 text-xs leading-5 text-[color:var(--muted)]">
                                 <p>Responsable: {task.assignee?.fullName ?? "Sin asignar"}</p>
-                                <p>Fecha objetivo: {formatDate(task.dueDate)}</p>
+                                <p>Fecha objetivo: {formatDateOnly(task.dueDate)}</p>
                                 <p>Evidencias: {task.evidence.length}</p>
                               </div>
 
@@ -490,7 +478,7 @@ export default async function ProjectDetailPage({
                       </div>
 
                       <div className="mt-4 space-y-1 text-sm text-[color:var(--muted)]">
-                        <p>Fecha: {formatDate(session.scheduledFor)}</p>
+                        <p>Fecha: {formatDateTime(session.scheduledFor)}</p>
                         <p>Asesor: {session.advisor.fullName}</p>
                         <p>Cliente: {session.client.fullName}</p>
                         <p>Duracion: {session.durationMinutes} min</p>

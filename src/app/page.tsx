@@ -149,9 +149,6 @@ export default function Home() {
             </div>
 
             <div className="reveal-up delay-2 relative">
-              <div className="float-soft absolute -left-6 top-12 h-28 w-28 rounded-full bg-[color:var(--gold)]/25 blur-3xl" />
-              <div className="absolute -right-4 top-18 h-36 w-36 rounded-full bg-[color:var(--teal)]/18 blur-3xl" />
-
               <div className="glass-panel relative overflow-hidden rounded-[2.5rem] p-5 sm:p-6">
                 <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-white/70 to-transparent" />
                 <div className="relative flex items-center justify-between border-b border-[color:var(--line)] pb-5">

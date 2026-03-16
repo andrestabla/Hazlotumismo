@@ -10,11 +10,8 @@ export default async function LoginPage({
   return (
     <main className="site-shell min-h-screen px-6 py-8 lg:px-10">
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.02fr_0.98fr]">
-        <section className="glass-panel relative overflow-hidden rounded-[2.5rem] p-8 lg:p-10">
-          <div className="absolute left-8 top-8 h-28 w-28 rounded-full bg-[color:var(--gold)]/18 blur-3xl" />
-          <div className="absolute bottom-6 right-8 h-36 w-36 rounded-full bg-[color:var(--teal)]/14 blur-3xl" />
-
-          <div className="relative">
+        <section className="surface-card p-8 lg:p-10">
+          <div>
             <div className="eyebrow">Acceso a la plataforma</div>
             <h1 className="mt-6 max-w-2xl font-display text-5xl leading-[0.94] tracking-[-0.03em]">
               Entra a una experiencia mas clara, elegante y orientada a resultados.
@@ -30,21 +27,19 @@ export default async function LoginPage({
                 "Workspaces con trazabilidad real",
                 "Sesiones conectadas al trabajo",
               ].map((item) => (
-                <article key={item} className="stat-card rounded-[1.7rem] p-5">
+                <article key={item} className="surface-card-muted p-5">
                   <p className="text-sm font-semibold">{item}</p>
                 </article>
               ))}
             </div>
 
-            <div className="dark-panel mt-8 rounded-[2rem] p-6">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="surface-card-muted mt-8 p-6">
+              <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                    Cuentas demo
-                  </p>
+                  <p className="section-label">Cuentas demo</p>
                   <h2 className="mt-2 text-2xl font-semibold">Accesos listos para explorar</h2>
                 </div>
-                <span className="chip chip-gold">Password: demo12345</span>
+                <p className="text-sm text-[color:var(--muted)]">Password: demo12345</p>
               </div>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -64,12 +59,12 @@ export default async function LoginPage({
                 ].map((account) => (
                   <article
                     key={account.email}
-                    className="rounded-[1.5rem] border border-white/10 bg-white/6 p-4"
+                    className="rounded-xl border border-[color:var(--line)] bg-white p-4"
                   >
-                    <p className="text-[11px] uppercase tracking-[0.22em] text-white/55">
-                      {account.label}
+                    <p className="section-label">{account.label}</p>
+                    <p className="mt-3 text-sm font-medium text-[color:var(--ink)]">
+                      {account.email}
                     </p>
-                    <p className="mt-3 text-sm font-medium text-white">{account.email}</p>
                   </article>
                 ))}
               </div>
@@ -77,7 +72,7 @@ export default async function LoginPage({
           </div>
         </section>
 
-        <section className="surface-card rounded-[2.5rem] p-8 lg:p-10">
+        <section className="surface-card p-8 lg:p-10">
           <p className="section-label">Login</p>
           <h2 className="mt-4 text-4xl font-semibold tracking-[-0.03em]">Accede a tu cuenta</h2>
           <p className="mt-3 max-w-lg text-base leading-7 text-[color:var(--muted)]">
@@ -85,7 +80,7 @@ export default async function LoginPage({
             dentro de la nueva experiencia visual.
           </p>
 
-          <div className="mt-8 rounded-[1.9rem] border border-[color:var(--line)] bg-white/60 p-5">
+          <div className="mt-8 rounded-xl border border-[color:var(--line)] bg-white p-5">
             <LoginForm callbackUrl={params.callbackUrl} />
           </div>
         </section>

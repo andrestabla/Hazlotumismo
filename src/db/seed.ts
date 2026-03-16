@@ -1,5 +1,8 @@
-import "dotenv/config";
+import { config } from "dotenv";
 import { seedDemoWorkspace } from "./seed-demo";
+
+config({ path: ".env.local" });
+config();
 
 async function main() {
   const projectSlug = await seedDemoWorkspace();

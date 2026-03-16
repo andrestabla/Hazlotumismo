@@ -15,7 +15,7 @@ export async function PortalHeader() {
 
   return (
     <header className="sticky top-0 z-40 px-6 py-4 lg:px-10">
-      <div className="glass-panel mx-auto flex w-full max-w-7xl flex-col gap-4 rounded-[2rem] px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-5">
+      <div className="surface-card mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-5">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-[color:var(--paper-strong)]">
             HT
@@ -61,7 +61,7 @@ export async function PortalHeader() {
           </nav>
 
           {user ? (
-            <div className="surface-card flex flex-col gap-3 rounded-[1.4rem] px-4 py-3 sm:flex-row sm:items-center">
+            <div className="surface-card-muted flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center">
               <div className="text-sm">
                 <p className="font-medium">{user.name ?? "Usuario"}</p>
                 <p className="text-[color:var(--muted)]">

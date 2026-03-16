@@ -102,11 +102,8 @@ export default function DemoWorkspacePage() {
   return (
     <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-        <header className="glass-panel relative overflow-hidden rounded-[2.6rem] p-6 lg:p-7">
-          <div className="absolute left-8 top-10 h-28 w-28 rounded-full bg-[color:var(--gold)]/18 blur-3xl" />
-          <div className="absolute bottom-0 right-8 h-36 w-36 rounded-full bg-[color:var(--teal)]/14 blur-3xl" />
-
-          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <header className="surface-card p-6 lg:p-7">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="eyebrow">Workspace demo</div>
               <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">

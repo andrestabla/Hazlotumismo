@@ -3,11 +3,7 @@ import { getProjectsPageData, getSessionsPageData } from "@/db/portal";
 import { isAdminRole, isClientRole } from "@/lib/auth/roles";
 import { meetingProviderLabels } from "@/lib/meetings";
 import { requireUser } from "@/lib/auth/session";
-
-const dateFormatter = new Intl.DateTimeFormat("es-CO", {
-  dateStyle: "medium",
-  timeStyle: "short",
-});
+import { formatDateOnly, formatDateTime } from "@/lib/date-format";
 
 const priorityWeight = {
   high: 0,
@@ -20,14 +16,6 @@ const roleLabels = {
   advisor: "Asesor",
   client: "Cliente",
 } as const;
-
-function formatDate(value?: Date | string | null) {
-  if (!value) {
-    return "Sin fecha";
-  }
-
-  return dateFormatter.format(new Date(value));
-}
 
 export default async function DashboardPage() {
   const user = await requireUser();
@@ -65,7 +53,7 @@ export default async function DashboardPage() {
         return -1;
       }
 
-      return new Date(left.dueDate).getTime() - new Date(right.dueDate).getTime();
+      return left.dueDate.localeCompare(right.dueDate);
     })
     .slice(0, 4);
   const upcomingSessions = sessionsData.sessions
@@ -94,62 +82,59 @@ export default async function DashboardPage() {
       value: `${upcomingSessions.length}`,
       detail: `${sessionsData.sessions.length} sesiones visibles`,
     },
+    {
+      label: "Saldo disponible",
+      value: `${remainingSessions}`,
+      detail: "Sesiones restantes en compras registradas",
+    },
   ];
 
   return (
     <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="glass-panel relative overflow-hidden rounded-[2.6rem] p-6 lg:p-7">
-          <div className="absolute -left-8 top-8 h-28 w-28 rounded-full bg-[color:var(--gold)]/16 blur-3xl" />
-          <div className="absolute right-6 top-10 h-36 w-36 rounded-full bg-[color:var(--teal)]/12 blur-3xl" />
-
-          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <header className="surface-card p-8 lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
             <div className="max-w-4xl">
               <div className="eyebrow">Dashboard</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+              <h1 className="mt-6 font-display text-5xl leading-[0.96] tracking-[-0.03em]">
                 Operacion del proyecto en un vistazo
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
                 Sigue el avance, detecta bloqueos y entra directo a tus proyectos, sesiones y
-                tareas mas importantes dentro de una experiencia mucho mas limpia y profesional.
+                tareas mas importantes con una lectura mucho mas clara y ejecutiva.
               </p>
             </div>
 
-            <div className="surface-card min-w-[18rem] rounded-[1.8rem] px-5 py-4">
+            <div className="border-t border-[color:var(--line)] pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
               <p className="section-label">Tu contexto</p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
                 {user.name ?? "Usuario"}
               </p>
               <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                Rol actual: {roleLabels[user.role]} · {visibleProjects.length} proyectos visibles
+                Rol actual: {roleLabels[user.role]}.
+              </p>
+              <p className="mt-1 text-sm leading-6 text-[color:var(--muted)]">
+                {visibleProjects.length} proyectos visibles.
               </p>
             </div>
           </div>
         </header>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {dashboardStats.map((stat) => (
-            <article key={stat.label} className="stat-card rounded-[1.9rem] p-5">
-              <p className="section-label">{stat.label}</p>
-              <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{stat.value}</p>
-              <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{stat.detail}</p>
-            </article>
-          ))}
-
-          <article className="dark-panel rounded-[1.9rem] p-5">
-            <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-              Saldo disponible
-            </p>
-            <p className="mt-4 text-3xl font-semibold">{remainingSessions}</p>
-            <p className="mt-3 text-sm leading-6 text-white/72">
-              Sesiones restantes en compras registradas.
-            </p>
-          </article>
+        <section className="surface-card px-6 py-5 lg:px-8">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 xl:gap-0 xl:divide-x xl:divide-[color:var(--line)]">
+            {dashboardStats.map((stat) => (
+              <article key={stat.label} className="xl:px-6">
+                <p className="section-label">{stat.label}</p>
+                <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{stat.value}</p>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{stat.detail}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
+        <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
           <div className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-8">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Proyectos recientes</p>
@@ -162,42 +147,42 @@ export default async function DashboardPage() {
                 </Link>
               </div>
 
-              <div className="mt-6 grid gap-4">
-                {visibleProjects.slice(0, 3).map((project) => (
-                  <Link
-                    key={project.id}
-                    href={`/projects/${project.slug}`}
-                    className="surface-card-muted rounded-[1.8rem] p-5 transition hover:-translate-y-[1px]"
-                  >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <span className="chip chip-soft">{project.status}</span>
-                        <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em]">
-                          {project.name}
-                        </h3>
-                        <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-                          {project.summary || "Proyecto sin resumen todavia."}
-                        </p>
-                      </div>
-                      <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 px-4 py-3 text-right">
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                          Progreso
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">{project.progress}%</p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-
+              <div className="mt-4 divide-y divide-[color:var(--line)]">
                 {visibleProjects.length === 0 ? (
-                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
+                  <div className="py-6 text-sm text-[color:var(--muted)]">
                     No tienes proyectos visibles todavia.
                   </div>
-                ) : null}
+                ) : (
+                  visibleProjects.slice(0, 3).map((project) => (
+                    <Link
+                      key={project.id}
+                      href={`/projects/${project.slug}`}
+                      className="block py-5 transition hover:opacity-80"
+                    >
+                      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div className="max-w-2xl">
+                          <p className="section-label">{project.status}</p>
+                          <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                            {project.name}
+                          </h3>
+                          <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                            {project.summary || "Proyecto sin resumen todavia."}
+                          </p>
+                        </div>
+                        <div className="text-sm text-[color:var(--muted)] md:text-right">
+                          <p className="section-label">Progreso</p>
+                          <p className="mt-3 text-2xl font-semibold text-[color:var(--ink)]">
+                            {project.progress}%
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                )}
               </div>
             </article>
 
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-8">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Foco</p>
@@ -205,12 +190,14 @@ export default async function DashboardPage() {
                     Tareas a mover
                   </h2>
                 </div>
-                <span className="chip chip-soft">{pendingTasks.length} destacadas</span>
+                <p className="text-sm text-[color:var(--muted)]">
+                  {pendingTasks.length} destacadas
+                </p>
               </div>
 
-              <div className="mt-6 space-y-4">
+              <div className="mt-4 divide-y divide-[color:var(--line)]">
                 {pendingTasks.length === 0 ? (
-                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
+                  <div className="py-6 text-sm text-[color:var(--muted)]">
                     No hay tareas pendientes destacadas.
                   </div>
                 ) : (
@@ -218,19 +205,21 @@ export default async function DashboardPage() {
                     <Link
                       key={task.id}
                       href={`/projects/${task.projectSlug}`}
-                      className="surface-card-muted block rounded-[1.8rem] p-5 transition hover:-translate-y-[1px]"
+                      className="block py-5 transition hover:opacity-80"
                     >
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="chip chip-soft">{task.projectName}</span>
-                        <span className="chip chip-gold">{task.status}</span>
-                        <span className="chip chip-warm">{task.priority}</span>
+                      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                        <div className="max-w-2xl">
+                          <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                            {task.projectName} · {task.status} · {task.priority}
+                          </p>
+                          <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em]">
+                            {task.title}
+                          </h3>
+                        </div>
+                        <p className="text-sm text-[color:var(--muted)]">
+                          Fecha objetivo: {formatDateOnly(task.dueDate)}
+                        </p>
                       </div>
-                      <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em]">
-                        {task.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                        Fecha objetivo: {formatDate(task.dueDate)}
-                      </p>
                     </Link>
                   ))
                 )}
@@ -239,7 +228,7 @@ export default async function DashboardPage() {
           </div>
 
           <aside className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-8">
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Agenda</p>
@@ -252,23 +241,20 @@ export default async function DashboardPage() {
                 </Link>
               </div>
 
-              <div className="mt-6 space-y-4">
+              <div className="mt-4 divide-y divide-[color:var(--line)]">
                 {upcomingSessions.length === 0 ? (
-                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
+                  <div className="py-6 text-sm text-[color:var(--muted)]">
                     No hay sesiones programadas en este momento.
                   </div>
                 ) : (
                   upcomingSessions.map((session) => (
-                    <article
-                      key={session.id}
-                      className="surface-card-muted rounded-[1.8rem] p-5"
-                    >
-                      <span className="chip chip-soft">{session.project.name}</span>
-                      <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em]">
+                    <article key={session.id} className="py-5">
+                      <p className="section-label">{session.project.name}</p>
+                      <h3 className="mt-3 text-xl font-semibold tracking-[-0.02em]">
                         {session.title}
                       </h3>
                       <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                        {formatDate(session.scheduledFor)} ·{" "}
+                        {formatDateTime(session.scheduledFor)} ·{" "}
                         {meetingProviderLabels[session.meetingProvider]}
                       </p>
                     </article>
@@ -277,10 +263,8 @@ export default async function DashboardPage() {
               </div>
             </article>
 
-            <article className="dark-panel rounded-[2.3rem] p-6">
-              <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                Siguiente accion
-              </p>
+            <article className="dark-panel p-8">
+              <p className="section-label">Siguiente accion</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
                 Ruta recomendada
               </h2>

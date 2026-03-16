@@ -43,7 +43,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       </label>
 
       {state.error ? (
-        <p className="rounded-[1.15rem] border border-[color:var(--coral)]/18 bg-[color:var(--coral-soft)] px-4 py-3 text-sm text-[color:var(--ink)]">
+        <p className="rounded-lg border border-[color:var(--line-strong)] bg-[color:var(--paper)] px-4 py-3 text-sm text-[color:var(--ink)]">
           {state.error}
         </p>
       ) : null}
