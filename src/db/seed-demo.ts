@@ -25,6 +25,7 @@ export async function seedDemoWorkspace() {
       email: "advisor@hazlotumismo.demo",
       passwordHash: demoPasswordHash,
       isActive: true,
+      lastLoginAt: now,
       role: "advisor",
       updatedAt: now,
     })
@@ -35,6 +36,7 @@ export async function seedDemoWorkspace() {
         email: "advisor@hazlotumismo.demo",
         passwordHash: demoPasswordHash,
         isActive: true,
+        lastLoginAt: now,
         role: "advisor",
         updatedAt: now,
       },
@@ -49,6 +51,7 @@ export async function seedDemoWorkspace() {
       email: "client@hazlotumismo.demo",
       passwordHash: demoPasswordHash,
       isActive: true,
+      lastLoginAt: now,
       role: "client",
       updatedAt: now,
     })
@@ -59,6 +62,7 @@ export async function seedDemoWorkspace() {
         email: "client@hazlotumismo.demo",
         passwordHash: demoPasswordHash,
         isActive: true,
+        lastLoginAt: now,
         role: "client",
         updatedAt: now,
       },
@@ -73,6 +77,7 @@ export async function seedDemoWorkspace() {
       email: "admin@hazlotumismo.demo",
       passwordHash: demoPasswordHash,
       isActive: true,
+      lastLoginAt: now,
       role: "admin",
       updatedAt: now,
     })
@@ -83,6 +88,7 @@ export async function seedDemoWorkspace() {
         email: "admin@hazlotumismo.demo",
         passwordHash: demoPasswordHash,
         isActive: true,
+        lastLoginAt: now,
         role: "admin",
         updatedAt: now,
       },

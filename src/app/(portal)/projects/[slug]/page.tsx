@@ -8,6 +8,7 @@ import {
   updateTaskWorkflowAction,
 } from "@/app/workspace/actions";
 import { getProjectBySlugForUser } from "@/db/portal";
+import { meetingProviderLabels } from "@/lib/meetings";
 import { requireUser } from "@/lib/auth/session";
 
 const kanbanColumns = [
@@ -433,15 +434,32 @@ export default async function ProjectDetailPage({
                   </select>
                 </label>
 
-                <label className="grid gap-2">
-                  <span className="text-sm font-medium">Enlace de videollamada</span>
-                  <input
-                    name="meetingUrl"
-                    type="url"
-                    placeholder="https://meet.google.com/..."
-                    className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--paper-strong)] px-4 py-3 text-sm"
-                  />
-                </label>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label className="grid gap-2">
+                    <span className="text-sm font-medium">Proveedor de videollamada</span>
+                    <select
+                      name="meetingProvider"
+                      defaultValue="google_meet"
+                      className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--paper-strong)] px-4 py-3 text-sm"
+                    >
+                      {Object.entries(meetingProviderLabels).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="grid gap-2">
+                    <span className="text-sm font-medium">Enlace de videollamada</span>
+                    <input
+                      name="meetingUrl"
+                      type="url"
+                      placeholder="https://meet.google.com/..."
+                      className="rounded-2xl border border-[color:var(--line)] bg-[color:var(--paper-strong)] px-4 py-3 text-sm"
+                    />
+                  </label>
+                </div>
 
                 <button
                   type="submit"
@@ -487,6 +505,12 @@ export default async function ProjectDetailPage({
                         <p>Asesor: {session.advisor.fullName}</p>
                         <p>Cliente: {session.client.fullName}</p>
                         <p>Duracion: {session.durationMinutes} min</p>
+                        <p>Proveedor: {meetingProviderLabels[session.meetingProvider]}</p>
+                        {session.purchase ? (
+                          <p>
+                            Compra: {session.purchase.sessionPackage?.name ?? "Paquete asociado"}
+                          </p>
+                        ) : null}
                       </div>
 
                       <form action={updateSessionStatusAction} className="mt-4 grid gap-3">

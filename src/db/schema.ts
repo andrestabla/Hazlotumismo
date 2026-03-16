@@ -69,6 +69,7 @@ export const profiles = pgTable(
     email: varchar("email", { length: 255 }).notNull(),
     passwordHash: text("password_hash"),
     isActive: boolean("is_active").notNull().default(true),
+    lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
     role: profileRoleEnum("role").notNull().default("client"),
     ...timestamps,
   },

@@ -7,7 +7,8 @@ import { profiles } from "@/db/schema";
 import { isAppRole } from "@/lib/auth/roles";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  trustHost: true,
   session: {
     strategy: "jwt",
   },
@@ -49,6 +50,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!passwordMatches) {
           return null;
         }
+
+        await getDb()
+          .update(profiles)
+          .set({
+            lastLoginAt: new Date(),
+            updatedAt: new Date(),
+          })
+          .where(eq(profiles.id, profile.id));
 
         return {
           id: profile.id,

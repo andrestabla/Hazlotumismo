@@ -6,6 +6,7 @@ import {
 import { getSessionsPageData } from "@/db/portal";
 import { requireUser } from "@/lib/auth/session";
 import { isAdminRole } from "@/lib/auth/roles";
+import { meetingProviderLabels } from "@/lib/meetings";
 
 const dateFormatter = new Intl.DateTimeFormat("es-CO", {
   dateStyle: "medium",
@@ -85,10 +86,11 @@ export default async function SessionsPage() {
                         </div>
                       </div>
 
-                      <div className="mt-4 grid gap-3 text-sm text-[color:var(--muted)] sm:grid-cols-3">
+                      <div className="mt-4 grid gap-3 text-sm text-[color:var(--muted)] sm:grid-cols-2 xl:grid-cols-4">
                         <p>Asesor: {session.advisor.fullName}</p>
                         <p>Cliente: {session.client.fullName}</p>
                         <p>Proyecto: {session.project.name}</p>
+                        <p>Proveedor: {meetingProviderLabels[session.meetingProvider]}</p>
                       </div>
 
                       <form action={updateSessionStatusAction} className="mt-4 grid gap-3">
@@ -176,7 +178,7 @@ export default async function SessionsPage() {
                         {session.notes || session.agenda || "Sin notas registradas."}
                       </p>
                       <p className="mt-3 text-sm text-[color:var(--muted)]">
-                        {formatDate(session.scheduledFor)}
+                        {formatDate(session.scheduledFor)} · {meetingProviderLabels[session.meetingProvider]}
                       </p>
                     </article>
                   ))

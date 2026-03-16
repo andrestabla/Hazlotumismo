@@ -112,7 +112,11 @@ export async function getProjectBySlugForUser(slug: string, user: AppSessionUser
         with: {
           advisor: true,
           client: true,
-          purchase: true,
+          purchase: {
+            with: {
+              sessionPackage: true,
+            },
+          },
         },
         orderBy: (table, { desc: sortDesc }) => [sortDesc(table.scheduledFor)],
       },

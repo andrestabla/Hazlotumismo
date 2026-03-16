@@ -3,6 +3,12 @@ import { auth } from "@/auth";
 import { SignOutForm } from "@/components/auth/sign-out-form";
 import { isAdminRole } from "@/lib/auth/roles";
 
+const roleLabels = {
+  admin: "Admin",
+  advisor: "Asesor",
+  client: "Cliente",
+} as const;
+
 export async function PortalHeader() {
   const session = await auth();
   const user = session?.user;
@@ -19,6 +25,12 @@ export async function PortalHeader() {
 
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
           <nav className="flex flex-wrap gap-2 text-sm">
+            <Link
+              href="/dashboard"
+              className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
+            >
+              Dashboard
+            </Link>
             <Link
               href="/projects"
               className="rounded-full border border-[color:var(--line)] px-4 py-2 transition hover:border-[color:var(--ink)] hover:bg-white"
@@ -45,7 +57,9 @@ export async function PortalHeader() {
             <div className="flex flex-col gap-3 rounded-[1.4rem] border border-[color:var(--line)] bg-white px-4 py-3 sm:flex-row sm:items-center">
               <div className="text-sm">
                 <p className="font-medium">{user.name ?? "Usuario"}</p>
-                <p className="text-[color:var(--muted)]">{user.role}</p>
+                <p className="text-[color:var(--muted)]">
+                  {roleLabels[user.role as keyof typeof roleLabels] ?? user.role}
+                </p>
               </div>
               <SignOutForm />
             </div>

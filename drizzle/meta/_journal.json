@@ -15,6 +15,13 @@
       "when": 1773687171514,
       "tag": "0001_eager_purifiers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773687652248,
+      "tag": "0002_lush_mach_iv",
+      "breakpoints": true
     }
   ]
 }

@@ -21,6 +21,7 @@ import {
 } from "@/db/schema";
 import type { AppSessionUser } from "@/lib/auth/session";
 import { isAdminRole, isAdvisorRole, isAppRole } from "@/lib/auth/roles";
+import { isMeetingProvider, type MeetingProvider } from "@/lib/meetings";
 import { slugify } from "@/lib/slugify";
 
 function readString(formData: FormData, key: string) {
@@ -31,6 +32,11 @@ function readString(formData: FormData, key: string) {
 function readOptionalString(formData: FormData, key: string) {
   const value = readString(formData, key);
   return value.length > 0 ? value : null;
+}
+
+function readMeetingProvider(formData: FormData, key: string): MeetingProvider {
+  const value = readString(formData, key);
+  return isMeetingProvider(value) ? value : "google_meet";
 }
 
 async function requireActionUser() {
@@ -142,8 +148,11 @@ export async function createProjectAction(formData: FormData) {
     await db.insert(projectMembers).values(memberships).onConflictDoNothing();
   }
 
+  revalidatePath("/dashboard");
+  revalidatePath("/projects");
+  revalidatePath("/admin");
   revalidatePath("/workspace");
-  redirect(`/workspace/${project.slug}`);
+  redirect(`/projects/${project.slug}`);
 }
 
 export async function createTaskAction(formData: FormData) {
@@ -184,6 +193,9 @@ export async function createTaskAction(formData: FormData) {
     updatedAt: new Date(),
   });
 
+  revalidatePath("/dashboard");
+  revalidatePath("/projects");
+  revalidatePath(`/projects/${projectSlug}`);
   revalidatePath(`/workspace/${projectSlug}`);
 }
 
@@ -216,6 +228,9 @@ export async function updateTaskWorkflowAction(formData: FormData) {
     })
     .where(eq(tasks.id, taskId));
 
+  revalidatePath("/dashboard");
+  revalidatePath("/projects");
+  revalidatePath(`/projects/${projectSlug}`);
   revalidatePath(`/workspace/${projectSlug}`);
 }
 
@@ -249,6 +264,9 @@ export async function addEvidenceAction(formData: FormData) {
     createdByProfileId: user.id,
   });
 
+  revalidatePath("/dashboard");
+  revalidatePath("/projects");
+  revalidatePath(`/projects/${projectSlug}`);
   revalidatePath(`/workspace/${projectSlug}`);
 }
 
@@ -263,6 +281,7 @@ export async function createSessionAction(formData: FormData) {
   const durationMinutes = Number(readString(formData, "durationMinutes") || "60");
   const advisorProfileId = readString(formData, "advisorProfileId");
   const clientProfileId = readString(formData, "clientProfileId");
+  const meetingProvider = readMeetingProvider(formData, "meetingProvider");
   const meetingUrl = readOptionalString(formData, "meetingUrl");
   const purchaseId = readOptionalString(formData, "purchaseId");
 
@@ -282,6 +301,15 @@ export async function createSessionAction(formData: FormData) {
     throw new Error("The selected purchase has no remaining sessions");
   }
 
+  if (
+    selectedPurchase &&
+    (selectedPurchase.projectId !== projectId ||
+      selectedPurchase.clientProfileId !== clientProfileId ||
+      selectedPurchase.status !== "paid")
+  ) {
+    throw new Error("The selected purchase does not belong to this session context");
+  }
+
   await db.insert(sessions).values({
     projectId,
     purchaseId,
@@ -289,6 +317,7 @@ export async function createSessionAction(formData: FormData) {
     clientProfileId,
     title,
     agenda,
+    meetingProvider,
     meetingUrl,
     durationMinutes,
     scheduledFor: scheduledFor ? new Date(scheduledFor) : null,
@@ -306,6 +335,10 @@ export async function createSessionAction(formData: FormData) {
       .where(eq(purchases.id, purchaseId!));
   }
 
+  revalidatePath("/dashboard");
+  revalidatePath("/sessions");
+  revalidatePath("/projects");
+  revalidatePath(`/projects/${projectSlug}`);
   revalidatePath(`/workspace/${projectSlug}`);
 }
 
@@ -317,8 +350,12 @@ export async function seedWorkspaceAction() {
   }
 
   const projectSlug = await seedDemoWorkspace();
+  revalidatePath("/dashboard");
+  revalidatePath("/projects");
+  revalidatePath("/sessions");
+  revalidatePath("/admin");
   revalidatePath("/workspace");
-  redirect(`/workspace/${projectSlug}`);
+  redirect(`/projects/${projectSlug}`);
 }
 
 export async function purchaseSessionPackageAction(formData: FormData) {
@@ -341,6 +378,14 @@ export async function purchaseSessionPackageAction(formData: FormData) {
     await assertProjectAccess(user, projectId);
   }
 
+  const project = await db.query.projects.findFirst({
+    where: eq(projects.id, projectId),
+  });
+
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
   const sessionPackage = await db.query.sessionPackages.findFirst({
     where: eq(sessionPackages.id, sessionPackageId),
   });
@@ -353,6 +398,10 @@ export async function purchaseSessionPackageAction(formData: FormData) {
 
   if (!clientProfileId) {
     throw new Error("A client is required for the purchase");
+  }
+
+  if (project.clientProfileId && project.clientProfileId !== clientProfileId) {
+    throw new Error("The selected client does not match the project client");
   }
 
   await db.insert(purchases).values({
@@ -368,7 +417,9 @@ export async function purchaseSessionPackageAction(formData: FormData) {
 
   revalidatePath("/sessions");
   revalidatePath("/admin");
+  revalidatePath("/dashboard");
   revalidatePath("/projects");
+  revalidatePath(`/projects/${project.slug}`);
 }
 
 export async function updateSessionStatusAction(formData: FormData) {
@@ -445,6 +496,7 @@ export async function updateSessionStatusAction(formData: FormData) {
     .where(eq(sessions.id, sessionId));
 
   revalidatePath("/sessions");
+  revalidatePath("/dashboard");
 
   if (projectSlug) {
     revalidatePath(`/projects/${projectSlug}`);
@@ -518,6 +570,59 @@ export async function createSessionPackageAction(formData: FormData) {
     currency: "USD",
     isActive: true,
   });
+
+  revalidatePath("/admin");
+  revalidatePath("/sessions");
+}
+
+export async function toggleUserActiveStateAction(formData: FormData) {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role)) {
+    throw new Error("Only admins can update users");
+  }
+
+  const db = getDb();
+  const profileId = readString(formData, "profileId");
+  const nextState = readString(formData, "nextState");
+
+  if (!profileId || (nextState !== "activate" && nextState !== "deactivate")) {
+    throw new Error("Invalid user toggle payload");
+  }
+
+  await db
+    .update(profiles)
+    .set({
+      isActive: nextState === "activate",
+      updatedAt: new Date(),
+    })
+    .where(eq(profiles.id, profileId));
+
+  revalidatePath("/admin");
+}
+
+export async function toggleSessionPackageActiveStateAction(formData: FormData) {
+  const user = await requireActionUser();
+
+  if (!isAdminRole(user.role)) {
+    throw new Error("Only admins can update packages");
+  }
+
+  const db = getDb();
+  const sessionPackageId = readString(formData, "sessionPackageId");
+  const nextState = readString(formData, "nextState");
+
+  if (!sessionPackageId || (nextState !== "activate" && nextState !== "deactivate")) {
+    throw new Error("Invalid package toggle payload");
+  }
+
+  await db
+    .update(sessionPackages)
+    .set({
+      isActive: nextState === "activate",
+      updatedAt: new Date(),
+    })
+    .where(eq(sessionPackages.id, sessionPackageId));
 
   revalidatePath("/admin");
   revalidatePath("/sessions");

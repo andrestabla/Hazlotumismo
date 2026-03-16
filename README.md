@@ -145,11 +145,21 @@ npm run db:seed
 
 1. Define `DATABASE_URL` en Vercel y en tu entorno local.
 2. Define `AUTH_SECRET` para el modulo de login.
-3. Genera o actualiza migraciones con `npm run db:generate`.
-4. Aplica el esquema a Neon con `npm run db:push`.
-5. Verifica la conexion con `GET /api/health/db`.
+3. Si ya tienes una variable heredada, `NEXTAUTH_SECRET` tambien funciona como compatibilidad.
+4. Genera o actualiza migraciones con `npm run db:generate`.
+5. Aplica el esquema a Neon con `npm run db:push`.
+6. Verifica la conexion con `GET /api/health/db`.
 
 Puedes usar [`.env.example`](./.env.example) como referencia para las variables.
+
+## Deploy en Vercel
+
+1. Conecta el repositorio de GitHub a Vercel.
+2. Configura `DATABASE_URL` y `AUTH_SECRET` en el proyecto de Vercel.
+3. Haz deploy desde `main` para produccion o usa previews para validar cambios.
+4. Revisa `/login`, `/dashboard` y `/api/health/db` despues del build.
+
+La app ya incluye login por roles, dashboard operativo, proyectos con Kanban, sesiones con proveedor de videollamada y admin con control de usuarios y paquetes.
 
 ## Accesos demo
 

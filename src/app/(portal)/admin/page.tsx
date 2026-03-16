@@ -1,6 +1,25 @@
-import { createSessionPackageAction, createUserAction, seedWorkspaceAction } from "@/app/workspace/actions";
+import {
+  createSessionPackageAction,
+  createUserAction,
+  seedWorkspaceAction,
+  toggleSessionPackageActiveStateAction,
+  toggleUserActiveStateAction,
+} from "@/app/workspace/actions";
 import { getAdminDashboardData } from "@/db/portal";
 import { requireAdmin } from "@/lib/auth/session";
+
+const dateFormatter = new Intl.DateTimeFormat("es-CO", {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
+function formatDate(value?: Date | string | null) {
+  if (!value) {
+    return "Sin registro";
+  }
+
+  return dateFormatter.format(new Date(value));
+}
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -216,6 +235,61 @@ export default async function AdminPage() {
                     <p className="mt-2 text-sm text-[color:var(--muted)]">
                       Rol: {profile.role} · Activo: {profile.isActive ? "si" : "no"}
                     </p>
+                    <p className="mt-2 text-sm text-[color:var(--muted)]">
+                      Ultimo acceso: {formatDate(profile.lastLoginAt)}
+                    </p>
+                    <form action={toggleUserActiveStateAction} className="mt-4">
+                      <input type="hidden" name="profileId" value={profile.id} />
+                      <input
+                        type="hidden"
+                        name="nextState"
+                        value={profile.isActive ? "deactivate" : "activate"}
+                      />
+                      <button
+                        type="submit"
+                        className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
+                      >
+                        {profile.isActive ? "Desactivar acceso" : "Reactivar acceso"}
+                      </button>
+                    </form>
+                  </article>
+                ))}
+              </div>
+            </article>
+
+            <article className="card-shadow rounded-[2rem] border border-[color:var(--line)] bg-white p-6">
+              <div className="border-b border-[color:var(--line)] pb-4">
+                <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">Paquetes</p>
+                <h2 className="mt-2 text-3xl font-semibold">Catalogo activo</h2>
+              </div>
+              <div className="mt-5 space-y-4">
+                {data.packages.slice(0, 6).map((sessionPackage) => (
+                  <article
+                    key={sessionPackage.id}
+                    className="rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--paper-strong)] p-4"
+                  >
+                    <h3 className="text-lg font-semibold">{sessionPackage.name}</h3>
+                    <p className="mt-2 text-sm text-[color:var(--muted)]">
+                      {sessionPackage.sessionCount} sesiones · {sessionPackage.durationMinutes} min ·{" "}
+                      {(sessionPackage.priceCents / 100).toFixed(0)} USD
+                    </p>
+                    <p className="mt-2 text-sm text-[color:var(--muted)]">
+                      Estado: {sessionPackage.isActive ? "activo" : "inactivo"}
+                    </p>
+                    <form action={toggleSessionPackageActiveStateAction} className="mt-4">
+                      <input type="hidden" name="sessionPackageId" value={sessionPackage.id} />
+                      <input
+                        type="hidden"
+                        name="nextState"
+                        value={sessionPackage.isActive ? "deactivate" : "activate"}
+                      />
+                      <button
+                        type="submit"
+                        className="rounded-full border border-[color:var(--line)] px-4 py-2 text-sm font-medium transition hover:border-[color:var(--ink)]"
+                      >
+                        {sessionPackage.isActive ? "Desactivar paquete" : "Reactivar paquete"}
+                      </button>
+                    </form>
                   </article>
                 ))}
               </div>
