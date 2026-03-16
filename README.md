@@ -52,7 +52,9 @@ El MVP debe resolver el flujo principal de punta a punta:
 
 - Frontend: Next.js + TypeScript.
 - UI: Tailwind CSS.
-- Backend y base de datos: Supabase (Auth, Postgres, Storage, Realtime).
+- Base de datos: Neon Postgres.
+- ORM y migraciones: Drizzle.
+- Auth sugerido para siguiente fase: Clerk o Auth.js.
 - Pagos: Stripe.
 - Videollamadas MVP: Google Meet via Google Calendar.
 - Videollamadas fase 2: Zoom.
@@ -61,7 +63,7 @@ El MVP debe resolver el flujo principal de punta a punta:
 ### Por que esta combinacion
 
 - Permite lanzar rapido sin construir demasiada infraestructura propia.
-- Supabase encaja bien con entidades relacionales como proyectos, tareas, sesiones y evidencias.
+- Neon y Drizzle encajan bien con entidades relacionales como proyectos, tareas, sesiones y evidencias.
 - Stripe simplifica paquetes de sesiones y conciliacion de pagos.
 - Google Meet por Calendar reduce friccion tecnica para el MVP.
 
@@ -130,6 +132,14 @@ npm run dev
 ```
 
 La app inicial queda servida en `http://localhost:3000`.
+
+## Scripts utiles
+
+```bash
+npm run db:generate
+npm run db:push
+npm run db:seed
+```
 
 ## Base de datos con Neon
 

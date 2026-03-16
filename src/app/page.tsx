@@ -78,10 +78,10 @@ export default function Home() {
               <p className="font-display text-lg">Proyectos no code e IA con trazabilidad</p>
             </div>
             <Link
-              href="/workspace/demo"
+              href="/workspace"
               className="rounded-full bg-[color:var(--ink)] px-4 py-2 text-sm font-medium text-[color:var(--paper-strong)] transition hover:bg-[color:var(--coral)]"
             >
-              Ver workspace demo
+              Entrar al workspace
             </Link>
           </header>
 
@@ -99,10 +99,16 @@ export default function Home() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="/workspace/demo"
+                  href="/workspace"
                   className="rounded-full bg-[color:var(--coral)] px-6 py-3 text-sm font-semibold text-white transition hover:translate-y-[-1px] hover:bg-[color:var(--ink)]"
                 >
-                  Explorar demo
+                  Abrir workspace
+                </Link>
+                <Link
+                  href="/workspace/demo"
+                  className="rounded-full border border-[color:var(--line)] bg-white/75 px-6 py-3 text-sm font-semibold text-[color:var(--ink)] transition hover:border-[color:var(--ink)] hover:bg-white"
+                >
+                  Ver demo visual
                 </Link>
                 <a
                   href="#roadmap"
@@ -135,7 +141,7 @@ export default function Home() {
                   <p className="text-xs uppercase tracking-[0.28em] text-[color:var(--muted)]">
                     Stack
                   </p>
-                  <p className="mt-3 text-2xl font-semibold">Next + Supabase</p>
+                  <p className="mt-3 text-2xl font-semibold">Next + Neon</p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Base rapida para construir, medir y escalar el servicio.
                   </p>
@@ -326,7 +332,7 @@ export default function Home() {
               Una primera version pensada para salir rapido y aprender.
             </h2>
             <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-              Recomendacion: Next.js, Supabase, Stripe y Google Meet para priorizar velocidad,
+              Recomendacion: Next.js, Neon, Drizzle, Stripe y Google Meet para priorizar velocidad,
               claridad operativa y facilidad de evolucion.
             </p>
           </div>
