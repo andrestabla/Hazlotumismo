@@ -7,17 +7,17 @@ const technicalLevels = [
   {
     id: "muy-basicos",
     label: "Muy básicos",
-    description: "Necesitas acompañamiento muy guiado para conectar herramientas y tomar decisiones.",
+    description: "Necesitas guía cercana para conectar herramientas y tomar decisiones.",
   },
   {
     id: "basicos",
     label: "Básicos",
-    description: "Ya puedes moverte en herramientas visuales, pero todavía necesitas estructura.",
+    description: "Ya te mueves en herramientas visuales, pero todavía necesitas estructura.",
   },
   {
     id: "intermedios",
     label: "Intermedios",
-    description: "Puedes ejecutar parte del trabajo y usar la sesión para destrabar y acelerar.",
+    description: "Puedes avanzar por tu cuenta y usar la sesión para destrabar y acelerar.",
   },
 ] as const;
 
@@ -25,17 +25,17 @@ const projectComplexities = [
   {
     id: "muy-facil",
     label: "Muy fácil",
-    description: "Una automatización puntual o una primera entrega acotada.",
+    description: "Una automatización puntual o una entrega acotada.",
   },
   {
     id: "facil",
     label: "Fácil",
-    description: "Un flujo simple con pocos pasos y pocas integraciones.",
+    description: "Un flujo simple con pocas integraciones.",
   },
   {
     id: "moderado",
     label: "Moderado",
-    description: "Cruza varias piezas del negocio y requiere criterio operativo.",
+    description: "Cruza varias piezas del negocio y pide criterio operativo.",
   },
   {
     id: "complejo",
@@ -45,7 +45,7 @@ const projectComplexities = [
   {
     id: "muy-complejo",
     label: "Muy complejo",
-    description: "Necesita varias iteraciones, control y acompañamiento sostenido.",
+    description: "Necesita varias iteraciones y acompañamiento sostenido.",
   },
 ] as const;
 
@@ -53,12 +53,12 @@ const modelLicenseOptions = [
   {
     value: true,
     title: "Sí tengo Claude, GPT o Gemini",
-    description: "Puedo trabajar con una licencia vigente desde el inicio.",
+    description: "Puedo arrancar con una licencia vigente.",
   },
   {
     value: false,
     title: "No tengo licencia activa",
-    description: "Antes de arrancar debería resolver ese requisito.",
+    description: "Antes de arrancar debo resolver ese requisito.",
   },
 ] as const;
 
@@ -66,12 +66,12 @@ const extraToolsOptions = [
   {
     value: true,
     title: "Acepto herramientas extra",
-    description: "Hay margen para software complementario entre USD 10 y USD 30 al mes.",
+    description: "Puedo sumar software complementario entre USD 10 y USD 30 al mes.",
   },
   {
     value: false,
     title: "No acepto ese costo mensual",
-    description: "Prefiero activar la ruta sin software recurrente adicional.",
+    description: "Prefiero evitar software recurrente adicional.",
   },
 ] as const;
 
@@ -222,19 +222,19 @@ export function InvestmentSimulator() {
     {
       number: "01",
       title: "Nivel técnico",
-      description: "Ubica tu punto de partida para estimar cuánto apoyo necesitas durante la ejecución.",
+      description: "Ubica tu punto de partida para estimar el nivel de acompañamiento.",
       value: selectedLevel?.label ?? "Pendiente",
     },
     {
       number: "02",
       title: "Complejidad",
-      description: "Define cuántas piezas hay que coordinar para que el producto funcione de verdad.",
+      description: "Define cuántas piezas hay que coordinar para que el producto funcione.",
       value: selectedComplexity?.label ?? "Pendiente",
     },
     {
       number: "03",
       title: "Licencia",
-      description: "Valida si ya tienes acceso al modelo con el que vas a construir.",
+      description: "Confirma si ya tienes acceso al modelo con el que vas a trabajar.",
       value:
         hasModelLicense === null
           ? "Pendiente"
@@ -245,7 +245,7 @@ export function InvestmentSimulator() {
     {
       number: "04",
       title: "Herramientas extra",
-      description: "Confirma si puedes sumar software ligero para sostener mejor el flujo.",
+      description: "Confirma si puedes sumar software ligero para sostener el flujo.",
       value:
         acceptsExtraTools === null
           ? "Pendiente"
@@ -303,8 +303,7 @@ export function InvestmentSimulator() {
           Calcula tu punto de partida en Hazlo tú mismo.
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
-          Responde una decisión a la vez y al final te mostramos sesiones, inversión de referencia
-          y requisitos de activación.
+          Responde una decisión a la vez. Al final verás sesiones, inversión y activación.
         </p>
       </div>
 
@@ -334,7 +333,7 @@ export function InvestmentSimulator() {
               <h3 className="font-editorial mt-5 max-w-[10ch] text-[2.9rem] leading-[0.88] text-[color:var(--ink-soft)] sm:text-[4rem] lg:text-[4.75rem]">
                 {activeStep.title}
               </h3>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
+              <p className="mt-4 max-w-xl text-base leading-8 text-[color:var(--muted)]">
                 {activeStep.description}
               </p>
             </div>
@@ -354,7 +353,7 @@ export function InvestmentSimulator() {
                   <p className="font-editorial text-[2.2rem] leading-[0.92] text-[color:var(--ink-soft)] sm:text-[2.55rem]">
                     {item.title}
                   </p>
-                  <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-base sm:leading-7">
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-[color:var(--muted)] sm:text-base sm:leading-7">
                     {item.description}
                   </p>
                 </button>
@@ -365,7 +364,7 @@ export function InvestmentSimulator() {
               <p className="max-w-xl text-sm leading-6 text-[color:var(--muted)]">
                 {currentStep === totalQuestions - 1
                   ? "Selecciona una opción y luego haz clic en Ver propuesta."
-                  : "Selecciona una opción y continúa. La recomendación se muestra solo al final."}
+                  : "Selecciona una opción y continúa."}
               </p>
               <div className="flex flex-col-reverse gap-3 sm:flex-row">
                 <button

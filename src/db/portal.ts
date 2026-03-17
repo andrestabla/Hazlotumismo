@@ -1,10 +1,21 @@
-import { and, count, eq, or } from "drizzle-orm";
+import { and, count, eq, inArray, or } from "drizzle-orm";
 import { getDb } from "@/db";
 import { projectMembers, projects, purchases, sessionPackages, sessions, tasks } from "@/db/schema";
 import { isAdminRole, isAdvisorRole } from "@/lib/auth/roles";
 import type { AppSessionUser } from "@/lib/auth/session";
 
 type ProjectWithWorkspaceData = NonNullable<Awaited<ReturnType<typeof getProjectByIdWithWorkspaceData>>>;
+
+const bogotaDayFormatter = new Intl.DateTimeFormat("sv-SE", {
+  timeZone: "America/Bogota",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+function getBogotaDayKey(value: Date | string) {
+  return bogotaDayFormatter.format(typeof value === "string" ? new Date(value) : value);
+}
 
 async function getProjectByIdWithWorkspaceData(projectId: string) {
   const db = getDb();
@@ -78,6 +89,118 @@ export async function getProjectsPageData(user: AppSessionUser) {
       scheduledSessionCount: project.sessions.filter((session) => session.status === "scheduled")
         .length,
     })),
+  };
+}
+
+export async function getPortalSidebarData(user: AppSessionUser) {
+  const db = getDb();
+  const projectIds = await getAccessibleProjectIds(user);
+
+  const visibleProjects = isAdminRole(user.role)
+    ? await db.query.projects.findMany({
+        columns: {
+          id: true,
+          slug: true,
+          name: true,
+          status: true,
+          updatedAt: true,
+        },
+        orderBy: (table, { desc: sortDesc }) => [sortDesc(table.updatedAt)],
+      })
+    : projectIds.length === 0
+      ? []
+      : await db.query.projects.findMany({
+          where: inArray(projects.id, projectIds),
+          columns: {
+            id: true,
+            slug: true,
+            name: true,
+            status: true,
+            updatedAt: true,
+          },
+          orderBy: (table, { desc: sortDesc }) => [sortDesc(table.updatedAt)],
+        });
+
+  const scheduledSessions = isAdminRole(user.role)
+    ? await db.query.sessions.findMany({
+        where: eq(sessions.status, "scheduled"),
+        columns: {
+          id: true,
+          title: true,
+          scheduledFor: true,
+        },
+        with: {
+          project: {
+            columns: {
+              name: true,
+              slug: true,
+            },
+          },
+        },
+        orderBy: (table, { asc: sortAsc }) => [sortAsc(table.scheduledFor)],
+      })
+    : user.role === "client"
+      ? await db.query.sessions.findMany({
+          where: and(eq(sessions.clientProfileId, user.id), eq(sessions.status, "scheduled")),
+          columns: {
+            id: true,
+            title: true,
+            scheduledFor: true,
+          },
+          with: {
+            project: {
+              columns: {
+                name: true,
+                slug: true,
+              },
+            },
+          },
+          orderBy: (table, { asc: sortAsc }) => [sortAsc(table.scheduledFor)],
+        })
+      : await db.query.sessions.findMany({
+          where: and(eq(sessions.advisorProfileId, user.id), eq(sessions.status, "scheduled")),
+          columns: {
+            id: true,
+            title: true,
+            scheduledFor: true,
+          },
+          with: {
+            project: {
+              columns: {
+                name: true,
+                slug: true,
+              },
+            },
+          },
+          orderBy: (table, { asc: sortAsc }) => [sortAsc(table.scheduledFor)],
+        });
+
+  const remainingSessions =
+    user.role === "client"
+      ? await db.query.purchases.findMany({
+          where: eq(purchases.clientProfileId, user.id),
+          columns: {
+            sessionsRemaining: true,
+          },
+        }).then((items) =>
+          items.reduce((total, purchase) => total + purchase.sessionsRemaining, 0),
+        )
+      : 0;
+
+  const activeProject =
+    visibleProjects.find((project) => project.status === "active") ?? visibleProjects[0] ?? null;
+  const todayKey = getBogotaDayKey(new Date());
+  const todayScheduledSessionsCount = scheduledSessions.filter(
+    (session) => session.scheduledFor && getBogotaDayKey(session.scheduledFor) === todayKey,
+  ).length;
+
+  return {
+    projects: visibleProjects,
+    activeProject,
+    remainingSessions,
+    scheduledSessionsCount: scheduledSessions.length,
+    todayScheduledSessionsCount,
+    nextScheduledSession: scheduledSessions[0] ?? null,
   };
 }
 

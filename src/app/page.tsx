@@ -51,9 +51,8 @@ const useCases = [
     title: "Asistente virtual para ventas",
     description:
       "Un chatbot entrenado para calificar leads, responder objeciones y activar la siguiente acción comercial.",
-    tools: ["OpenAI", "Make", "WhatsApp"],
-    state: "Listo para conversaciones reales",
-    previewLabel: "Pipeline comercial",
+    previewType: "assistant",
+    previewLabel: "Asistente comercial",
     previewMetric: "24 conversaciones activas",
     previewTone: "bg-[color:rgba(45,57,52,0.07)]",
     previewAccent: "bg-[color:var(--teal)]",
@@ -62,8 +61,7 @@ const useCases = [
     title: "Sitio web con IA integrada",
     description:
       "Una página de conversión conectada con formularios, contenido dinámico y automatizaciones de seguimiento.",
-    tools: ["Webflow", "Framer", "OpenAI"],
-    state: "Diseño y operación en un mismo flujo",
+    previewType: "website",
     previewLabel: "Experiencia comercial",
     previewMetric: "3 flujos conectados",
     previewTone: "bg-[color:rgba(212,201,184,0.26)]",
@@ -73,8 +71,7 @@ const useCases = [
     title: "Automatización de captación de leads",
     description:
       "Captura, enriquece y distribuye prospectos sin depender de procesos manuales entre marketing y ventas.",
-    tools: ["HubSpot", "Make", "Airtable"],
-    state: "Embudo visible y accionable",
+    previewType: "pipeline",
     previewLabel: "Sistema de captación",
     previewMetric: "12 automatizaciones",
     previewTone: "bg-[color:rgba(8,8,8,0.04)]",
@@ -84,8 +81,7 @@ const useCases = [
     title: "Sistema de gestión interna",
     description:
       "Tableros, formularios, roles y automatizaciones para que el equipo opere con menos fricción y más control.",
-    tools: ["Notion", "Glide", "Zapier"],
-    state: "Orden operativo para el equipo",
+    previewType: "operations",
     previewLabel: "Operación interna",
     previewMetric: "Equipo y procesos",
     previewTone: "bg-[color:rgba(95,121,108,0.11)]",
@@ -193,10 +189,243 @@ const faqs = [
   },
 ];
 
+function renderUseCasePreview(useCase: (typeof useCases)[number]) {
+  if (useCase.previewType === "assistant") {
+    return (
+      <div className="rounded-[1rem] border border-[color:rgba(8,8,8,0.04)] bg-[color:var(--paper-strong)] shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]">
+        <div className="flex items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[color:var(--ink)]/20" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--warning)]/35" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--success)]/45" />
+          </div>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
+            WhatsApp + CRM
+          </p>
+        </div>
+
+        <div className="grid gap-3 p-4 sm:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[0.9rem] bg-[color:rgba(45,57,52,0.05)] p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--teal)]/10 text-sm font-semibold text-[color:var(--teal)]">
+                IA
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
+                  Agente comercial
+                </p>
+                <p className="text-xs text-[color:var(--muted)]">Lead calificado en tiempo real</p>
+              </div>
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <div className="ml-auto max-w-[85%] rounded-[0.85rem] bg-[color:var(--paper-strong)] px-3 py-2 text-sm leading-6 text-[color:var(--ink-soft)]">
+                Quiero saber si integran con mi CRM actual.
+              </div>
+              <div className="max-w-[88%] rounded-[0.85rem] bg-[color:var(--teal)] px-3 py-2 text-sm leading-6 text-white">
+                Sí. Ya tomé tu caso y te propongo una demo con agenda automática.
+              </div>
+              <div className="max-w-[72%] rounded-[0.85rem] bg-[color:var(--paper-strong)] px-3 py-2 text-sm leading-6 text-[color:var(--ink-soft)]">
+                Demo enviada y lead actualizado en CRM.
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="rounded-[0.9rem] bg-[color:var(--paper-muted)] px-4 py-3">
+              <p className="section-label">Acción siguiente</p>
+              <p className="mt-2 text-sm font-semibold text-[color:var(--ink-soft)]">
+                Agenda compartida
+              </p>
+            </div>
+            <div className="rounded-[0.9rem] bg-[color:var(--paper-muted)] px-4 py-3">
+              <p className="section-label">CRM</p>
+              <p className="mt-2 text-sm font-semibold text-[color:var(--ink-soft)]">
+                Contacto enriquecido
+              </p>
+            </div>
+            <div className="rounded-[0.9rem] bg-[color:var(--paper-muted)] px-4 py-3">
+              <p className="section-label">Estado</p>
+              <p className="mt-2 text-sm font-semibold text-[color:var(--ink-soft)]">
+                Secuencia activa
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (useCase.previewType === "website") {
+    return (
+      <div className="rounded-[1rem] border border-[color:rgba(8,8,8,0.04)] bg-[color:var(--paper-strong)] shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]">
+        <div className="flex items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[color:var(--ink)]/20" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--warning)]/35" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--success)]/45" />
+          </div>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
+            Landing + IA
+          </p>
+        </div>
+
+        <div className="p-4">
+          <div className="rounded-[1rem] bg-[color:rgba(212,201,184,0.2)] p-5">
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                Home comercial
+              </p>
+              <span className="rounded-md bg-[color:var(--paper-strong)] px-3 py-1 text-[11px] font-semibold text-[color:var(--ink-soft)]">
+                IA activa
+              </span>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-[1.12fr_0.88fr]">
+              <div>
+                <p className="font-editorial text-[2rem] leading-[0.92] text-[color:var(--ink-soft)]">
+                  Convierte visitas en conversaciones calificadas.
+                </p>
+                <div className="mt-4 h-2 w-28 rounded-full bg-[color:var(--ink)]/12" />
+                <div className="mt-2 h-2 w-40 rounded-full bg-[color:var(--ink)]/10" />
+                <div className="mt-5 flex gap-2">
+                  <span className="rounded-md bg-[color:var(--ink)] px-4 py-2 text-xs font-semibold text-white">
+                    Agendar demo
+                  </span>
+                  <span className="rounded-md border border-[color:var(--line)] px-4 py-2 text-xs font-semibold text-[color:var(--ink-soft)]">
+                    Ver casos
+                  </span>
+                </div>
+              </div>
+
+              <div className="rounded-[0.95rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.2)]">
+                <p className="section-label">Formulario inteligente</p>
+                <div className="mt-4 space-y-2">
+                  <div className="h-10 rounded-[0.75rem] border border-[color:var(--line)] bg-[color:var(--paper)]" />
+                  <div className="h-10 rounded-[0.75rem] border border-[color:var(--line)] bg-[color:var(--paper)]" />
+                  <div className="h-10 rounded-[0.75rem] bg-[color:var(--ink)]" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (useCase.previewType === "pipeline") {
+    return (
+      <div className="rounded-[1rem] border border-[color:rgba(8,8,8,0.04)] bg-[color:var(--paper-strong)] shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]">
+        <div className="flex items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[color:var(--ink)]/20" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--warning)]/35" />
+            <span className="h-2 w-2 rounded-full bg-[color:var(--success)]/45" />
+          </div>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
+            Embudo automatizado
+          </p>
+        </div>
+
+        <div className="grid gap-3 p-4 sm:grid-cols-3">
+          {[
+            {
+              label: "Nuevo",
+              items: ["Meta Ads / Lead 84", "Web / Lead 63"],
+            },
+            {
+              label: "Calificado",
+              items: ["Score 92 / Demo", "Score 81 / Seguimiento"],
+            },
+            {
+              label: "Asignado",
+              items: ["Venta consultiva", "Ruta automática"],
+            },
+          ].map((column) => (
+            <div key={column.label} className="rounded-[0.9rem] bg-[color:var(--paper-muted)] p-3">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                {column.label}
+              </p>
+              <div className="mt-3 space-y-2">
+                {column.items.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-[0.8rem] bg-[color:var(--paper-strong)] px-3 py-3 text-sm font-semibold text-[color:var(--ink-soft)] shadow-[0_18px_24px_-28px_rgba(0,0,0,0.32)]"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-[1rem] border border-[color:rgba(8,8,8,0.04)] bg-[color:var(--paper-strong)] shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]">
+      <div className="flex items-center justify-between border-b border-[color:var(--line)] px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-[color:var(--ink)]/20" />
+          <span className="h-2 w-2 rounded-full bg-[color:var(--warning)]/35" />
+          <span className="h-2 w-2 rounded-full bg-[color:var(--success)]/45" />
+        </div>
+        <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
+          Panel operativo
+        </p>
+      </div>
+
+      <div className="grid gap-4 p-4 sm:grid-cols-[1.02fr_0.98fr]">
+        <div className="rounded-[0.95rem] bg-[color:var(--paper-muted)] p-4">
+          <p className="section-label">Resumen</p>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="rounded-[0.8rem] bg-[color:var(--paper-strong)] px-3 py-3">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                Tareas
+              </p>
+              <p className="mt-2 text-lg font-semibold text-[color:var(--ink-soft)]">18 activas</p>
+            </div>
+            <div className="rounded-[0.8rem] bg-[color:var(--paper-strong)] px-3 py-3">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                Equipo
+              </p>
+              <p className="mt-2 text-lg font-semibold text-[color:var(--ink-soft)]">6 personas</p>
+            </div>
+          </div>
+          <div className="mt-3 rounded-[0.8rem] bg-[color:var(--paper-strong)] px-3 py-3">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--muted)]">
+              Aprobaciones
+            </p>
+            <p className="mt-2 text-sm font-semibold text-[color:var(--ink-soft)]">
+              2 pendientes para esta semana
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-[0.95rem] bg-[color:rgba(95,121,108,0.08)] p-4">
+          <p className="section-label">Flujo interno</p>
+          <div className="mt-4 space-y-2">
+            {["Solicitud recibida", "Revisión del responsable", "Entrega validada"].map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-3 rounded-[0.8rem] bg-[color:var(--paper-strong)] px-3 py-3 text-sm font-semibold text-[color:var(--ink-soft)]"
+              >
+                <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--success)]" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="site-shell app-safe-top app-safe-bottom min-h-screen overflow-x-hidden px-5 sm:px-6 lg:px-10">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-24 sm:gap-32">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-28 sm:gap-36">
         <header className="app-sticky-top sticky z-40">
           <div className="flex items-center justify-between gap-4 border-b border-[color:var(--line)] bg-[color:rgba(253,253,251,0.84)] px-1 py-4 backdrop-blur-sm">
             <div className="flex min-w-0 items-center gap-3">
@@ -232,11 +461,12 @@ export default function Home() {
           <div className="max-w-3xl lg:pr-10">
             <p className="section-label reveal-up">Hazlo tú mismo</p>
             <h1 className="font-editorial reveal-up delay-1 mt-6 max-w-[9ch] text-[3.4rem] leading-[0.88] text-[color:var(--ink)] sm:text-[4.8rem] lg:text-[5.6rem]">
-              Construye soluciones digitales y de IA con acompañamiento real.
+              Construye soluciones digitales y de IA con acompañamiento{" "}
+              <span className="italic">humano</span>.
             </h1>
             <p className="reveal-up delay-2 mt-8 max-w-2xl text-base leading-8 text-[color:var(--muted)] sm:text-lg sm:leading-9">
               Un espacio de trabajo guiado para construir chatbots, automatizaciones y sitios web
-              con sesiones en vivo y trazabilidad clara.
+              con sesiones en vivo y visibilidad clara.
             </p>
 
             <div className="reveal-up delay-3 mt-10 flex flex-col gap-3 sm:flex-row">
@@ -282,7 +512,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-[color:var(--ink-soft)]">Andrea R.</p>
-                      <p className="text-sm text-[color:var(--muted)]">Asesora no-code e IA</p>
+                      <p className="text-sm text-[color:var(--muted)]">Asesora asignada</p>
                     </div>
                   </div>
                 </div>
@@ -309,6 +539,7 @@ export default function Home() {
                       <p className="mt-3 text-sm font-semibold leading-6 text-[color:var(--ink-soft)]">
                         {step.task}
                       </p>
+                      <p className="mt-1 text-xs leading-5 text-[color:var(--muted)]">{step.note}</p>
                     </article>
                   ))}
                 </div>
@@ -383,45 +614,21 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {useCases.map((useCase) => (
-              <article
-                key={useCase.title}
-                className="surface-card group overflow-hidden p-0"
-              >
-                <div className={`p-5 transition duration-500 group-hover:translate-y-[-2px] sm:p-6 ${useCase.previewTone}`}>
-                  <div className="editorial-frame p-5 sm:p-6">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <span className={`h-2.5 w-2.5 rounded-full ${useCase.previewAccent}`} />
-                        <p className="section-label">{useCase.previewLabel}</p>
-                      </div>
-                      <span className="rounded-md bg-[color:var(--paper-strong)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
-                        {useCase.previewMetric}
-                      </span>
+              <article key={useCase.title} className="surface-card group overflow-hidden p-0">
+                <div
+                  className={`p-5 transition duration-500 group-hover:translate-y-[-2px] sm:p-6 ${useCase.previewTone}`}
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <span className={`h-2.5 w-2.5 rounded-full ${useCase.previewAccent}`} />
+                      <p className="section-label">{useCase.previewLabel}</p>
                     </div>
-
-                    <div className="mt-8 space-y-3">
-                      {useCase.tools.map((tool, index) => (
-                        <div
-                          key={tool}
-                          className={`flex items-center justify-between rounded-[0.85rem] bg-[color:var(--paper-strong)] px-4 py-3 ${
-                            index === 0 ? "shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]" : ""
-                          }`}
-                        >
-                          <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
-                            {tool}
-                          </p>
-                          <span className="text-xs uppercase tracking-[0.18em] text-[color:var(--muted)]">
-                            Activo
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="editorial-hairline mt-6" />
-                    <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
-                      {useCase.state}
-                    </p>
+                    <span className="rounded-md bg-[color:var(--paper-strong)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
+                      {useCase.previewMetric}
+                    </span>
                   </div>
+
+                  <div className="mt-5">{renderUseCasePreview(useCase)}</div>
                 </div>
 
                 <div className="px-5 pb-6 pt-5 sm:px-6 sm:pb-8">

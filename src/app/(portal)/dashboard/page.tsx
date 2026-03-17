@@ -11,12 +11,6 @@ const priorityWeight = {
   low: 2,
 } as const;
 
-const roleLabels = {
-  admin: "Admin",
-  advisor: "Asesor",
-  client: "Cliente",
-} as const;
-
 export default async function DashboardPage() {
   const user = await requireUser();
   const [projectsData, sessionsData] = await Promise.all([
@@ -93,30 +87,15 @@ export default async function DashboardPage() {
     <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <header className="surface-card p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
-            <div className="max-w-4xl">
-              <div className="eyebrow">Dashboard</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
-                Operación del proyecto en un vistazo
-              </h1>
-              <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
-                Sigue el avance, detecta bloqueos y entra directo a tus proyectos, sesiones y
-                tareas más importantes con una lectura mucho más clara y ejecutiva.
-              </p>
-            </div>
-
-            <div className="border-t border-[color:var(--line)] pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-              <p className="section-label">Tu contexto</p>
-              <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
-                {user.name ?? "Usuario"}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                Rol actual: {roleLabels[user.role]}.
-              </p>
-              <p className="mt-1 text-sm leading-6 text-[color:var(--muted)]">
-                {visibleProjects.length} proyectos visibles.
-              </p>
-            </div>
+          <div className="max-w-4xl">
+            <div className="eyebrow">Dashboard</div>
+            <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
+              Operación del proyecto en un vistazo
+            </h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
+              Sigue el avance, detecta bloqueos y entra directo a las tareas y sesiones con una
+              lectura mucho más clara y ejecutiva.
+            </p>
           </div>
         </header>
 
@@ -135,16 +114,13 @@ export default async function DashboardPage() {
         <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
           <div className="grid gap-6">
             <article className="surface-card p-8">
-              <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="border-b border-[color:var(--line)] pb-4">
                 <div>
                   <p className="section-label">Proyectos recientes</p>
                   <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
                     Tus workspaces
                   </h2>
                 </div>
-                <Link href="/projects" className="premium-button premium-button-secondary px-4 py-2.5">
-                  Ver todos
-                </Link>
               </div>
 
               <div className="mt-4 divide-y divide-[color:var(--line)]">
@@ -229,16 +205,13 @@ export default async function DashboardPage() {
 
           <aside className="grid gap-6">
             <article className="surface-card p-8">
-              <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="border-b border-[color:var(--line)] pb-4">
                 <div>
                   <p className="section-label">Agenda</p>
                   <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                     Próximas sesiones
                   </h2>
                 </div>
-                <Link href="/sessions" className="premium-button premium-button-secondary px-4 py-2.5">
-                  Ver sesiones
-                </Link>
               </div>
 
               <div className="mt-4 divide-y divide-[color:var(--line)]">
@@ -279,20 +252,6 @@ export default async function DashboardPage() {
                     Como admin, tambien puedes revisar usuarios inactivos, paquetes deshabilitados
                     y resembrar el demo desde el panel administrativo.
                   </p>
-                ) : null}
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/projects" className="premium-button px-4 py-2.5">
-                  Ir a proyectos
-                </Link>
-                <Link href="/sessions" className="premium-button premium-button-secondary px-4 py-2.5">
-                  Ir a sesiones
-                </Link>
-                {isAdminRole(user.role) ? (
-                  <Link href="/admin" className="premium-button premium-button-secondary px-4 py-2.5">
-                    Ir a admin
-                  </Link>
                 ) : null}
               </div>
             </article>

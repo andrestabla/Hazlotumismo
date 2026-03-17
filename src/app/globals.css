@@ -240,7 +240,7 @@ p {
   padding: 0.92rem 1.2rem;
   font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.018em;
   color: var(--paper-strong);
   box-shadow: 0 16px 32px -20px rgba(8, 8, 8, 0.35);
   transition:
@@ -327,8 +327,8 @@ p {
 .premium-input:focus,
 .premium-select:focus,
 .premium-textarea:focus {
-  border-color: rgba(8, 8, 8, 0.16);
-  box-shadow: 0 0 0 2px rgba(8, 8, 8, 0.05);
+  border-color: rgba(8, 8, 8, 0.14);
+  box-shadow: 0 0 0 1px rgba(8, 8, 8, 0.08);
 }
 
 .premium-textarea {

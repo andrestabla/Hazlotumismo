@@ -26,7 +26,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           autoComplete="email"
           required
           className="premium-input"
-          placeholder="cliente@hazlotumismo.demo"
+          placeholder="tu@empresa.com"
         />
       </label>
 
@@ -38,7 +38,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           autoComplete="current-password"
           required
           className="premium-input"
-          placeholder="demo12345"
+          placeholder="Tu contraseña"
         />
       </label>
 
