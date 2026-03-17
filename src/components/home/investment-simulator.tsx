@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const technicalLevels = [
   {
@@ -103,11 +103,11 @@ type TechnicalLevelId = (typeof technicalLevels)[number]["id"];
 type ProjectComplexityId = (typeof projectComplexities)[number]["id"];
 
 function getSessionRate(sessions: number) {
-  if (sessions <= 1) {
+  if (sessions <= 5) {
     return 50;
   }
 
-  if (sessions <= 3) {
+  if (sessions <= 10) {
     return 45;
   }
 
@@ -119,7 +119,7 @@ function getSuggestedPack(sessions: number) {
     return "Pack Arranque";
   }
 
-  if (sessions <= 8) {
+  if (sessions <= 10) {
     return "Pack Desarrollo";
   }
 
@@ -147,6 +147,46 @@ function getActivationState(hasModelLicense: boolean, acceptsExtraTools: boolean
   return items;
 }
 
+function formatUsdAmount(value: number) {
+  return `USD ${value.toLocaleString("en-US")}`;
+}
+
+function useAnimatedNumber(target: number | null, active: boolean) {
+  const [value, setValue] = useState(target ?? 0);
+  const valueRef = useRef(value);
+
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    if (!active || target === null) {
+      return;
+    }
+
+    let frame = 0;
+    const duration = 520;
+    const startValue = valueRef.current;
+    const startTime = performance.now();
+
+    const tick = (timestamp: number) => {
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(startValue + (target - startValue) * eased));
+
+      if (progress < 1) {
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    frame = window.requestAnimationFrame(tick);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [active, target]);
+
+  return value;
+}
+
 export function InvestmentSimulator() {
   const [currentStep, setCurrentStep] = useState(0);
   const [technicalLevel, setTechnicalLevel] = useState<TechnicalLevelId | null>(null);
@@ -161,6 +201,13 @@ export function InvestmentSimulator() {
   const rate = sessions ? getSessionRate(sessions) : null;
   const investment = sessions && rate ? sessions * rate : null;
   const suggestedPack = sessions ? getSuggestedPack(sessions) : null;
+  const rateDescription = sessions
+    ? sessions <= 5
+      ? "Para estimaciones de 1 a 5 sesiones aplica USD 50 por sesión."
+      : sessions <= 10
+        ? "Para estimaciones de 6 a 10 sesiones aplica USD 45 por sesión."
+        : "Para estimaciones de 11 a 15 sesiones aplica USD 40 por sesión."
+    : "";
   const activationItems = getActivationState(hasModelLicense === true, acceptsExtraTools === true);
   const pendingItems = activationItems.filter((item) => !item.ready);
   const readyToStart =
@@ -212,6 +259,9 @@ export function InvestmentSimulator() {
   const activeStep = steps[Math.min(currentStep, totalQuestions - 1)];
   const progress = isResultStep ? 100 : ((currentStep + 1) / totalQuestions) * 100;
   const canContinue = currentStep < totalQuestions ? stepCompletion[currentStep] : false;
+  const animatedSessions = useAnimatedNumber(sessions, isResultStep);
+  const animatedInvestment = useAnimatedNumber(investment, isResultStep);
+  const animatedRate = useAnimatedNumber(rate, isResultStep);
   const currentOptions =
     currentStep === 0
       ? technicalLevels.map((item) => ({
@@ -249,12 +299,12 @@ export function InvestmentSimulator() {
     <div className="surface-card p-5 sm:p-6 lg:p-12">
       <div className="max-w-3xl">
         <p className="section-label">Simulador de inversión</p>
-        <h2 className="mt-4 font-display text-3xl leading-[0.95] tracking-[-0.045em] sm:text-5xl">
+        <h2 className="font-editorial mt-5 max-w-[12ch] text-[3rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.15rem]">
           Calcula tu punto de partida en Hazlo tú mismo.
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
-          Sigue el flujo, responde cada paso y al final te mostramos la ruta sugerida con sesiones,
-          inversión y requisitos de activación.
+          Responde una decisión a la vez y al final te mostramos sesiones, inversión de referencia
+          y requisitos de activación.
         </p>
       </div>
 
@@ -266,16 +316,22 @@ export function InvestmentSimulator() {
           />
         </div>
 
-        <div className="mt-5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]">
-          <span>{isResultStep ? "Resultado" : "Simulador guiado"}</span>
-          <span>{isResultStep ? "Completado" : `${currentStep + 1} / ${totalQuestions}`}</span>
+        <div className="mt-5 flex items-center justify-between gap-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]">
+          <span>{isResultStep ? "Ruta propuesta" : activeStep.title}</span>
+          <span className="truncate text-right">
+            {isResultStep
+              ? "Completado"
+              : activeStep.value === "Pendiente"
+                ? "Respuesta pendiente"
+                : activeStep.value}
+          </span>
         </div>
 
         {!isResultStep ? (
           <div className="mt-10">
             <div className="max-w-3xl">
               <p className="section-label">Hazlo tú mismo</p>
-              <h3 className="mt-4 font-display text-[2.5rem] leading-[0.9] tracking-[-0.05em] text-[color:var(--ink-soft)] sm:text-[3.6rem] lg:text-[4.4rem]">
+              <h3 className="font-editorial mt-5 max-w-[10ch] text-[2.9rem] leading-[0.88] text-[color:var(--ink-soft)] sm:text-[4rem] lg:text-[4.75rem]">
                 {activeStep.title}
               </h3>
               <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
@@ -289,13 +345,13 @@ export function InvestmentSimulator() {
                   key={item.key}
                   className={`w-full rounded-[0.9rem] border px-5 py-5 text-left transition sm:px-6 sm:py-6 ${
                     item.selected
-                      ? "border-[color:var(--ink)] bg-[color:var(--paper-strong)] shadow-[0_24px_40px_-28px_rgba(0,0,0,0.35)]"
-                      : "border-[color:var(--line)] bg-[color:rgba(255,255,255,0.74)] hover:border-[color:var(--line-strong)] hover:bg-[color:var(--paper-strong)]"
+                      ? "border-[color:var(--ink)] bg-[color:var(--paper-strong)] shadow-[0_24px_40px_-28px_rgba(0,0,0,0.22)]"
+                      : "border-[color:var(--line)] bg-[color:rgba(255,255,255,0.72)] hover:border-[color:var(--line-strong)] hover:bg-[color:var(--paper-strong)] hover:translate-y-[-2px]"
                   }`}
                   onClick={item.onSelect}
                   type="button"
                 >
-                  <p className="font-display text-[1.9rem] leading-none tracking-[-0.04em] text-[color:var(--ink-soft)] sm:text-[2.25rem]">
+                  <p className="font-editorial text-[2.2rem] leading-[0.92] text-[color:var(--ink-soft)] sm:text-[2.55rem]">
                     {item.title}
                   </p>
                   <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-base sm:leading-7">
@@ -339,7 +395,7 @@ export function InvestmentSimulator() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="section-label">Ruta prioritaria</p>
-                  <h4 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
+                  <h4 className="font-editorial mt-3 text-[2.75rem] leading-[0.9] text-[color:var(--ink-soft)]">
                     Hazlo tú mismo
                   </h4>
                 </div>
@@ -364,25 +420,23 @@ export function InvestmentSimulator() {
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Sesiones estimadas</p>
-                <p className="mt-3 text-3xl font-semibold">{sessions}</p>
+                <p className="mt-3 text-3xl font-semibold">{animatedSessions}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
                   {selectedLevel?.label} + {selectedComplexity?.label}
                 </p>
               </div>
               <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Inversión de referencia</p>
-                <p className="mt-3 text-3xl font-semibold">USD {investment}</p>
+                <p className="mt-3 text-3xl font-semibold">{formatUsdAmount(animatedInvestment)}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
                   Referencia calculada según la estimación de trabajo.
                 </p>
               </div>
               <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Tarifa estimada</p>
-                <p className="mt-3 text-2xl font-semibold">USD {rate}</p>
+                <p className="mt-3 text-2xl font-semibold">{formatUsdAmount(animatedRate)}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                  {sessions === 3
-                    ? "Este es el único caso que cae en la tarifa especial de USD 45."
-                    : "Esta referencia se calcula con la estimación de sesiones del flujo."}
+                  {rateDescription}
                 </p>
               </div>
               <div className="editorial-frame px-4 py-4">

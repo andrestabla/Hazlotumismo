@@ -111,21 +111,6 @@ const operatingStories = [
   },
 ];
 
-const heroHighlights = [
-  {
-    title: "Meta definida",
-    detail: "Partimos de un objetivo concreto y priorizado.",
-  },
-  {
-    title: "Trabajo compartido",
-    detail: "La sesión mueve el producto contigo, no por fuera.",
-  },
-  {
-    title: "Avance visible",
-    detail: "Tareas, acuerdos y entregables quedan en el mismo lugar.",
-  },
-] as const;
-
 const deliveryFlow = [
   {
     stage: "Descubrimiento",
@@ -211,53 +196,50 @@ const faqs = [
 export default function Home() {
   return (
     <main className="site-shell app-safe-top app-safe-bottom min-h-screen overflow-x-hidden px-5 sm:px-6 lg:px-10">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-20 sm:gap-24">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-24 sm:gap-32">
         <header className="app-sticky-top sticky z-40">
-          <div className="surface-card flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3">
+          <div className="flex items-center justify-between gap-4 border-b border-[color:var(--line)] bg-[color:rgba(253,253,251,0.84)] px-1 py-4 backdrop-blur-sm">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[color:var(--ink)] text-sm font-semibold text-white">
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-[color:var(--ink)] text-sm font-semibold text-white">
                 HT
               </div>
               <div className="min-w-0">
                 <p className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
                   Hazlo tú mismo
                 </p>
-                <p className="hidden text-sm font-medium text-[color:var(--ink-soft)] md:block">
+                <p className="hidden text-sm text-[color:var(--muted)] md:block">
                   Co-creación operativa para no-code e IA
                 </p>
               </div>
             </div>
 
-            <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-end">
-              <nav className="hidden items-center gap-6 text-sm text-[color:var(--muted)] xl:flex">
+            <div className="flex items-center gap-4">
+              <nav className="hidden items-center gap-6 text-sm text-[color:var(--muted)] lg:flex">
                 <a href="#metodologia">Metodología</a>
                 <a href="#casos">Casos de uso</a>
-                <a href="#planes">Planes</a>
               </nav>
               <Link
                 href="/login"
-                className="premium-button premium-button-accent w-full px-5 py-3 sm:w-auto"
+                className="premium-button premium-button-accent px-4 py-2.5"
               >
-                <span className="sm:hidden">Agendar</span>
-                <span className="hidden sm:inline xl:hidden">Agendar sesión</span>
-                <span className="hidden xl:inline">Agendar primera sesión</span>
+                Agendar sesión
               </Link>
             </div>
           </div>
         </header>
 
-        <section className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-          <div className="max-w-3xl lg:pr-4">
-            <div className="eyebrow">Metodología, orden y ejecución</div>
-            <h1 className="mt-8 max-w-4xl font-display text-[3.45rem] leading-[0.9] tracking-[-0.05em] text-[color:var(--ink)] sm:text-[4.9rem] lg:text-[5.8rem]">
-              Construye tus soluciones digitales y de IA. Acompañado, paso a paso.
+        <section className="grid gap-10 lg:grid-cols-[0.96fr_0.84fr] lg:items-center lg:gap-18">
+          <div className="max-w-3xl lg:pr-10">
+            <p className="section-label reveal-up">Hazlo tú mismo</p>
+            <h1 className="font-editorial reveal-up delay-1 mt-6 max-w-[9ch] text-[3.4rem] leading-[0.88] text-[color:var(--ink)] sm:text-[4.8rem] lg:text-[5.6rem]">
+              Construye soluciones digitales y de IA con acompañamiento real.
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[color:var(--muted)] sm:text-lg sm:leading-9">
-              Construye chatbots, automatizaciones y sitios web con una metodología guiada,
-              sesiones en vivo y trazabilidad real.
+            <p className="reveal-up delay-2 mt-8 max-w-2xl text-base leading-8 text-[color:var(--muted)] sm:text-lg sm:leading-9">
+              Un espacio de trabajo guiado para construir chatbots, automatizaciones y sitios web
+              con sesiones en vivo y trazabilidad clara.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="reveal-up delay-3 mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/workspace/demo"
                 className="premium-button premium-button-accent w-full px-6 py-3 sm:w-auto"
@@ -266,126 +248,86 @@ export default function Home() {
               </Link>
               <Link
                 href="/login"
-                className="premium-button premium-button-secondary w-full px-6 py-3 sm:w-auto"
+                className="premium-button premium-button-ghost w-full px-4 py-3 sm:w-auto"
               >
                 Agendar primera sesión
               </Link>
             </div>
-
-            <div className="mt-10 grid gap-5 sm:grid-cols-3">
-              {heroHighlights.map((item) => (
-                <article key={item.title} className="border-t border-[color:var(--line)] pt-5">
-                  <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--muted)]">
-                    {item.title}
-                  </p>
-                  <p className="mt-3 text-base leading-7 text-[color:var(--ink-soft)]">
-                    {item.detail}
-                  </p>
-                </article>
-              ))}
-            </div>
           </div>
 
-          <div className="surface-card overflow-hidden p-4 sm:p-6 lg:p-8">
-            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-              <div className="editorial-frame p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
-                  <div>
-                    <p className="section-label">Sala de trabajo</p>
-                    <h2 className="mt-3 text-[1.9rem] font-display leading-none tracking-[-0.04em]">
-                      Sesión activa
-                    </h2>
-                  </div>
-                  <div className="rounded-md bg-[color:var(--gold-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
-                    En vivo
-                  </div>
+          <div className="surface-card reveal-up delay-3 overflow-hidden p-5 sm:p-6 lg:p-7">
+            <div className="editorial-frame p-5 sm:p-6">
+              <div className="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-5">
+                <div>
+                  <p className="section-label">Sesión en curso</p>
+                  <h2 className="font-editorial mt-3 text-[2.35rem] leading-[0.9] text-[color:var(--ink-soft)]">
+                    Trabajo visible
+                  </h2>
                 </div>
-
-                <div className="mt-6 rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
-                      AR
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold">Andrea R.</p>
-                      <p className="text-sm text-[color:var(--muted)]">Asesora no-code e IA</p>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
-                    Objetivo actual: conectar formulario, CRM y agente de ventas para mover leads
-                    reales.
-                  </p>
-                </div>
-
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
-                    <p className="section-label">Duración</p>
-                    <p className="mt-3 text-xl font-semibold">60 min</p>
-                  </div>
-                  <div className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
-                    <p className="section-label">Canal</p>
-                    <p className="mt-3 text-xl font-semibold">Meet integrado</p>
-                  </div>
+                <div className="rounded-md bg-[color:var(--gold-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
+                  En vivo
                 </div>
               </div>
 
-              <div className="editorial-frame p-5 sm:p-6">
-                <div className="flex items-end justify-between gap-4 border-b border-[color:var(--line)] pb-4">
-                  <div>
-                    <p className="section-label">Tablero del proyecto</p>
-                    <h3 className="mt-3 text-[1.9rem] font-display leading-none tracking-[-0.04em]">
-                      Progreso visible
-                    </h3>
+              <div className="mt-6 grid gap-4 sm:grid-cols-[1.05fr_0.95fr]">
+                <div className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-5 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.24)]">
+                  <p className="section-label">Objetivo actual</p>
+                  <p className="mt-4 text-xl font-semibold leading-8 tracking-[-0.025em] text-[color:var(--ink-soft)]">
+                    Conectar formulario, CRM y agente de ventas.
+                  </p>
+                  <div className="editorial-hairline mt-5" />
+                  <div className="mt-5 flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
+                      AR
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[color:var(--ink-soft)]">Andrea R.</p>
+                      <p className="text-sm text-[color:var(--muted)]">Asesora no-code e IA</p>
+                    </div>
                   </div>
-                  <p className="text-sm text-[color:var(--muted)]">De idea a entrega</p>
                 </div>
 
-                <div className="mt-5 space-y-3">
+                <div className="space-y-3">
                   {deliveryFlow.map((step) => (
                     <article
                       key={step.stage}
-                      className="rounded-[0.95rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]"
+                      className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.18)]"
                     >
-                      <div className="flex items-start gap-3">
-                        <span className={`mt-1.5 h-2.5 w-2.5 rounded-full ${step.dot}`} />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                              {step.stage}
-                            </p>
-                            <span
-                              className={`inline-flex w-fit rounded-md px-3 py-1 text-[11px] font-semibold ${step.badgeClass}`}
-                            >
-                              {step.badgeLabel}
-                            </span>
-                          </div>
-                          <p className="mt-3 text-sm font-semibold text-[color:var(--ink-soft)]">
-                            {step.task}
-                          </p>
-                          <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                            {step.note}
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span className={`h-2.5 w-2.5 rounded-full ${step.dot}`} />
+                          <p className="text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                            {step.stage}
                           </p>
                         </div>
+                        <span
+                          className={`inline-flex rounded-md px-3 py-1 text-[11px] font-semibold ${step.badgeClass}`}
+                        >
+                          {step.badgeLabel}
+                        </span>
                       </div>
+                      <p className="mt-3 text-sm font-semibold leading-6 text-[color:var(--ink-soft)]">
+                        {step.task}
+                      </p>
                     </article>
                   ))}
                 </div>
+              </div>
 
-                <div className="mt-4 rounded-[0.95rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
-                  <p className="section-label">Siguiente hito</p>
-                  <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[color:var(--ink-soft)]">
-                    Validar el formulario y lanzar la primera prueba del flujo.
-                  </p>
-                </div>
+              <div className="mt-4 rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.18)]">
+                <p className="section-label">Siguiente paso</p>
+                <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[color:var(--ink-soft)]">
+                  Validar la primera prueba del flujo y ajustar el recorrido comercial.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-          <div>
+        <section className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <div className="max-w-2xl">
             <p className="section-label">Por qué estar aquí</p>
-            <h2 className="mt-4 max-w-2xl font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[13ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               La barrera no es la tecnología. Es saber cómo estructurarla.
             </h2>
             <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
@@ -411,7 +353,7 @@ export default function Home() {
         <section id="metodologia" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Cómo funciona</p>
-            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[14ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               Una metodología simple para convertir ideas en productos tangibles.
             </h2>
           </div>
@@ -420,7 +362,7 @@ export default function Home() {
             {workflow.map((item) => (
               <article key={item.step} className="border-t border-[color:var(--line)] pt-6">
                 <p className="text-sm font-semibold text-[color:var(--muted)]">{item.step}</p>
-                <h3 className="mt-5 text-[1.9rem] font-display leading-[0.95] tracking-[-0.04em]">
+                <h3 className="font-editorial mt-5 text-[2.2rem] leading-[0.92] text-[color:var(--ink-soft)]">
                   {item.title}
                 </h3>
                 <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
@@ -434,7 +376,7 @@ export default function Home() {
         <section id="casos" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Catálogo de posibilidades</p>
-            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[15ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               Casos de uso que un negocio puede construir con supervisión y trazabilidad.
             </h2>
           </div>
@@ -443,9 +385,9 @@ export default function Home() {
             {useCases.map((useCase) => (
               <article
                 key={useCase.title}
-                className="surface-card overflow-hidden p-0"
+                className="surface-card group overflow-hidden p-0"
               >
-                <div className={`p-5 sm:p-6 ${useCase.previewTone}`}>
+                <div className={`p-5 transition duration-500 group-hover:translate-y-[-2px] sm:p-6 ${useCase.previewTone}`}>
                   <div className="editorial-frame p-5 sm:p-6">
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
@@ -501,7 +443,7 @@ export default function Home() {
         <section className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:items-start">
           <div className="surface-card p-8 lg:p-10">
             <p className="section-label">Control visible</p>
-            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[14ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               El valor no está en prometer magia, sino en mostrar control del proceso.
             </h2>
             <div className="mt-8 grid gap-5 sm:grid-cols-3">
@@ -544,7 +486,7 @@ export default function Home() {
         <section id="planes" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Planes transparentes</p>
-            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[14ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               Compra capacidad de ejecución, no horas sueltas sin estructura.
             </h2>
             <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
@@ -573,7 +515,7 @@ export default function Home() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="section-label">{plan.sessions}</p>
-                    <h3 className="mt-4 text-3xl font-display leading-[0.95] tracking-[-0.045em]">
+                    <h3 className="font-editorial mt-4 text-[2.4rem] leading-[0.92] text-[color:var(--ink-soft)]">
                       {plan.name}
                     </h3>
                   </div>
@@ -601,9 +543,9 @@ export default function Home() {
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
-          <div>
+          <div className="max-w-2xl">
             <p className="section-label">Preguntas frecuentes</p>
-            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+            <h2 className="font-editorial mt-5 max-w-[12ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
               Respuestas claras para bajar fricción antes de empezar.
             </h2>
           </div>
@@ -611,7 +553,7 @@ export default function Home() {
           <div className="surface-card divide-y divide-[color:var(--line)] p-2">
             {faqs.map((item) => (
               <details key={item.question} className="group px-6 py-5">
-                <summary className="cursor-pointer list-none pr-8 font-display text-[1.9rem] leading-[0.98] tracking-[-0.04em]">
+                <summary className="font-editorial cursor-pointer list-none pr-8 text-[2rem] leading-[0.94] text-[color:var(--ink-soft)]">
                   {item.question}
                 </summary>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-[color:var(--muted)]">
@@ -626,7 +568,7 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="max-w-3xl">
               <p className="section-label">Cierre</p>
-              <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
+              <h2 className="font-editorial mt-5 max-w-[14ch] text-[3.1rem] leading-[0.9] text-[color:var(--ink-soft)] sm:text-[4.2rem]">
                 Si la idea ya existe, el siguiente paso es ponerla a operar.
               </h2>
               <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
@@ -645,6 +587,31 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <footer className="border-t border-[color:var(--line)] pb-4 pt-1">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[color:var(--ink)] text-[11px] font-semibold text-white">
+                  HT
+                </div>
+                <p className="text-xs uppercase tracking-[0.34em] text-[color:var(--muted)]">
+                  Hazlo tú mismo
+                </p>
+              </div>
+              <p className="max-w-md text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+                Co-creación operativa para no-code e IA.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-5 text-xs uppercase tracking-[0.22em] text-[color:var(--muted)]">
+              <a href="#metodologia">Metodología</a>
+              <a href="#casos">Casos de uso</a>
+              <a href="#planes">Planes</a>
+              <Link href="/login">Agendar</Link>
+            </div>
+          </div>
+        </footer>
       </div>
     </main>
   );
