@@ -14,15 +14,15 @@ export async function PortalHeader() {
   const user = session?.user;
 
   return (
-    <header className="sticky top-0 z-40 px-6 py-4 lg:px-10">
+    <header className="app-sticky-top sticky z-40 px-6 py-4 lg:px-10">
       <div className="surface-card mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-[color:var(--paper-strong)]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:var(--ink)] text-sm font-semibold text-[color:var(--paper-strong)]">
             HT
           </div>
           <div>
             <Link href="/" className="text-xs uppercase tracking-[0.3em] text-[color:var(--muted)]">
-              Hazlo tu mismo
+              Hazlo tú mismo
             </Link>
             <p className="mt-1 text-sm font-medium text-[color:var(--ink-soft)]">
               Portal de proyectos, sesiones y evidencia
@@ -72,7 +72,7 @@ export async function PortalHeader() {
             </div>
           ) : (
             <Link href="/login" className="premium-button px-4 py-2.5">
-              Iniciar sesion
+              Iniciar sesión
             </Link>
           )}
         </div>

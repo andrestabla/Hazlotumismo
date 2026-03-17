@@ -208,205 +208,108 @@ export function InvestmentSimulator() {
     },
   ] as const;
   const totalQuestions = steps.length;
-  const flowSteps = [
-    { number: "01", title: "Nivel", value: steps[0].value },
-    { number: "02", title: "Complejidad", value: steps[1].value },
-    { number: "03", title: "Licencia", value: steps[2].value },
-    { number: "04", title: "Herramientas", value: steps[3].value },
-    { number: "05", title: "Ruta", value: "Propuesta final" },
-  ] as const;
   const isResultStep = currentStep === totalQuestions;
   const activeStep = steps[Math.min(currentStep, totalQuestions - 1)];
-  const progress = (currentStep / totalQuestions) * 100;
+  const progress = isResultStep ? 100 : ((currentStep + 1) / totalQuestions) * 100;
   const canContinue = currentStep < totalQuestions ? stepCompletion[currentStep] : false;
+  const currentOptions =
+    currentStep === 0
+      ? technicalLevels.map((item) => ({
+          key: item.id,
+          title: item.label,
+          description: item.description,
+          selected: item.id === technicalLevel,
+          onSelect: () => setTechnicalLevel(item.id),
+        }))
+      : currentStep === 1
+        ? projectComplexities.map((item) => ({
+            key: item.id,
+            title: item.label,
+            description: item.description,
+            selected: item.id === complexity,
+            onSelect: () => setComplexity(item.id),
+          }))
+        : currentStep === 2
+          ? modelLicenseOptions.map((item) => ({
+              key: item.title,
+              title: item.title,
+              description: item.description,
+              selected: item.value === hasModelLicense,
+              onSelect: () => setHasModelLicense(item.value),
+            }))
+          : extraToolsOptions.map((item) => ({
+              key: item.title,
+              title: item.title,
+              description: item.description,
+              selected: item.value === acceptsExtraTools,
+              onSelect: () => setAcceptsExtraTools(item.value),
+            }));
 
   return (
-    <div className="surface-card p-5 sm:p-6 lg:p-10">
+    <div className="surface-card p-5 sm:p-6 lg:p-12">
       <div className="max-w-3xl">
         <p className="section-label">Simulador de inversión</p>
-        <h2 className="mt-4 font-display text-3xl leading-tight tracking-[-0.03em] sm:text-4xl">
+        <h2 className="mt-4 font-display text-3xl leading-[0.95] tracking-[-0.045em] sm:text-5xl">
           Calcula tu punto de partida en Hazlo tú mismo.
         </h2>
-        <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
+        <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
           Sigue el flujo, responde cada paso y al final te mostramos la ruta sugerida con sesiones,
           inversión y requisitos de activación.
         </p>
       </div>
 
-      <div className="mt-8 rounded-xl border border-[color:var(--line)] bg-white p-5 sm:p-6 lg:p-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="section-label">
-              {isResultStep ? "Resultado final" : `Paso ${currentStep + 1} de ${totalQuestions}`}
-            </p>
-            <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[color:var(--ink-soft)]">
-              {isResultStep ? "Tu ruta sugerida" : activeStep.title}
-            </h3>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-              {isResultStep
-                ? "Con tus respuestas ya podemos aterrizar una recomendación clara para activar Hazlo tú mismo."
-                : activeStep.description}
-            </p>
-          </div>
-          <div className="rounded-full bg-[color:var(--accent-soft)] px-4 py-2 text-sm font-semibold text-[color:var(--accent)]">
-            {isResultStep ? "Final" : activeStep.number}
-          </div>
-        </div>
-
-        <div className="mt-6 h-2 overflow-hidden rounded-full bg-[color:rgba(17,19,21,0.06)]">
+      <div className="surface-card-muted mt-8 p-5 sm:p-8 lg:p-10">
+        <div className="h-px overflow-hidden bg-[color:rgba(8,8,8,0.08)]">
           <div
-            className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-300"
+            className="h-full bg-[color:var(--ink)] transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="relative mt-8">
-          <div className="absolute left-[10%] right-[10%] top-5 h-px bg-[color:rgba(17,19,21,0.08)]">
-            <div
-              className="h-full bg-[color:var(--accent)] transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          <div className="relative grid grid-cols-5 gap-2">
-            {flowSteps.map((step, index) => {
-              const isCompleted = index < currentStep || isResultStep;
-              const isActive = index === currentStep && !isResultStep;
-              const isResult = index === flowSteps.length - 1;
-              const label = isResult ? "Ruta" : step.number;
-
-              return (
-                <div key={step.number} className="flex flex-col items-center text-center">
-                  <button
-                    className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold transition sm:h-12 sm:w-12 ${
-                      isActive
-                        ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                        : isCompleted
-                          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)]"
-                          : "border-[color:var(--line)] bg-white text-[color:var(--muted)]"
-                    }`}
-                    onClick={() => {
-                      if (index <= currentStep || isResultStep) {
-                        setCurrentStep(Math.min(index, totalQuestions));
-                      }
-                    }}
-                    type="button"
-                  >
-                    {label}
-                  </button>
-                  <p className="mt-3 text-[11px] font-semibold text-[color:var(--ink-soft)] sm:text-sm">
-                    {step.title}
-                  </p>
-                  <p className="mt-1 hidden text-xs leading-5 text-[color:var(--muted)] sm:block">
-                    {index < currentStep || isResultStep ? step.value : "Pendiente"}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+        <div className="mt-5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]">
+          <span>{isResultStep ? "Resultado" : "Simulador guiado"}</span>
+          <span>{isResultStep ? "Completado" : `${currentStep + 1} / ${totalQuestions}`}</span>
         </div>
 
         {!isResultStep ? (
-          <div className="mt-8 rounded-xl border border-[color:var(--line)] bg-[color:rgba(17,19,21,0.02)] p-5 lg:p-6">
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
-                {activeStep.number}
-              </div>
-              <div className="flex-1">
-                <p className="text-lg font-semibold text-[color:var(--ink-soft)]">{activeStep.title}</p>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-                  {activeStep.description}
-                </p>
-              </div>
+          <div className="mt-10">
+            <div className="max-w-3xl">
+              <p className="section-label">Hazlo tú mismo</p>
+              <h3 className="mt-4 font-display text-[2.5rem] leading-[0.9] tracking-[-0.05em] text-[color:var(--ink-soft)] sm:text-[3.6rem] lg:text-[4.4rem]">
+                {activeStep.title}
+              </h3>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-[color:var(--muted)]">
+                {activeStep.description}
+              </p>
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {currentStep === 0
-                ? technicalLevels.map((item) => (
-                    <button
-                      key={item.id}
-                      className={`rounded-xl border px-4 py-4 text-left transition ${
-                        item.id === technicalLevel
-                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                          : "border-[color:var(--line)] bg-white"
-                      }`}
-                      onClick={() => setTechnicalLevel(item.id)}
-                      type="button"
-                    >
-                      <p className="text-sm font-semibold">{item.label}</p>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                        {item.description}
-                      </p>
-                    </button>
-                  ))
-                : null}
-
-              {currentStep === 1
-                ? projectComplexities.map((item) => (
-                    <button
-                      key={item.id}
-                      className={`rounded-xl border px-4 py-4 text-left transition ${
-                        item.id === complexity
-                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                          : "border-[color:var(--line)] bg-white"
-                      }`}
-                      onClick={() => setComplexity(item.id)}
-                      type="button"
-                    >
-                      <p className="text-sm font-semibold">{item.label}</p>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                        {item.description}
-                      </p>
-                    </button>
-                  ))
-                : null}
-
-              {currentStep === 2
-                ? modelLicenseOptions.map((item) => (
-                    <button
-                      key={item.title}
-                      className={`rounded-xl border px-4 py-4 text-left transition ${
-                        item.value === hasModelLicense
-                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                          : "border-[color:var(--line)] bg-white"
-                      }`}
-                      onClick={() => setHasModelLicense(item.value)}
-                      type="button"
-                    >
-                      <p className="text-sm font-semibold">{item.title}</p>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                        {item.description}
-                      </p>
-                    </button>
-                  ))
-                : null}
-
-              {currentStep === 3
-                ? extraToolsOptions.map((item) => (
-                    <button
-                      key={item.title}
-                      className={`rounded-xl border px-4 py-4 text-left transition ${
-                        item.value === acceptsExtraTools
-                          ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]"
-                          : "border-[color:var(--line)] bg-white"
-                      }`}
-                      onClick={() => setAcceptsExtraTools(item.value)}
-                      type="button"
-                    >
-                      <p className="text-sm font-semibold">{item.title}</p>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                        {item.description}
-                      </p>
-                    </button>
-                  ))
-                : null}
+            <div className="mt-10 max-w-3xl space-y-3">
+              {currentOptions.map((item) => (
+                <button
+                  key={item.key}
+                  className={`w-full rounded-[0.9rem] border px-5 py-5 text-left transition sm:px-6 sm:py-6 ${
+                    item.selected
+                      ? "border-[color:var(--ink)] bg-[color:var(--paper-strong)] shadow-[0_24px_40px_-28px_rgba(0,0,0,0.35)]"
+                      : "border-[color:var(--line)] bg-[color:rgba(255,255,255,0.74)] hover:border-[color:var(--line-strong)] hover:bg-[color:var(--paper-strong)]"
+                  }`}
+                  onClick={item.onSelect}
+                  type="button"
+                >
+                  <p className="font-display text-[1.9rem] leading-none tracking-[-0.04em] text-[color:var(--ink-soft)] sm:text-[2.25rem]">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)] sm:text-base sm:leading-7">
+                    {item.description}
+                  </p>
+                </button>
+              ))}
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 border-t border-[color:var(--line)] pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs leading-5 text-[color:var(--muted)]">
+            <div className="mt-8 flex flex-col gap-4 border-t border-[color:var(--line)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="max-w-xl text-sm leading-6 text-[color:var(--muted)]">
                 {currentStep === totalQuestions - 1
                   ? "Selecciona una opción y luego haz clic en Ver propuesta."
-                  : "Selecciona una opción y luego continúa. La ruta sugerida aparece solo al final."}
+                  : "Selecciona una opción y continúa. La recomendación se muestra solo al final."}
               </p>
               <div className="flex flex-col-reverse gap-3 sm:flex-row">
                 <button
@@ -431,19 +334,19 @@ export function InvestmentSimulator() {
             </div>
           </div>
         ) : (
-          <div className="mt-8 space-y-4">
-            <div className="rounded-xl border border-[color:var(--line)] bg-[color:rgba(17,19,21,0.02)] p-5">
+          <div className="mt-10 space-y-4">
+            <div className="editorial-frame p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="section-label">Ruta prioritaria</p>
-                  <h4 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  <h4 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                     Hazlo tú mismo
                   </h4>
                 </div>
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                  className={`rounded-md px-3 py-1 text-xs font-semibold ${
                     readyToStart
-                      ? "bg-[color:var(--accent)] text-white"
+                      ? "bg-[color:var(--ink)] text-white"
                       : "bg-[color:rgba(211,138,18,0.12)] text-[color:var(--warning)]"
                   }`}
                 >
@@ -459,21 +362,21 @@ export function InvestmentSimulator() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+              <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Sesiones estimadas</p>
                 <p className="mt-3 text-3xl font-semibold">{sessions}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
                   {selectedLevel?.label} + {selectedComplexity?.label}
                 </p>
               </div>
-              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+              <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Inversión de referencia</p>
                 <p className="mt-3 text-3xl font-semibold">USD {investment}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
                   Referencia calculada según la estimación de trabajo.
                 </p>
               </div>
-              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+              <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Tarifa estimada</p>
                 <p className="mt-3 text-2xl font-semibold">USD {rate}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
@@ -482,7 +385,7 @@ export function InvestmentSimulator() {
                     : "Esta referencia se calcula con la estimación de sesiones del flujo."}
                 </p>
               </div>
-              <div className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+              <div className="editorial-frame px-4 py-4">
                 <p className="section-label">Pack sugerido</p>
                 <p className="mt-3 text-2xl font-semibold">{suggestedPack}</p>
                 <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
@@ -492,7 +395,7 @@ export function InvestmentSimulator() {
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="rounded-xl border border-[color:var(--line)] bg-white p-5">
+              <div className="editorial-frame p-5">
                 <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
                   Requisitos de activación
                 </p>
@@ -516,7 +419,7 @@ export function InvestmentSimulator() {
                           </p>
                         </div>
                         <span
-                          className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
+                          className={`rounded-md px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${
                             item.ready
                               ? "bg-[color:var(--accent)] text-white"
                               : "bg-[color:rgba(211,138,18,0.14)] text-[color:var(--warning)]"
@@ -530,7 +433,7 @@ export function InvestmentSimulator() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-[color:var(--line)] bg-white p-5">
+              <div className="editorial-frame p-5">
                 <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
                   {readyToStart ? "Siguiente paso recomendado" : "Para habilitar esta ruta"}
                 </p>

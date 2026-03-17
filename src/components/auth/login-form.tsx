@@ -31,7 +31,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       </label>
 
       <label className="grid gap-2">
-        <span className="text-sm font-medium text-[color:var(--muted-strong)]">Password</span>
+        <span className="text-sm font-medium text-[color:var(--muted-strong)]">Contraseña</span>
         <input
           name="password"
           type="password"
@@ -43,7 +43,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       </label>
 
       {state.error ? (
-        <p className="rounded-lg border border-[color:var(--line-strong)] bg-[color:var(--paper)] px-4 py-3 text-sm text-[color:var(--ink)]">
+        <p className="rounded-md border border-[color:var(--line-strong)] bg-[color:var(--paper)] px-4 py-3 text-sm text-[color:var(--ink)]">
           {state.error}
         </p>
       ) : null}
@@ -53,7 +53,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
         disabled={pending}
         className="premium-button w-full disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "Ingresando..." : "Iniciar sesion"}
+        {pending ? "Ingresando..." : "Iniciar sesión"}
       </button>
     </form>
   );

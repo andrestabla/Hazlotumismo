@@ -28,10 +28,10 @@ export async function authenticate(
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
-        return { error: "Credenciales invalidas. Revisa email y password." };
+        return { error: "Credenciales inválidas. Revisa el email y la contraseña." };
       }
 
-      return { error: "No fue posible iniciar sesion." };
+      return { error: "No fue posible iniciar sesión." };
     }
 
     throw error;

@@ -12,22 +12,22 @@ export default async function ProjectsPage() {
   const clients = data.profiles.filter((profile) => profile.role === "client");
 
   return (
-    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="glass-panel rounded-[2.6rem] p-6 lg:p-7">
+        <header className="surface-card p-6 lg:p-7">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-4xl">
               <div className="eyebrow">Mis proyectos</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
                 Tus workspaces activos
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
                 Entra a cada proyecto, revisa el Kanban, programa sesiones y deja evidencia del
-                avance dentro de una experiencia mas pulida y clara.
+                avance dentro de una experiencia más pulida y clara.
               </p>
             </div>
 
-            <div className="surface-card min-w-[18rem] rounded-[1.8rem] px-5 py-4">
+            <div className="editorial-frame min-w-[18rem] px-5 py-4">
               <p className="section-label">Resumen</p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
                 {data.projects.length} proyectos visibles
@@ -41,10 +41,10 @@ export default async function ProjectsPage() {
 
         <section className="grid gap-6 xl:grid-cols-[0.82fr_1.18fr]">
           {data.canCreateProject ? (
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
                 <p className="section-label">Crear proyecto</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Nuevo workspace
                 </h2>
               </div>
@@ -69,7 +69,7 @@ export default async function ProjectsPage() {
                   <textarea
                     name="summary"
                     rows={3}
-                    placeholder="Que se va a construir y para que."
+                    placeholder="Qué se va a construir y para qué."
                     className="premium-textarea"
                   />
                 </label>
@@ -81,7 +81,7 @@ export default async function ProjectsPage() {
                   <textarea
                     name="goal"
                     rows={3}
-                    placeholder="Que resultado debe producir el proyecto."
+                    placeholder="Qué resultado debe producir el proyecto."
                     className="premium-textarea"
                   />
                 </label>
@@ -103,7 +103,7 @@ export default async function ProjectsPage() {
 
                   <label className="grid gap-2">
                     <span className="text-sm font-medium text-[color:var(--muted-strong)]">
-                      Asesor lider
+                      Asesor líder
                     </span>
                     <select
                       name="leadAdvisorProfileId"
@@ -126,23 +126,23 @@ export default async function ProjectsPage() {
               </form>
             </article>
           ) : (
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <p className="section-label">Tu acceso</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Vista de cliente
               </h2>
               <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-                Desde aqui puedes entrar a tus proyectos, revisar tareas, consultar el avance y
+                Desde aquí puedes entrar a tus proyectos, revisar tareas, consultar el avance y
                 ver el historial de las sesiones que ya compraste.
               </p>
             </article>
           )}
 
-          <article className="surface-card rounded-[2.3rem] p-6">
+          <article className="surface-card p-6">
             <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="section-label">Lista de proyectos</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Tus workspaces
                 </h2>
               </div>
@@ -151,10 +151,10 @@ export default async function ProjectsPage() {
 
             <div className="mt-6 grid gap-4">
               {data.projects.length === 0 ? (
-                <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 px-5 py-8 text-center">
-                  <p className="text-lg font-medium">Aun no tienes proyectos visibles</p>
+                <div className="rounded-[1rem] border border-dashed border-[color:var(--line)] bg-white/40 px-5 py-8 text-center">
+                  <p className="text-lg font-medium">Aún no tienes proyectos visibles</p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
-                    Cuando se asigne o cree un proyecto, aparecera aqui.
+                    Cuando se asigne o cree un proyecto, aparecerá aquí.
                   </p>
                 </div>
               ) : (
@@ -162,7 +162,7 @@ export default async function ProjectsPage() {
                   <Link
                     key={project.id}
                     href={`/projects/${project.slug}`}
-                    className="surface-card-muted rounded-[1.9rem] p-5 transition hover:-translate-y-[1px]"
+                    className="surface-card-muted p-5 transition hover:-translate-y-[1px]"
                   >
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                       <div>
@@ -171,10 +171,10 @@ export default async function ProjectsPage() {
                           {project.name}
                         </h3>
                         <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
-                          {project.summary || "Proyecto sin resumen aun."}
+                          {project.summary || "Proyecto sin resumen aún."}
                         </p>
                       </div>
-                      <div className="rounded-[1.5rem] border border-[color:var(--line)] bg-white/75 px-4 py-3 text-right">
+                      <div className="editorial-frame px-4 py-3 text-right">
                         <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
                           Progreso
                         </p>

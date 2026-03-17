@@ -90,18 +90,18 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <header className="surface-card p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
             <div className="max-w-4xl">
               <div className="eyebrow">Dashboard</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.96] tracking-[-0.03em]">
-                Operacion del proyecto en un vistazo
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
+                Operación del proyecto en un vistazo
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
                 Sigue el avance, detecta bloqueos y entra directo a tus proyectos, sesiones y
-                tareas mas importantes con una lectura mucho mas clara y ejecutiva.
+                tareas más importantes con una lectura mucho más clara y ejecutiva.
               </p>
             </div>
 
@@ -150,7 +150,7 @@ export default async function DashboardPage() {
               <div className="mt-4 divide-y divide-[color:var(--line)]">
                 {visibleProjects.length === 0 ? (
                   <div className="py-6 text-sm text-[color:var(--muted)]">
-                    No tienes proyectos visibles todavia.
+                    No tienes proyectos visibles todavía.
                   </div>
                 ) : (
                   visibleProjects.slice(0, 3).map((project) => (
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
                             {project.name}
                           </h3>
                           <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
-                            {project.summary || "Proyecto sin resumen todavia."}
+                            {project.summary || "Proyecto sin resumen todavía."}
                           </p>
                         </div>
                         <div className="text-sm text-[color:var(--muted)] md:text-right">
@@ -232,8 +232,8 @@ export default async function DashboardPage() {
               <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Agenda</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
-                    Proximas sesiones
+                  <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
+                    Próximas sesiones
                   </h2>
                 </div>
                 <Link href="/sessions" className="premium-button premium-button-secondary px-4 py-2.5">
@@ -272,7 +272,7 @@ export default async function DashboardPage() {
                 <p>
                   {isClientRole(user.role)
                     ? "Revisa el avance de tus proyectos, compra nuevas sesiones si el saldo se acerca a cero y valida la evidencia registrada."
-                    : "Entra al proyecto con mayor prioridad, mueve el Kanban y deja agenda clara para la siguiente sesion."}
+                    : "Entra al proyecto con mayor prioridad, mueve el Kanban y deja agenda clara para la siguiente sesión."}
                 </p>
                 {isAdminRole(user.role) ? (
                   <p>

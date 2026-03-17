@@ -53,7 +53,10 @@ const useCases = [
       "Un chatbot entrenado para calificar leads, responder objeciones y activar la siguiente acción comercial.",
     tools: ["OpenAI", "Make", "WhatsApp"],
     state: "Listo para conversaciones reales",
-    accent: "border-l-[color:var(--accent)]",
+    previewLabel: "Pipeline comercial",
+    previewMetric: "24 conversaciones activas",
+    previewTone: "bg-[color:rgba(45,57,52,0.07)]",
+    previewAccent: "bg-[color:var(--teal)]",
   },
   {
     title: "Sitio web con IA integrada",
@@ -61,7 +64,10 @@ const useCases = [
       "Una página de conversión conectada con formularios, contenido dinámico y automatizaciones de seguimiento.",
     tools: ["Webflow", "Framer", "OpenAI"],
     state: "Diseño y operación en un mismo flujo",
-    accent: "border-l-[color:var(--success)]",
+    previewLabel: "Experiencia comercial",
+    previewMetric: "3 flujos conectados",
+    previewTone: "bg-[color:rgba(212,201,184,0.26)]",
+    previewAccent: "bg-[color:var(--warning)]",
   },
   {
     title: "Automatización de captación de leads",
@@ -69,7 +75,10 @@ const useCases = [
       "Captura, enriquece y distribuye prospectos sin depender de procesos manuales entre marketing y ventas.",
     tools: ["HubSpot", "Make", "Airtable"],
     state: "Embudo visible y accionable",
-    accent: "border-l-[color:var(--warning)]",
+    previewLabel: "Sistema de captación",
+    previewMetric: "12 automatizaciones",
+    previewTone: "bg-[color:rgba(8,8,8,0.04)]",
+    previewAccent: "bg-[color:var(--ink)]",
   },
   {
     title: "Sistema de gestión interna",
@@ -77,7 +86,10 @@ const useCases = [
       "Tableros, formularios, roles y automatizaciones para que el equipo opere con menos fricción y más control.",
     tools: ["Notion", "Glide", "Zapier"],
     state: "Orden operativo para el equipo",
-    accent: "border-l-[color:var(--danger)]",
+    previewLabel: "Operación interna",
+    previewMetric: "Equipo y procesos",
+    previewTone: "bg-[color:rgba(95,121,108,0.11)]",
+    previewAccent: "bg-[color:var(--success)]",
   },
 ];
 
@@ -203,7 +215,7 @@ export default function Home() {
         <header className="app-sticky-top sticky z-40">
           <div className="surface-card flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--ink)] text-sm font-semibold text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[color:var(--ink)] text-sm font-semibold text-white">
                 HT
               </div>
               <div className="min-w-0">
@@ -234,13 +246,13 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-12">
+        <section className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
           <div className="max-w-3xl lg:pr-4">
             <div className="eyebrow">Metodología, orden y ejecución</div>
-            <h1 className="mt-6 max-w-4xl font-display text-[3.25rem] leading-[0.94] tracking-[-0.045em] text-[color:var(--ink)] sm:mt-7 sm:text-[4.6rem] lg:text-[5.5rem]">
+            <h1 className="mt-8 max-w-4xl font-display text-[3.45rem] leading-[0.9] tracking-[-0.05em] text-[color:var(--ink)] sm:text-[4.9rem] lg:text-[5.8rem]">
               Construye tus soluciones digitales y de IA. Acompañado, paso a paso.
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-[color:var(--muted)] sm:mt-6 sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-[color:var(--muted)] sm:text-lg sm:leading-9">
               Construye chatbots, automatizaciones y sitios web con una metodología guiada,
               sesiones en vivo y trazabilidad real.
             </p>
@@ -260,34 +272,38 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-3">
+            <div className="mt-10 grid gap-5 sm:grid-cols-3">
               {heroHighlights.map((item) => (
-                <article key={item.title} className="border-t border-[color:var(--line)] pt-4">
-                  <p className="text-sm font-semibold text-[color:var(--ink-soft)]">{item.title}</p>
-                  <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{item.detail}</p>
+                <article key={item.title} className="border-t border-[color:var(--line)] pt-5">
+                  <p className="text-xs uppercase tracking-[0.24em] text-[color:var(--muted)]">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 text-base leading-7 text-[color:var(--ink-soft)]">
+                    {item.detail}
+                  </p>
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="surface-card overflow-hidden p-4 sm:p-6 lg:p-7">
-            <div className="grid gap-4 xl:grid-cols-[0.88fr_1.12fr]">
-              <div className="surface-card-muted p-5">
+          <div className="surface-card overflow-hidden p-4 sm:p-6 lg:p-8">
+            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+              <div className="editorial-frame p-5 sm:p-6">
                 <div className="flex items-start justify-between gap-4 border-b border-[color:var(--line)] pb-4">
                   <div>
                     <p className="section-label">Sala de trabajo</p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                    <h2 className="mt-3 text-[1.9rem] font-display leading-none tracking-[-0.04em]">
                       Sesión activa
                     </h2>
                   </div>
-                  <div className="rounded-full bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--accent)]">
+                  <div className="rounded-md bg-[color:var(--gold-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
                     En vivo
                   </div>
                 </div>
 
-                <div className="mt-5 rounded-xl border border-[color:var(--line)] bg-white p-4">
+                <div className="mt-6 rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:var(--accent-soft)] text-sm font-semibold text-[color:var(--accent)]">
                       AR
                     </div>
                     <div>
@@ -302,22 +318,22 @@ export default function Home() {
                 </div>
 
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
+                  <div className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
                     <p className="section-label">Duración</p>
                     <p className="mt-3 text-xl font-semibold">60 min</p>
                   </div>
-                  <div className="rounded-xl border border-[color:var(--line)] bg-white p-4">
+                  <div className="rounded-[0.9rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
                     <p className="section-label">Canal</p>
                     <p className="mt-3 text-xl font-semibold">Meet integrado</p>
                   </div>
                 </div>
               </div>
 
-              <div className="surface-card-muted p-5">
+              <div className="editorial-frame p-5 sm:p-6">
                 <div className="flex items-end justify-between gap-4 border-b border-[color:var(--line)] pb-4">
                   <div>
                     <p className="section-label">Tablero del proyecto</p>
-                    <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                    <h3 className="mt-3 text-[1.9rem] font-display leading-none tracking-[-0.04em]">
                       Progreso visible
                     </h3>
                   </div>
@@ -328,7 +344,7 @@ export default function Home() {
                   {deliveryFlow.map((step) => (
                     <article
                       key={step.stage}
-                      className="rounded-xl border border-[color:var(--line)] bg-white p-4"
+                      className="rounded-[0.95rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]"
                     >
                       <div className="flex items-start gap-3">
                         <span className={`mt-1.5 h-2.5 w-2.5 rounded-full ${step.dot}`} />
@@ -338,7 +354,7 @@ export default function Home() {
                               {step.stage}
                             </p>
                             <span
-                              className={`inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-semibold ${step.badgeClass}`}
+                              className={`inline-flex w-fit rounded-md px-3 py-1 text-[11px] font-semibold ${step.badgeClass}`}
                             >
                               {step.badgeLabel}
                             </span>
@@ -355,7 +371,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[color:var(--line)] bg-white p-4">
+                <div className="mt-4 rounded-[0.95rem] bg-[color:var(--paper-strong)] p-4 shadow-[0_18px_30px_-26px_rgba(0,0,0,0.3)]">
                   <p className="section-label">Siguiente hito</p>
                   <p className="mt-3 text-lg font-semibold tracking-[-0.02em] text-[color:var(--ink-soft)]">
                     Validar el formulario y lanzar la primera prueba del flujo.
@@ -369,7 +385,7 @@ export default function Home() {
         <section className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
           <div>
             <p className="section-label">Por qué estar aquí</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 max-w-2xl font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               La barrera no es la tecnología. Es saber cómo estructurarla.
             </h2>
             <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">
@@ -380,8 +396,10 @@ export default function Home() {
 
           <div className="grid gap-4 lg:grid-cols-3">
             {pains.map((pain) => (
-              <article key={pain.title} className="surface-card p-8">
-                <h3 className="text-2xl font-semibold tracking-[-0.03em]">{pain.title}</h3>
+              <article key={pain.title} className="border-t border-[color:var(--line)] pt-6">
+                <h3 className="text-2xl font-display leading-[0.95] tracking-[-0.04em]">
+                  {pain.title}
+                </h3>
                 <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
                   {pain.description}
                 </p>
@@ -393,16 +411,18 @@ export default function Home() {
         <section id="metodologia" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Cómo funciona</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               Una metodología simple para convertir ideas en productos tangibles.
             </h2>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-4">
+          <div className="grid gap-6 lg:grid-cols-4">
             {workflow.map((item) => (
-              <article key={item.step} className="surface-card-muted p-8">
-                <p className="text-sm font-semibold text-[color:var(--accent)]">{item.step}</p>
-                <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{item.title}</h3>
+              <article key={item.step} className="border-t border-[color:var(--line)] pt-6">
+                <p className="text-sm font-semibold text-[color:var(--muted)]">{item.step}</p>
+                <h3 className="mt-5 text-[1.9rem] font-display leading-[0.95] tracking-[-0.04em]">
+                  {item.title}
+                </h3>
                 <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
                   {item.description}
                 </p>
@@ -414,42 +434,62 @@ export default function Home() {
         <section id="casos" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Catálogo de posibilidades</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               Casos de uso que un negocio puede construir con supervisión y trazabilidad.
             </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {useCases.map((useCase) => (
               <article
                 key={useCase.title}
-                className={`group surface-card border-l-4 p-8 transition duration-200 hover:border-[color:var(--accent-line)] hover:shadow-[0_12px_32px_rgba(17,19,21,0.06)] ${useCase.accent}`}
+                className="surface-card overflow-hidden p-0"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl font-semibold tracking-[-0.03em]">{useCase.title}</h3>
-                    <p className="mt-4 text-base leading-7 text-[color:var(--muted)]">
-                      {useCase.description}
+                <div className={`p-5 sm:p-6 ${useCase.previewTone}`}>
+                  <div className="editorial-frame p-5 sm:p-6">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <span className={`h-2.5 w-2.5 rounded-full ${useCase.previewAccent}`} />
+                        <p className="section-label">{useCase.previewLabel}</p>
+                      </div>
+                      <span className="rounded-md bg-[color:var(--paper-strong)] px-3 py-1 text-xs font-semibold text-[color:var(--ink-soft)]">
+                        {useCase.previewMetric}
+                      </span>
+                    </div>
+
+                    <div className="mt-8 space-y-3">
+                      {useCase.tools.map((tool, index) => (
+                        <div
+                          key={tool}
+                          className={`flex items-center justify-between rounded-[0.85rem] bg-[color:var(--paper-strong)] px-4 py-3 ${
+                            index === 0 ? "shadow-[0_18px_30px_-26px_rgba(0,0,0,0.28)]" : ""
+                          }`}
+                        >
+                          <p className="text-sm font-semibold text-[color:var(--ink-soft)]">
+                            {tool}
+                          </p>
+                          <span className="text-xs uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                            Activo
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="editorial-hairline mt-6" />
+                    <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
+                      {useCase.state}
                     </p>
                   </div>
-                  <span className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted)]">
-                    Caso
-                  </span>
                 </div>
 
-                <p className="mt-6 text-sm font-medium text-[color:var(--ink-soft)]">
-                  {useCase.state}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-2 opacity-100 transition duration-200 md:opacity-0 md:group-hover:opacity-100">
-                  {useCase.tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className="rounded-full border border-[color:var(--accent-line)] bg-[color:var(--accent-soft)] px-3 py-1 text-xs font-medium text-[color:var(--accent)]"
-                    >
-                      {tool}
-                    </span>
-                  ))}
+                <div className="px-5 pb-6 pt-5 sm:px-6 sm:pb-8">
+                  <p className="section-label">Caso de uso</p>
+                  <h3 className="font-editorial mt-4 text-[2.4rem] leading-none text-[color:var(--ink-soft)] sm:text-[2.9rem]">
+                    {useCase.title}
+                  </h3>
+                  <p className="mt-4 text-base leading-8 text-[color:var(--muted)]">
+                    {useCase.description}
+                  </p>
                 </div>
               </article>
             ))}
@@ -461,7 +501,7 @@ export default function Home() {
         <section className="grid gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:items-start">
           <div className="surface-card p-8 lg:p-10">
             <p className="section-label">Control visible</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               El valor no está en prometer magia, sino en mostrar control del proceso.
             </h2>
             <div className="mt-8 grid gap-5 sm:grid-cols-3">
@@ -490,7 +530,7 @@ export default function Home() {
           <div className="grid gap-4">
             {operatingStories.map((story) => (
               <article key={story.quote} className="surface-card-muted p-8">
-                <p className="text-lg leading-8 text-[color:var(--ink-soft)]">
+                <p className="font-editorial text-[2rem] leading-[1.02] text-[color:var(--ink-soft)]">
                   &ldquo;{story.quote}&rdquo;
                 </p>
                 <p className="mt-4 text-sm uppercase tracking-[0.2em] text-[color:var(--muted)]">
@@ -504,7 +544,7 @@ export default function Home() {
         <section id="planes" className="grid gap-8">
           <div className="max-w-3xl">
             <p className="section-label">Planes transparentes</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               Compra capacidad de ejecución, no horas sueltas sin estructura.
             </h2>
             <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]">
@@ -517,7 +557,7 @@ export default function Home() {
             <p className="section-label">Todos incluyen</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {sharedPlanFeatures.map((feature) => (
-                <div key={feature} className="rounded-xl border border-[color:var(--line)] bg-white px-4 py-4">
+                <div key={feature} className="editorial-frame px-4 py-4">
                   <p className="text-sm leading-6 text-[color:var(--muted)]">{feature}</p>
                 </div>
               ))}
@@ -528,15 +568,17 @@ export default function Home() {
             {plans.map((plan) => (
               <article
                 key={plan.name}
-                className={`surface-card p-8 ${plan.featured ? "border-[color:var(--accent-line)] bg-[color:var(--accent-soft)]" : ""}`}
+                className={`surface-card p-8 ${plan.featured ? "bg-[color:var(--gold-soft)]" : ""}`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="section-label">{plan.sessions}</p>
-                    <h3 className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{plan.name}</h3>
+                    <h3 className="mt-4 text-3xl font-display leading-[0.95] tracking-[-0.045em]">
+                      {plan.name}
+                    </h3>
                   </div>
                   {plan.featured ? (
-                    <span className="rounded-full bg-[color:var(--accent)] px-3 py-1 text-xs font-semibold text-white">
+                    <span className="rounded-md bg-[color:var(--ink)] px-3 py-1 text-xs font-semibold text-white">
                       Recomendado
                     </span>
                   ) : null}
@@ -561,7 +603,7 @@ export default function Home() {
         <section className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="section-label">Preguntas frecuentes</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+            <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
               Respuestas claras para bajar fricción antes de empezar.
             </h2>
           </div>
@@ -569,7 +611,7 @@ export default function Home() {
           <div className="surface-card divide-y divide-[color:var(--line)] p-2">
             {faqs.map((item) => (
               <details key={item.question} className="group px-6 py-5">
-                <summary className="cursor-pointer list-none pr-8 text-lg font-semibold tracking-[-0.02em]">
+                <summary className="cursor-pointer list-none pr-8 font-display text-[1.9rem] leading-[0.98] tracking-[-0.04em]">
                   {item.question}
                 </summary>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-[color:var(--muted)]">
@@ -584,7 +626,7 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="max-w-3xl">
               <p className="section-label">Cierre</p>
-              <h2 className="mt-4 font-display text-4xl leading-tight tracking-[-0.03em]">
+              <h2 className="mt-4 font-display text-4xl leading-[0.94] tracking-[-0.045em] sm:text-5xl">
                 Si la idea ya existe, el siguiente paso es ponerla a operar.
               </h2>
               <p className="mt-5 text-lg leading-8 text-[color:var(--muted)]">

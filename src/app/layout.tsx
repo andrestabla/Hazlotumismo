@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Sora } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans, Sora } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -9,6 +9,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 const sora = Sora({
   variable: "--font-heading",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-editorial",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
@@ -26,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${plusJakartaSans.variable} ${sora.variable} antialiased`}>
+      <body
+        className={`${plusJakartaSans.variable} ${sora.variable} ${cormorantGaramond.variable} antialiased`}
+      >
         {children}
       </body>
     </html>

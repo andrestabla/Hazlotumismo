@@ -28,22 +28,22 @@ export default async function SessionsPage() {
   const historySessions = data.sessions.filter((session) => session.status !== "scheduled");
 
   return (
-    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="glass-panel rounded-[2.6rem] p-6 lg:p-7">
+        <header className="surface-card p-6 lg:p-7">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-4xl">
               <div className="eyebrow">Mis sesiones de trabajo</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
                 Agenda, compras y seguimiento
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
-                Aqui ves tus sesiones programadas, tu historial y los paquetes comprados para cada
-                proyecto dentro de una experiencia mas ordenada y premium.
+                Aquí ves tus sesiones programadas, tu historial y los paquetes comprados para cada
+                proyecto dentro de una experiencia más ordenada y premium.
               </p>
             </div>
 
-            <div className="surface-card min-w-[18rem] rounded-[1.8rem] px-5 py-4">
+            <div className="editorial-frame min-w-[18rem] px-5 py-4">
               <p className="section-label">Resumen</p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
                 {data.sessions.length} sesiones visibles
@@ -57,24 +57,24 @@ export default async function SessionsPage() {
 
         <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
           <div className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
-                <p className="section-label">Proximas sesiones</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <p className="section-label">Próximas sesiones</p>
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Agenda inmediata
                 </h2>
               </div>
 
               <div className="mt-6 space-y-4">
                 {upcomingSessions.length === 0 ? (
-                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
+                  <div className="rounded-[1rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
                     No hay sesiones programadas por ahora.
                   </div>
                 ) : (
                   upcomingSessions.map((session) => (
                     <article
                       key={session.id}
-                      className="surface-card-muted rounded-[1.9rem] p-5"
+                      className="surface-card-muted p-5"
                     >
                       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
@@ -86,7 +86,7 @@ export default async function SessionsPage() {
                             {session.agenda || "Sin agenda cargada."}
                           </p>
                         </div>
-                        <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/75 px-4 py-3 text-sm text-[color:var(--muted)]">
+                        <div className="editorial-frame px-4 py-3 text-sm text-[color:var(--muted)]">
                           <p>{formatDate(session.scheduledFor)}</p>
                           <p className="mt-1">{session.durationMinutes} min</p>
                         </div>
@@ -117,7 +117,7 @@ export default async function SessionsPage() {
                         />
                         <div className="flex flex-col gap-3 sm:flex-row">
                           <button type="submit" className="premium-button px-4 py-2.5">
-                            Actualizar sesion
+                            Actualizar sesión
                           </button>
                           {session.meetingUrl ? (
                             <a
@@ -143,24 +143,24 @@ export default async function SessionsPage() {
               </div>
             </article>
 
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
                 <p className="section-label">Historial</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Sesiones realizadas
                 </h2>
               </div>
 
               <div className="mt-6 space-y-4">
                 {historySessions.length === 0 ? (
-                  <div className="rounded-[1.8rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
-                    Aun no hay historial de sesiones.
+                  <div className="rounded-[1rem] border border-dashed border-[color:var(--line)] bg-white/40 p-5 text-sm text-[color:var(--muted)]">
+                    Aún no hay historial de sesiones.
                   </div>
                 ) : (
                   historySessions.map((session) => (
                     <article
                       key={session.id}
-                      className="surface-card-muted rounded-[1.8rem] p-5"
+                      className="surface-card-muted p-5"
                     >
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div>
@@ -187,10 +187,10 @@ export default async function SessionsPage() {
 
           <aside className="grid gap-6">
             {(user.role === "client" || isAdminRole(user.role)) && data.packages.length > 0 ? (
-              <article className="surface-card rounded-[2.3rem] p-6">
+              <article className="surface-card p-6">
                 <div className="border-b border-[color:var(--line)] pb-4">
                   <p className="section-label">Comprar sesiones</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                     Paquetes disponibles
                   </h2>
                 </div>
@@ -246,15 +246,15 @@ export default async function SessionsPage() {
                   ) : null}
 
                   <button type="submit" className="premium-button w-full sm:w-fit">
-                    Registrar compra MVP
+                    Registrar compra
                   </button>
                 </form>
               </article>
             ) : null}
 
-            <article className="dark-panel rounded-[2.3rem] p-6">
+            <article className="dark-panel p-6">
               <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">Compras</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Paquetes adquiridos
               </h2>
 
@@ -265,7 +265,7 @@ export default async function SessionsPage() {
                   data.purchases.map((purchase) => (
                     <article
                       key={purchase.id}
-                      className="rounded-[1.7rem] border border-white/10 bg-white/6 p-5"
+                      className="rounded-[1rem] border border-white/10 bg-white/6 p-5"
                     >
                       <h3 className="text-lg font-semibold">
                         {purchase.sessionPackage?.name ?? "Paquete"}

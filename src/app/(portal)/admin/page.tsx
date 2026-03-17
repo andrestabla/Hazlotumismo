@@ -49,18 +49,18 @@ export default async function AdminPage() {
   ];
 
   return (
-    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <header className="glass-panel rounded-[2.6rem] p-6 lg:p-7">
+        <header className="surface-card p-6 lg:p-7">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-4xl">
               <div className="eyebrow">Admin</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
-                Operacion de la plataforma
+              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.045em]">
+                Operación de la plataforma
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
                 Administra usuarios, paquetes, compras y el estado general de proyectos y sesiones
-                desde una interfaz mas sobria y ejecutiva.
+                desde una interfaz más sobria y ejecutiva.
               </p>
             </div>
 
@@ -74,28 +74,28 @@ export default async function AdminPage() {
 
         <section className="grid gap-4 lg:grid-cols-5">
           {stats.map((stat) => (
-            <article key={stat.label} className="stat-card rounded-[1.9rem] p-5">
+            <article key={stat.label} className="editorial-frame p-5">
               <p className="section-label">{stat.label}</p>
               <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{stat.value}</p>
               <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{stat.detail}</p>
             </article>
           ))}
 
-          <article className="dark-panel rounded-[1.9rem] p-5">
+          <article className="dark-panel p-5">
             <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">Paquetes</p>
             <p className="mt-4 text-3xl font-semibold">{data.stats.packages}</p>
             <p className="mt-3 text-sm leading-6 text-white/72">
-              Catalogo activo para vender sesiones.
+              Catálogo activo para vender sesiones.
             </p>
           </article>
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
           <div className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
                 <p className="section-label">Usuarios</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Crear cuenta
                 </h2>
               </div>
@@ -109,7 +109,7 @@ export default async function AdminPage() {
                     name="fullName"
                     required
                     className="premium-input"
-                    placeholder="Ej. Laura Alvarez"
+                    placeholder="Ej. Laura Álvarez"
                   />
                 </label>
                 <label className="grid gap-2">
@@ -137,7 +137,7 @@ export default async function AdminPage() {
                   </label>
                   <label className="grid gap-2">
                     <span className="text-sm font-medium text-[color:var(--muted-strong)]">
-                      Password
+                      Contraseña
                     </span>
                     <input
                       name="password"
@@ -154,10 +154,10 @@ export default async function AdminPage() {
               </form>
             </article>
 
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
-                <p className="section-label">Catalogo</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <p className="section-label">Catálogo</p>
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Nuevo paquete
                 </h2>
               </div>
@@ -171,18 +171,18 @@ export default async function AdminPage() {
                     name="name"
                     required
                     className="premium-input"
-                    placeholder="Paquete intensivo de implementacion"
+                    placeholder="Paquete intensivo de implementación"
                   />
                 </label>
                 <label className="grid gap-2">
                   <span className="text-sm font-medium text-[color:var(--muted-strong)]">
-                    Descripcion
-                  </span>
+                      Descripción
+                    </span>
                   <textarea
                     name="description"
                     rows={3}
                     className="premium-textarea"
-                    placeholder="Que incluye el paquete."
+                    placeholder="Qué incluye el paquete."
                   />
                 </label>
                 <div className="grid gap-4 md:grid-cols-3">
@@ -194,13 +194,13 @@ export default async function AdminPage() {
                       name="sessionCount"
                       type="number"
                       min="1"
-                      defaultValue="4"
+                      defaultValue="5"
                       className="premium-input"
                     />
                   </label>
                   <label className="grid gap-2">
                     <span className="text-sm font-medium text-[color:var(--muted-strong)]">
-                      Duracion
+                      Duración
                     </span>
                     <input
                       name="durationMinutes"
@@ -220,7 +220,7 @@ export default async function AdminPage() {
                       type="number"
                       min="1"
                       step="1"
-                      defaultValue="480"
+                      defaultValue="250"
                       className="premium-input"
                     />
                   </label>
@@ -233,25 +233,25 @@ export default async function AdminPage() {
           </div>
 
           <div className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
                 <p className="section-label">Usuarios recientes</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                   Accesos creados
                 </h2>
               </div>
               <div className="mt-6 space-y-4">
                 {data.profiles.slice(0, 6).map((profile) => (
-                  <article key={profile.id} className="surface-card-muted rounded-[1.8rem] p-5">
+                  <article key={profile.id} className="surface-card-muted p-5">
                     <h3 className="text-xl font-semibold tracking-[-0.02em]">
                       {profile.fullName}
                     </h3>
                     <p className="mt-3 text-sm text-[color:var(--muted)]">{profile.email}</p>
                     <p className="mt-2 text-sm text-[color:var(--muted)]">
-                      Rol: {profile.role} · Activo: {profile.isActive ? "si" : "no"}
+                      Rol: {profile.role} · Activo: {profile.isActive ? "sí" : "no"}
                     </p>
                     <p className="mt-2 text-sm text-[color:var(--muted)]">
-                      Ultimo acceso: {formatDate(profile.lastLoginAt)}
+                      Último acceso: {formatDate(profile.lastLoginAt)}
                     </p>
                     <form action={toggleUserActiveStateAction} className="mt-4">
                       <input type="hidden" name="profileId" value={profile.id} />
@@ -272,16 +272,16 @@ export default async function AdminPage() {
               </div>
             </article>
 
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="border-b border-[color:var(--line)] pb-4">
                 <p className="section-label">Paquetes</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
-                  Catalogo activo
+                <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
+                  Catálogo activo
                 </h2>
               </div>
               <div className="mt-6 space-y-4">
                 {data.packages.slice(0, 6).map((sessionPackage) => (
-                  <article key={sessionPackage.id} className="surface-card-muted rounded-[1.8rem] p-5">
+                  <article key={sessionPackage.id} className="surface-card-muted p-5">
                     <h3 className="text-xl font-semibold tracking-[-0.02em]">
                       {sessionPackage.name}
                     </h3>
@@ -311,11 +311,11 @@ export default async function AdminPage() {
               </div>
             </article>
 
-            <article className="dark-panel rounded-[2.3rem] p-6">
+            <article className="dark-panel p-6">
               <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
-                Operacion reciente
+                Operación reciente
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Proyectos y compras
               </h2>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -323,7 +323,7 @@ export default async function AdminPage() {
                   {data.projects.slice(0, 4).map((project) => (
                     <article
                       key={project.id}
-                      className="rounded-[1.6rem] border border-white/10 bg-white/6 p-4"
+                      className="rounded-[1rem] border border-white/10 bg-white/6 p-4"
                     >
                       <h3 className="text-lg font-semibold">{project.name}</h3>
                       <p className="mt-2 text-sm text-white/72">
@@ -336,7 +336,7 @@ export default async function AdminPage() {
                   {data.purchases.slice(0, 4).map((purchase) => (
                     <article
                       key={purchase.id}
-                      className="rounded-[1.6rem] border border-white/10 bg-white/6 p-4"
+                      className="rounded-[1rem] border border-white/10 bg-white/6 p-4"
                     >
                       <h3 className="text-lg font-semibold">
                         {purchase.sessionPackage?.name ?? "Paquete"}

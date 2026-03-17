@@ -24,18 +24,18 @@ const columns = [
         detail: "Se integran documentos y sitio actual.",
       },
       {
-        title: "Disenar flujo de leads",
+        title: "Diseñar flujo de leads",
         detail: "Formulario, email y CRM ligero.",
       },
     ],
   },
   {
-    title: "En revision",
+    title: "En revisión",
     tone: "bg-[color:var(--coral-soft)]",
     tasks: [
       {
         title: "Pruebas con respuestas reales",
-        detail: "Sesion 03 definira ajustes finales.",
+        detail: "Sesión 03 definirá ajustes finales.",
       },
     ],
   },
@@ -57,18 +57,18 @@ const columns = [
 
 const activities = [
   {
-    title: "Sesion 02 cerrada",
-    detail: "Se definio el flujo de calificacion y el bot ya tiene estructura base.",
+    title: "Sesión 02 cerrada",
+    detail: "Se definió el flujo de calificación y el bot ya tiene estructura base.",
     time: "Hoy · 7:45 PM",
   },
   {
     title: "Nueva evidencia cargada",
-    detail: "Se adjunto mapa del recorrido de prospecto y checklist de mensajes.",
+    detail: "Se adjuntó mapa del recorrido de prospecto y checklist de mensajes.",
     time: "Hoy · 6:10 PM",
   },
   {
     title: "Reserva confirmada",
-    detail: "Sesion 03 programada para el miercoles con enlace de Google Meet.",
+    detail: "Sesión 03 programada para el miércoles con enlace de Google Meet.",
     time: "Ayer · 9:20 AM",
   },
 ];
@@ -83,7 +83,7 @@ const deliverables = [
 const metrics = [
   {
     label: "Estado",
-    value: "En ejecucion",
+    value: "En ejecución",
     detail: "El proyecto ya avanza entre sesiones, contenido y pruebas.",
   },
   {
@@ -92,26 +92,26 @@ const metrics = [
     detail: "Hay una lectura clara del momento actual del proyecto.",
   },
   {
-    label: "Proxima sesion",
-    value: "Miercoles 7:00 PM",
-    detail: "Revision de pruebas, guiones y cierre del flujo de captura.",
+    label: "Próxima sesión",
+    value: "Miércoles 7:00 PM",
+    detail: "Revisión de pruebas, guiones y cierre del flujo de captura.",
   },
 ];
 
 export default function DemoWorkspacePage() {
   return (
-    <main className="site-shell min-h-screen px-6 py-6 lg:px-10">
+    <main className="site-shell app-safe-top app-safe-bottom min-h-screen px-6 py-6 lg:px-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         <header className="surface-card p-6 lg:p-7">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="eyebrow">Workspace demo</div>
-              <h1 className="mt-6 font-display text-5xl leading-[0.94] tracking-[-0.03em]">
+              <h1 className="mt-6 font-display text-5xl leading-[0.92] tracking-[-0.045em]">
                 Asistente comercial con IA
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">
                 Proyecto compartido entre cliente y asesor para estructurar un chatbot comercial,
-                organizar sesiones y dejar trazabilidad del avance con una interfaz mas elegante.
+                organizar sesiones y dejar trazabilidad del avance con una interfaz más elegante.
               </p>
             </div>
 
@@ -120,7 +120,7 @@ export default function DemoWorkspacePage() {
                 Volver a inicio
               </Link>
               <button type="button" className="premium-button px-5 py-3">
-                Reservar sesion
+                Reservar sesión
               </button>
             </div>
           </div>
@@ -128,14 +128,14 @@ export default function DemoWorkspacePage() {
 
         <section className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_0.9fr]">
           {metrics.map((metric) => (
-            <article key={metric.label} className="stat-card rounded-[1.9rem] p-5">
+            <article key={metric.label} className="editorial-frame p-5">
               <p className="section-label">{metric.label}</p>
               <p className="mt-4 text-3xl font-semibold tracking-[-0.03em]">{metric.value}</p>
               <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">{metric.detail}</p>
             </article>
           ))}
 
-          <article className="dark-panel rounded-[1.9rem] p-5">
+          <article className="dark-panel p-5">
             <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">Saldo</p>
             <p className="mt-4 text-3xl font-semibold">3 sesiones</p>
             <p className="mt-3 text-sm leading-6 text-white/72">
@@ -146,25 +146,22 @@ export default function DemoWorkspacePage() {
 
         <section className="grid gap-6 xl:grid-cols-[1.36fr_0.64fr]">
           <div className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Tablero Kanban</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                     Tareas del proyecto
                   </h2>
                 </div>
                 <p className="text-sm text-[color:var(--muted)]">
-                  7 activas · 2 completadas en la ultima semana
+                  7 activas · 2 completadas en la última semana
                 </p>
               </div>
 
               <div className="mt-6 grid gap-4 xl:grid-cols-4">
                 {columns.map((column) => (
-                  <div
-                    key={column.title}
-                    className={`rounded-[1.8rem] border border-[color:var(--line)] p-4 ${column.tone}`}
-                  >
+                  <div key={column.title} className={`editorial-frame p-4 ${column.tone}`}>
                     <div className="flex items-center justify-between">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
                         {column.title}
@@ -176,7 +173,7 @@ export default function DemoWorkspacePage() {
                       {column.tasks.map((task) => (
                         <article
                           key={task.title}
-                          className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/90 p-4"
+                          className="rounded-[0.9rem] bg-white/90 p-4 shadow-[0_16px_28px_-24px_rgba(0,0,0,0.28)]"
                         >
                           <h3 className="text-sm font-semibold">{task.title}</h3>
                           <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
@@ -190,11 +187,11 @@ export default function DemoWorkspacePage() {
               </div>
             </article>
 
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <div className="flex flex-col gap-2 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="section-label">Actividad y evidencia</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+                  <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                     Historial del proyecto
                   </h2>
                 </div>
@@ -207,7 +204,7 @@ export default function DemoWorkspacePage() {
                 {activities.map((activity) => (
                   <article
                     key={`${activity.title}-${activity.time}`}
-                    className="surface-card-muted rounded-[1.7rem] p-5"
+                    className="surface-card-muted p-5"
                   >
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                       <div>
@@ -227,16 +224,16 @@ export default function DemoWorkspacePage() {
           </div>
 
           <aside className="grid gap-6">
-            <article className="surface-card rounded-[2.3rem] p-6">
+            <article className="surface-card p-6">
               <p className="section-label">Alcance actual</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Entregables pactados
               </h2>
               <div className="mt-5 space-y-3">
                 {deliverables.map((deliverable) => (
                   <div
                     key={deliverable}
-                    className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 px-4 py-4"
+                    className="editorial-frame px-4 py-4"
                   >
                     <p className="text-sm font-medium">{deliverable}</p>
                   </div>
@@ -244,20 +241,20 @@ export default function DemoWorkspacePage() {
               </div>
             </article>
 
-            <article className="surface-card-muted rounded-[2.3rem] p-6">
-              <p className="section-label">Sesion siguiente</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+            <article className="surface-card-muted p-6">
+              <p className="section-label">Sesión siguiente</p>
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Agenda de trabajo
               </h2>
               <div className="mt-5 space-y-4">
-                <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 p-4">
+                <div className="editorial-frame p-4">
                   <p className="text-sm font-semibold">Objetivo</p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Validar tono del bot, revisar escenarios de venta y dejar tareas para el
                     cliente.
                   </p>
                 </div>
-                <div className="rounded-[1.45rem] border border-[color:var(--line)] bg-white/70 p-4">
+                <div className="editorial-frame p-4">
                   <p className="text-sm font-semibold">Canal</p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
                     Google Meet integrado con enlace listo para entrar.
@@ -266,16 +263,16 @@ export default function DemoWorkspacePage() {
               </div>
             </article>
 
-            <article className="dark-panel rounded-[2.3rem] p-6">
+            <article className="dark-panel p-6">
               <p className="text-[11px] uppercase tracking-[0.24em] text-white/55">
                 Siguiente paso
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em]">
+              <h2 className="mt-3 font-display text-3xl leading-[0.95] tracking-[-0.045em]">
                 Pasar esta demo a datos reales
               </h2>
               <p className="mt-4 text-sm leading-6 text-white/70">
-                Lo inmediato es conectar autenticacion, proyectos y tablero a datos reales para que
-                cada asesor y cliente vea su operacion dentro de la misma experiencia.
+                Lo inmediato es conectar autenticación, proyectos y tablero a datos reales para que
+                cada asesor y cliente vea su operación dentro de la misma experiencia.
               </p>
             </article>
           </aside>
